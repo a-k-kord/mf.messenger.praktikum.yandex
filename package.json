@@ -1,0 +1,23 @@
+{
+  "name": "mf.messenger.praktikum.yandex",
+  "version": "1.0.0",
+  "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a-k-kord/mf.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a-k-kord/mf.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/a-k-kord/mf.messenger.praktikum.yandex#readme",
+  "devDependencies": {
+    "express": "^4.17.1"
+  }
+}

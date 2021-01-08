@@ -1,18 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
 
-        <link rel="stylesheet" href="css/icon-font.css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="shortcut icon" type="image/png" href="img/favicon.png">
-        
-        <title>Chatter</title>
-    </head>
-    <body>
-      
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/icon-font.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+
+    <title>Chatter</title>
+</head>
+
+<body>
+    <main class="form form--signin">
+        <div class="form__header">
+            <h1 class="form__title">Регистрация</h1>
+        </div>
+        <div class="form__content">
+            <div class="form__item">
+                <input class="form__input" type="text" id="email">
+                <label class="form__label" for="email" ></label>
+            </div>
+            <div class="form__item">
+                <input class="form__input" type="text" id="login">
+                <label class="form__label" for="login" ></label>
+            </div>
+            <div class="form__item">
+                <input class="form__input" type="text" id="firstname">
+                <label class="form__label" for="firstname" ></label>
+            </div>
+            <div class="form__item">
+                <input class="form__input" type="text" id="lastname">
+                <label class="form__label" for="lastname" ></label>
+            </div>
+            <div class="form__item">
+                <input class="form__input form__input--phone" type="text" id="phone">
+                <label class="form__label" for="phone" ></label>
+            </div>
+            <div class="form__item">
+                <input class="form__input form__input--password" type="text" id="password">
+                <label class="form__label" autocomplete="new-password" for="password" ></label>
+            </div>
+            <div class="form__item">
+                <input class="form__input form__input--password" type="text" id="password_confirm">
+                <label class="form__label" autocomplete="new-password" for="password" ></label>
+            </div>
+        </div>
+        <div class="form__footer">
+            <button class="button">Зарегистрироваться</button>
+            <a class="link" href="login.html"></a>
+        </div>
+    </main>
+</body>
+
 </html>

@@ -1,0 +1,168 @@
+.dialogs {
+  display: flex;
+
+  &__aside-panel {
+    width: 31rem;
+    height: 100vh;
+    margin: 10px;
+  }
+
+  &__chat-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__search {
+      
+  }
+}
+
+.chat-content {
+  width: 100%;
+
+  &__header {
+    display: flex;
+    height: 5.4rem;
+    margin: auto 20px;
+  }
+
+  &__main {
+    flex: 1 auto;
+  }
+
+  &__footer {
+  }
+
+  &__default {
+  }
+
+  &__avatar {
+    width: 3.4rem;
+    height: 3.4rem;
+  }
+}
+
+.profile-link {
+  position: relative;
+  height: 5.4rem;
+}
+.link {
+  text-align: center;
+}
+.icon-arrow-right {
+}
+.search {
+  &__input {
+    width: 290px;
+    height: 3.2rem;
+    background: $color-grey-light;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+
+    &:focus {
+        outline: none;
+    }
+  }
+}
+.chat-list {
+}
+.chat-item {
+  margin: 2px 0;
+  border-top: 1px solid $color-grey-light;
+  border-bottom: 1px solid $color-grey-light;
+  padding: 2px 0;
+
+  &--selected {
+      background-color: $color-selected;
+  }
+
+  &__inner {
+    display: flex;
+    align-content: space-between;
+    // border-bottom: 1px solid $color-grey-light;
+    margin: 0 -10px;
+    padding: 0 10px;
+    cursor: pointer;
+  }
+
+  &__avatar {
+    width: 4.7rem;
+    height: 4.7rem;
+    margin: 10px 0;
+  }
+
+  &__msg-wrap {
+    flex: 1 auto;
+    margin: 10px;
+  }
+
+  &__name {
+  }
+
+  &__msg {
+  }
+
+  &__indicators {
+    margin: 10px 0;
+  }
+
+  &__date {
+  }
+
+  &__badge {
+  }
+}
+.image {
+  &--small {
+  }
+
+  &--big {
+  }
+}
+
+.avatar {
+  &--small {
+  }
+
+  &__photo {
+  }
+
+  &__title {
+  }
+}
+.chat-members-dropdown {
+  visibility: hidden;
+  &__toggle {
+  }
+}
+.chat-members-dropdown-list {
+}
+.chat-members-dropdown-item {
+}
+.icon-plus {
+}
+.icon-close {
+}
+.chat-attach-dropdown {
+  &__toggle {
+  }
+}
+.dropdown-icon {
+}
+.chat-attach-dropdown-list {
+}
+.chat-attach-dropdown-item {
+}
+.icon-photo {
+}
+.icon-file {
+}
+.icon-location {
+}
+.message {
+  &__input {
+  }
+}
+.send {
+}

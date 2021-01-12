@@ -1,20 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
 
-        <link rel="stylesheet" href="css/icon-font.css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="shortcut icon" type="image/png" href="img/favicon.png">
-        
-        <title>Chatter</title>
-    </head>
-    <body>
-      <main class="main">
-          
-      </main>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/icon-font.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+
+  <title>Chatter</title>
+</head>
+
+<body>
+  <main class="profile">
+    <aside class="profile__nav-back">
+      <a class="link link--all-space" href="chat.html">
+        <img class="link__image box box--center" src="img/arrow-back-btn.svg" alt="Go back">
+      </a>
+    </aside>
+    <div class="form profile__form">
+      <div class="avatar profile__avatar">
+        <div class="avatar__image form__avatar">
+          <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+          <a class="text text--size--small text--theme--light box box--center avatar__upload"
+            href="#change-avatar">Поменять аватар</a>
+        </div>
+        <div class="text text--align--center text--weight--bold avatar__title">Иван</div>
+      </div>
+
+      <div class="form__content box box--y--60">
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="email" value=""
+          placeholder="Почта">
+          <label class="text text--size--small form__label form__label--with-anim-left" for="email">Почта</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="login" value=""
+          placeholder="Логин">
+          <label class="text text--size--small form__label form__label--with-anim-left" for="login">Логин</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="firstname" value=""
+          placeholder="Имя">
+          <label class="text text--size--small form__label form__label--with-anim-left" for="firstname">Имя</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="lastname" value=""
+          placeholder="Фамилия">
+          <label class="text text--size--small form__label form__label--with-anim-left" for="lastname">Фамилия</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="display_name" value=""
+          placeholder="Имя в чате">
+          <label class="text text--size--small form__label form__label--with-anim-left" for="display_name">Имя в чате</label>
+        </div>
+        <div class="form__item form__item--inline">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="phone" value=""
+          placeholder="Телефон">
+          <label class="text text--size--small form__label form__label--with-anim-left" for="phone">Телефон</label>
+        </div>
+      </div>
+      <div class="profile__footer box box--hidden">
+        <button class="button">Сохранить</button>
+      </div>
+      <div class="profile__footer--editable">
+        <div class="form__item form__item box box--underlined">
+          <a class="link text text--size--small text--theme--link" href="profile-edit.html">Изменить данные</a>
+        </div>
+        <div class="form__item form__item box box--underlined">
+          <a class="link text text--size--small text--theme--link" href="#password-change">Изменить пароль</a>
+        </div>
+        <div class="form__item form__item">
+          <a class="link text text--size--small text--theme--danger" href="chat.html">Выйти</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
 </html>

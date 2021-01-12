@@ -15,24 +15,27 @@
 </head>
 
 <body>
-    <main class="form form--login">
-        <div class="form__header">
-            <h1 class="form__title">Вход</h1>
-        </div>
-        <div class="form__content">
-            <div class="form__item">
-                <input class="form__input" type="text" id="login">
-                <label class="form__label" for="login" ></label>
+    <main class="form box box--has-round-border box--center">
+            <h1 class="form__title text">Вход</h1>
+            <div class="form__content">
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="login" placeholder="Логин">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="login">Логин</label>
+                    <div class="text text--size--small text--theme--danger form__error-msg">Неверный логин</div>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="password" id="password"
+                        placeholder="Пароль">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="password">Пароль</label>
+                    <div class="text text--size--small text--theme--danger form__error-msg">Неверный пароль</div>
+                </div>
             </div>
-            <div class="form__item">
-                <input class="form__input" type="text" id="password">
-                <label class="form__label" for="password" ></label>
+            <div class="form__button">
+                <button class="text button button__text">Авторизоваться</button>
             </div>
-        </div>
-        <div class="form__footer">
-            <button class="button">Авторизоваться</button>
-            <a class="link" href="signin.html"></a>
-        </div>
+            <div class="form__link">
+                <a class="link text--size--small text--theme--link" href="signin.html">Нет аккаунта?</a>
+            </div>
     </main>
 </body>
 

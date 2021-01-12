@@ -1,0 +1,38 @@
+.box {
+    
+    &--center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &--has-round-border {
+        box-shadow: 0 0 6px rgba($color-black, .14);
+        border-radius: 1.2rem;
+    }
+
+    &--shape--round {
+        border-radius: 50%;
+    }
+
+    &--underlined {
+        border: none;
+        border-bottom: 1px solid $color-grey-light;
+    }
+
+    &--underlined-primary {
+        border: none;
+        border-bottom: 1px solid $color-primary;
+    }
+
+    &--y--60 {
+        margin-top: 6rem;
+        margin-bottom: 6rem;
+    }
+
+    &--hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+}

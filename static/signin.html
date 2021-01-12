@@ -15,44 +15,54 @@
 </head>
 
 <body>
-    <main class="form form--signin">
-        <div class="form__header">
-            <h1 class="form__title">Регистрация</h1>
-        </div>
-        <div class="form__content">
-            <div class="form__item">
-                <input class="form__input" type="text" id="email">
-                <label class="form__label" for="email" ></label>
+    <main class="form box box--has-round-border box--center">
+            <h1 class="form__title text">Регистрация</h1>
+
+            <div class="form__content">
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="email" value=""
+                        placeholder="Почта">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="email">Почта</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="login" value=""
+                        placeholder="Логин">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="login">Логин</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="firstname" value=""
+                        placeholder="Имя">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="firstname">Имя</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="lastname" value=""
+                        placeholder="Фамилия">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="lastname">Фамилия</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary text--size--small form__input--phone" type="text"
+                        id="phone" value="" placeholder="Телефон">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="phone">Телефон</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="password" id="password"
+                        placeholder="Пароль">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="password">Пароль</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="password" id="password"
+                        placeholder="Пароль (ещё раз)">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="password">Пароль (ещё
+                        раз)</label>
+                </div>
             </div>
-            <div class="form__item">
-                <input class="form__input" type="text" id="login">
-                <label class="form__label" for="login" ></label>
+
+            <div class="form__button">
+                <button class="text button button__text">Зарегистрироваться</button>
             </div>
-            <div class="form__item">
-                <input class="form__input" type="text" id="firstname">
-                <label class="form__label" for="firstname" ></label>
+            <div class="form__link">
+                <a class="link text--size--small text--theme--link" href="login.html">Войти</a>
             </div>
-            <div class="form__item">
-                <input class="form__input" type="text" id="lastname">
-                <label class="form__label" for="lastname" ></label>
-            </div>
-            <div class="form__item">
-                <input class="form__input form__input--phone" type="text" id="phone">
-                <label class="form__label" for="phone" ></label>
-            </div>
-            <div class="form__item">
-                <input class="form__input form__input--password" type="text" id="password">
-                <label class="form__label" autocomplete="new-password" for="password" ></label>
-            </div>
-            <div class="form__item">
-                <input class="form__input form__input--password" type="text" id="password_confirm">
-                <label class="form__label" autocomplete="new-password" for="password" ></label>
-            </div>
-        </div>
-        <div class="form__footer">
-            <button class="button">Зарегистрироваться</button>
-            <a class="link" href="login.html"></a>
-        </div>
     </main>
 </body>
 

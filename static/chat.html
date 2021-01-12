@@ -1,18 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
 
-        <link rel="stylesheet" href="css/icon-font.css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="shortcut icon" type="image/png" href="img/favicon.png">
-        
-        <title>Chatter</title>
-    </head>
-    <body>
-      
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/icon-font.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+
+    <title>Chatter</title>
+</head>
+
+<body>
+    <main class="dialogs">
+        <div class="dialogs__aside-panel">
+            <nav class="profile-link">
+                <a class="link icon-arrow-right" href="profile.html">Профиль</a>
+            </nav>
+            <div class="search dialogs__search">
+                    <i class="fa fa-search input__icon"></i> 
+                    <input class="search__input" type="text">
+            </div>
+            <ul class="chat-list">
+                <li class="chat-item">
+                    <a class="chat-item__inner">
+                        <div class="avatar chat-item__avatar">
+                            <div class="avatar__image">
+                                <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                            </div>
+                        </div>
+                        <div class="chat-item__msg-wrap">
+                            <div class="chat-item__name">Андрей</div>
+                            <div class="chat-item__msg">Сообщение</div>
+                        </div>
+                        <div class="chat-item__indicators">
+                            <div class="chat-item__date">10:49</div>
+                            <div class="chat-item__badge">2</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="chat-content dialogs__chat-content">
+            <div class="chat-content__header">
+                <div class="avatar chat-content__avatar">
+                    <div class="avatar__image">
+                        <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                    </div>
+                    <div class="text text--align--center text--weight--bold avatar__title">Андрей</div>
+                </div>
+                <div class="chat-members-dropdown">
+                    <div class="chat-members-dropdown__toggle"></div>
+                    <ul class="chat-members-dropdown-list">
+                        <li class="chat-members-dropdown-item icon-plus">Добавить пользователя</li>
+                        <li class="chat-members-dropdown-item icon-close">Удалить пользователя</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="chat-content__main"></div>
+            <div class="chat-content__footer">
+                <div class="chat-attach-dropdown">
+                    <div class="chat-attach-dropdown__toggle">
+                        <img class="dropdown-icon" src="img" alt="Attach icon">
+                    </div>
+                    <ul class="chat-attach-dropdown-list">
+                        <li class="chat-attach-dropdown-item icon-photo">Фото или видео</li>
+                        <li class="chat-attach-dropdown-item icon-file">Файл</li>
+                        <li class="chat-attach-dropdown-item icon-location">Локация</li>
+                    </ul>
+                </div>
+                <div class="message">
+                    <input class="message__input" type="text" placeholder="Сообщение" value="">
+                </div>
+                <button class="send icon-arrow-right"></button>
+            </div>
+            <div class="chat-content__default">Выберите чат чтобы отправить сообщение</div>
+        </div>
+    </main>
+</body>
+
 </html>

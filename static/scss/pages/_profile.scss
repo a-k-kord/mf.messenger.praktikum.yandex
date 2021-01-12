@@ -1,6 +1,5 @@
 .profile {
 	display: flex;
-	margin-top: 6rem;
 
 	&__nav-back {
 		width: 64px;
@@ -29,6 +28,10 @@
 		margin: 0 auto;
 		width: 13rem;
 		height: 13rem;
-    }
+	}
+	
+	&__title {
+		margin-top: 2.1rem;
+	}
 }
 

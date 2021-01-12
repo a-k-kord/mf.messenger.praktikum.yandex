@@ -7,7 +7,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/icon-font.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" type="image/png" href="img/favicon.png">
 
@@ -18,53 +18,344 @@
     <main class="dialogs">
         <div class="dialogs__aside-panel">
             <nav class="profile-link">
-                <a class="link icon-arrow-right" href="profile.html">Профиль</a>
+                <a class="link text text--size--small text--align--right text--theme--label icon-arrow-right"
+                    href="profile.html">Профиль
+                    <!-- <i class="fas fa-angle-right"></i> -->
+                </a>
             </nav>
             <div class="search dialogs__search">
-                    <i class="fa fa-search input__icon"></i> 
-                    <input class="search__input" type="text">
+                <input class="search__input" type="text" placeholder="Поиск">
+                <i class="fa fa-search input__icon"></i>
             </div>
-            <ul class="chat-list">
-                <li class="chat-item">
-                    <a class="chat-item__inner">
-                        <div class="avatar chat-item__avatar">
-                            <div class="avatar__image">
-                                <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+            <div class="scroller scroller--size--small dialogs__scroller">
+                <ul class="chat-list">
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
                             </div>
-                        </div>
-                        <div class="chat-item__msg-wrap">
-                            <div class="chat-item__name">Андрей</div>
-                            <div class="chat-item__msg">Сообщение</div>
-                        </div>
-                        <div class="chat-item__indicators">
-                            <div class="chat-item__date">10:49</div>
-                            <div class="chat-item__badge">2</div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">Так увлёкся
+                                    работой по курсу, что совсем забыл его анонсировать совсем</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+                            <div class="chat-item__badge ">
+                                <div
+                                    class="chat-item__counter text text--size--smaller text--theme--label box box--center">
+                                    2</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+
+                        </a>
+                    </li>
+                    <li class="chat-item">
+                        <a class="chat-item__inner">
+                            <div class="avatar chat-item__avatar">
+                                <div class="avatar__image">
+                                    <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                                </div>
+                            </div>
+                            <div class="chat-item__msg-wrap">
+                                <div class="chat-item__name text text--size--small text--weight--bold">Андрей</div>
+                                <div class="chat-item__msg text text--size--smaller text--theme--label">И Human
+                                    Interface
+                                    Guidelines и Material Design рекомендуют почитать всякое</div>
+                            </div>
+                            <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая 2020</span>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
         <div class="chat-content dialogs__chat-content">
             <div class="chat-content__header">
-                <div class="avatar chat-content__avatar">
-                    <div class="avatar__image">
-                        <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                <div class="chat-content__avatar-wrap">
+                    <div class="avatar chat-content__avatar">
+                        <div class="avatar__image">
+                            <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+                        </div>
                     </div>
-                    <div class="text text--align--center text--weight--bold avatar__title">Андрей</div>
                 </div>
-                <div class="chat-members-dropdown">
-                    <div class="chat-members-dropdown__toggle"></div>
-                    <ul class="chat-members-dropdown-list">
-                        <li class="chat-members-dropdown-item icon-plus">Добавить пользователя</li>
-                        <li class="chat-members-dropdown-item icon-close">Удалить пользователя</li>
+                <div class="text text--align--left text--size--small text--weight--bold avatar__title">Андрей</div>
+                <div class="dropdown">
+                    <button class="dropdown__toggle">
+                        <img class="dropdown__icon" src="img/dots-v.svg" alt="Chat members options">
+                    </button>
+                    <ul class="dropdown__list">
+                        <li class="dropdown__item">
+                            <img src="img/plus.svg" alt="Add member to chat" class="image dropdown__icon">
+                            <span class="text text--size--small">Добавить пользователя</span> 
+                        </li>
+                        <li class="dropdown__item">
+                            <img src="img/close.svg" alt="Delete member from chat" class="image  dropdown__icon">
+                            <span class="text text--size--small">Удалить пользователя</span> 
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="chat-content__main"></div>
+            <div class="scroller scroller--size--big">
+                <div class="chat-content__main"></div>
+            </div>
             <div class="chat-content__footer">
                 <div class="chat-attach-dropdown">
                     <div class="chat-attach-dropdown__toggle">
-                        <img class="dropdown-icon" src="img" alt="Attach icon">
+                        <img class="dropdown__icon--big" src="img/attach.svg" alt="Attach icon">
                     </div>
                     <ul class="chat-attach-dropdown-list">
                         <li class="chat-attach-dropdown-item icon-photo">Фото или видео</li>

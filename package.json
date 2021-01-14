@@ -8,7 +8,8 @@
   },
   "scripts": {
     "compile:scss": "node-sass static/scss/main.scss static/css/style.css",
-    "watch:scss": "node-sass static/scss/*.scss static/css/style.css -w"
+    "watch:scss": "node-sass static/scss/*.scss static/css/style.css -w",
+    "copy:assets": "cp -r static/* dist"
   },
   "repository": {
     "type": "git",

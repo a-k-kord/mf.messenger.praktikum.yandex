@@ -1,0 +1,19 @@
+.button {
+    width: 280px;
+    height: 37px;
+
+    background: $color-primary;
+    color: $color-white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+
+    &__text {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}

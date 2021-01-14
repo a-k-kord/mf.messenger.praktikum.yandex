@@ -4,11 +4,11 @@
   display: flex;
 
   &__aside-panel {
-    width: 31rem;
-    height: 100vh;
-    padding: 0 10px;
-    border-right: 1px solid $color-grey-light;
+    width: 29rem;
+    height: 100%;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
   &__chat-content {
@@ -18,28 +18,19 @@
   }
 
   &__search {
-    margin: 2px 0 14px 0;
+    margin: 2px 10px 14px;
   }
 
-  &__scroller {
-    overflow: hidden;
-    // overflow-x: hidden;
-    position: absolute;
-    margin-top: 90px;
-    padding: 10px 10px 10px 0;
-    top: 0;
-    bottom: 0;
-
-    &:hover {
-      overflow-y: scroll;
-      @include scrollbars(1px, $color-primary, #00000000);
-    }
+  &__wrap {
+    border-right: 1px solid $color-grey-light;
   }
 }
 
 .chat-content {
   width: 100%;
   margin: 0 20px;
+  display: flex;
+  flex-direction: column;
 
   &__header {
     display: flex;
@@ -53,9 +44,14 @@
   }
 
   &__footer {
+    height: 5.4rem;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid $color-grey-light;
   }
 
   &__default {
+    display: none;
   }
 
   &__avatar-wrap {
@@ -71,24 +67,22 @@
 .profile-link {
   position: relative;
   text-align: right;
-  margin: 16px 0;
+  margin: 16px 10px;
 
   &::after {
-    // font-family: "Font Awesome 5 Free";
-    // font-weight: 900;
     content: ">";
   }
 }
+
 .link {
   text-align: center;
 }
-.icon-arrow-right {
-}
+
 .search {
   position: relative;
 
   &__input {
-    width: 290px;
+    width: 100%;
     height: 3.2rem;
     background: $color-grey-light;
     border-radius: 5px;
@@ -116,12 +110,7 @@
   color: $color-grey;
 }
 
-.chat-list {
-}
 .chat-item {
-  margin: -1px 0;
-  border-top: 1px solid $color-grey-light;
-  border-bottom: 1px solid $color-grey-light;
   padding: 2px 0;
 
   &--selected {
@@ -132,9 +121,9 @@
     position: relative;
     display: flex;
     align-content: space-between;
-    margin: 0 -10px;
-    padding: 0 10px;
     cursor: pointer;
+    border-top: 1px solid $color-grey-light;
+    margin: 0 10px;
   }
 
   &__avatar {
@@ -150,6 +139,11 @@
   }
 
   &__name {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 78%;
+    white-space: nowrap;
   }
 
   &__msg {
@@ -164,7 +158,7 @@
   }
 
   &__date {
-    right: 10px;
+    right: 0;
     top: 10px;
     position: absolute;
   }
@@ -174,8 +168,9 @@
     height: 20px;
     background-color: $color-primary;
     border-radius: 50%;
-    position: relative;
-    margin: auto 0 10px;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
   }
 
   &__counter {
@@ -183,49 +178,107 @@
     margin: auto;
   }
 }
-.image {
-  &--small {
-  }
-
-  &--big {
-  }
-}
 
 .avatar {
-  &--small {
-  }
-
-  &__photo {
-  }
 
   &__title {
     margin: auto auto auto 10px;
   }
 }
 
-.icon-plus {
-}
-.icon-close {
-}
-.chat-attach-dropdown {
-  &__toggle {
-  }
-}
-.dropdown-icon {
-}
-.chat-attach-dropdown-list {
-}
-.chat-attach-dropdown-item {
-}
-.icon-photo {
-}
-.icon-file {
-}
-.icon-location {
-}
-.message {
-  &__input {
+.message-input {
+  width: 100%;
+  margin: auto 10px;
+  padding: 0 20px;
+  height: 3.2rem;
+  background: #efefef;
+  border-radius: 30px;
+  border: none;
+  text-align: left;
+
+  &:focus {
+    outline: none;
+    text-align: left;
+
+    & + .input__icon {
+      left: 5px;
+    }
   }
 }
 .send {
+  width: 28px;
+  height: 28px;
+  background: #3369f3;
+  color: #fff;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transform: rotate(180deg);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.history {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+
+  &__message-wrap {
+    display: flex;
+    flex-direction: column;
+
+    &--align--left {
+      align-items: flex-start;
+    }
+
+    &--align--right {
+      align-items: flex-end;
+    }
+  }
+
+  &__date-split {
+    margin: 30px 0;
+  }
+}
+
+.message {
+  width: 100%;
+  margin: 10px auto;
+
+  &__text {
+    max-width: 45%;
+    position: relative;
+    padding: 11px 11px 20px;
+
+    &--left {
+      background-color: $color-grey-light;
+      border-radius: 0 20px 20px 20px;
+    }
+
+    &--right {
+      background-color: $color-selected;
+      border-radius: 20px 20px 0 20px;
+    }
+  }
+
+  &__photo {
+    position: relative;
+    width: 45%;
+  }
+}
+
+.badge {
+  position: absolute;
+  display: flex;
+  align-items: baseline;
+  bottom: 6px;
+  right: 4px;
+  padding: 0 7px;
+}
+
+.confirmation {
+  margin-right: 3px;
 }

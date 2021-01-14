@@ -4,7 +4,6 @@
     font-size: 2rem;
     line-height: 1.7;
     color: $color-black;
-    // background: $color-white;
 
     &--align--center {
         text-align: center;
@@ -42,12 +41,13 @@
         color: $color-grey;
     }
 
-    &--theme--link {
+    &--theme--primary {
         color: $color-primary;
     }
 
     &--theme--light {
         color: $color-white;
     }
+
 
 }

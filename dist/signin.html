@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+
+    <title>Chatter</title>
+</head>
+
+<body>
+    <form class="form form--columns box box--round-border--small  box--has-shadow box--center">
+            <h1 class="form__title text">Регистрация</h1>
+
+            <div class="form__content">
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="email" name="email" value=""
+                        placeholder="Почта">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="email">Почта</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="login" name="login" value=""
+                        placeholder="Логин">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="login">Логин</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="first_name" name="first_name" value=""
+                        placeholder="Имя">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="first_name">Имя</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="text" id="second_name" name="second_name" value=""
+                        placeholder="Фамилия">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="second_name">Фамилия</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary text--size--small form__input--phone" type="text"
+                        id="phone" name="phone" value="" placeholder="Телефон">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="phone">Телефон</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="password" id="password" name="password"
+                        placeholder="Пароль">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="password">Пароль</label>
+                </div>
+                <div class="form__item form__item--big">
+                    <input class="text text--size--small form__input box box--underlined-primary" type="password" id="password_confirm" name="password_confirm"
+                        placeholder="Пароль (ещё раз)">
+                    <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up" for="password_confirm">Пароль (ещё
+                        раз)</label>
+                </div>
+            </div>
+
+            <div class="form__button">
+                <button class="text text--theme--light text--size--small text--weight--bold button button__text"  type="submit"  formmethod="POST">Зарегистрироваться</button>
+            </div>
+            <div class="form__link">
+                <a class="link text--size--small text--theme--primary" href="login.html">Войти</a>
+            </div>
+    </form>
+
+    <script src="js/form_to_out.js"></script>
+</body>
+
+</html>

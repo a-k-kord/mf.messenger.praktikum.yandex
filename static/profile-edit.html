@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/icon-font.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+
+  <title>Chatter</title>
+</head>
+
+<body>
+  <main class="profile">
+    <aside class="profile__nav-back">
+      <a class="link link--all-space" href="chat.html">
+        <img class="link__image box box--center" src="img/arrow-back-btn.svg" alt="Go back">
+      </a>
+    </aside>
+    <form class="form form--columns profile__form">
+      <div class="avatar profile__avatar">
+        <div class="avatar__image form__avatar">
+          <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
+          <a class="text text--size--small text--theme--light box box--center avatar__upload"
+            href="#change-avatar-popup">Поменять аватар</a>
+        </div>
+      </div>
+      <div class="text text--align--center text--weight--bold profile__title">Иван</div>
+
+      <div class="form__content box box--margin-y--60">
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="email" name="email"
+            value="" placeholder="Почта">
+          <label class="text text--size--small form__label form__label form__label" for="email">Почта</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="login" name="login"
+            value="" placeholder="Логин">
+          <label class="text text--size--small form__label form__label" for="login">Логин</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text"
+            id="first_name" name="first_name" value="" placeholder="Имя">
+          <label class="text text--size--small form__label form__label" for="first_name">Имя</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text"
+            id="second_name" name="second_name" value="" placeholder="Фамилия">
+          <label class="text text--size--small form__label form__label" for="second_name">Фамилия</label>
+        </div>
+        <div class="form__item form__item--inline box box--underlined">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text"
+            id="display_name" name="display_name" value="" placeholder="Имя в чате">
+          <label class="text text--size--small form__label form__label" for="display_name">Имя в чате</label>
+        </div>
+        <div class="form__item form__item--inline">
+          <input class="text text--size--small text--align--right text--theme--label form__input" type="text" id="phone" name="phone"
+            value="" placeholder="Телефон" pattern="(\+?\d[- .]*){7,13}">
+          <label class="text text--size--small form__label form__label" for="phone">Телефон</label>
+        </div>
+      </div>
+      <div class="profile__footer">
+        <button class="text text--theme--light text--size--small text--weight--bold button button__text"  type="submit"  formmethod="POST">Сохранить</button>
+      </div>
+    </form>
+  </main>
+
+  <div class="popup" id="change-avatar-popup">
+    <a href="#" class="popup__close">&times;</a>
+    <form class="form form--columns uploaded box box--round-border--small box--has-shadow box--center popup__inner">
+      <h1 class="form__title text text--align--center">Загрузите файл</h1>
+      <div class="uploaded__error text text--theme--danger form__error-msg">Ошибка, попробуйте ещё раз</div>
+      <div class="form__content">
+        <div class="form__item">
+          <label class="text text--size--small text--theme--primary text--align--center link--with--underline box--as--block box--width--150 box--margin--auto">
+            <input type="file" style="display: none;"  id="avatar" name="avatar" onchange="setUploadedFileName(this, '.uploaded__file-name', '.uploaded__error')">
+            <a>Выбрать файл на компьютере</a>
+          </label>
+          <div class="uploaded__file-name text text--size--small text--theme--label text--align--center" hidden> No File</div>
+        </div>
+      </div>
+      <div class="form__button">
+        <button
+          class="text text--theme--light text--size--small text--weight--bold button button__text"  type="submit"  formmethod="POST">Поменять</button>
+      </div>
+      <div class="text text--size--small text--theme--danger form__error-msg">Нужно выбрать файл</div>
+    </form>
+  </div>
+
+      <script src="js/form_to_out.js"></script>
+</body>
+
+</html>

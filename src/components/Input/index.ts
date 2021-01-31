@@ -3,6 +3,7 @@ import template from './template.js';
 import { Block } from "../../core/Block/index.js";
 import { removeHTMLElement } from "../../utils/dom.js";
 import { TitleProps } from "../Title/index.js";
+import { Listeners } from "../../core/EventBus";
 
 export interface InputProps extends TitleProps{
     type?: string,
@@ -30,37 +31,40 @@ function validateEmail(parent: HTMLElement, event: Event) {
 }
 
 export class Input extends Block<InputProps> {
-    private _eventsList = [];
+    private _eventsList: Listeners = {};
 
     render(): string {
-        this.addEvent(this.getContent(), 'blur', validateLogin.bind(this));
+        // this.addEvent(this.getContent(), 'blur', validateLogin.bind(this));
         return compileTemplate<InputProps>(template, {
             props: {...this.props},
             slots: {...this.slots}
         });
     }
 
-    public addEvent(el: HTMLElement, eventName: keyof HTMLElementEventMap , callback: (this:HTMLElement, ev: HTMLElementEventMap[keyof HTMLElementEventMap])=>{}): void {
-        const cb = el.addEventListener(eventName, callback);
-        this._eventsList.push({ el, name: eventName, callback: cb })
-    }
+    // addEvent(event: string, callback: Function): void {
+    //     if (!this.listeners[event]) {
+    //         this.listeners[event] = [];
+    //     }
 
-    public removeEvent(target: HTMLElement): void {
-        this._eventsList
-            .filter(({ el }) => el === target)
-            .forEach(({ el, eventName, callback }) => {
-                el.removeEventListener(eventName, callback)
-            });
-    }
+    //     this.listeners[event].push(callback);
+    // }
 
-    public removeElement(target: HTMLElement): void {
-        this.removeEvent(target);
-        removeHTMLElement(target);
-    }
+    // public addEvent(el: HTMLElement, eventName: keyof HTMLElementEventMap , callback: (this:HTMLElement, ev: HTMLElementEventMap[keyof HTMLElementEventMap])=>{}): void {
+    //     const cb = el.addEventListener(eventName, callback);
 
-    destroyBlock() {
-        this._eventsList.forEach(({ el, eventName, callback }) => {
-            el.removeEventListener(eventName, callback)
-        })
-    }
+    //     this._eventsList.push(name: eventName, callback: cb )
+    // }
+
+
+
+    // public removeElement(target: HTMLElement): void {
+    //     this.removeEvent(target);
+    //     removeHTMLElement(target);
+    // }
+
+    // destroyBlock() {
+    //     this._eventsList.forEach(({ el, eventName, callback }) => {
+    //         el.removeEventListener(eventName, callback)
+    //     })
+    // }
 }

@@ -1,4 +1,4 @@
-type Listeners = {
+export type Listeners = {
     [event: string] : Function[];
 }
 

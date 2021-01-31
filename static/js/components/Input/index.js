@@ -25,7 +25,6 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
-import { removeHTMLElement } from "../../utils/dom.js";
 function validateLogin(parent, event) {
     var input = parent.querySelector('input');
     if (input.value.length > 20) {
@@ -42,39 +41,13 @@ var Input = (function (_super) {
     __extends(Input, _super);
     function Input() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._eventsList = [];
+        _this._eventsList = {};
         return _this;
     }
     Input.prototype.render = function () {
-        this.addEvent(this.getContent(), 'blur', validateLogin.bind(this));
         return compileTemplate(template, {
             props: __assign({}, this.props),
             slots: __assign({}, this.slots)
-        });
-    };
-    Input.prototype.addEvent = function (el, eventName, callback) {
-        var cb = el.addEventListener(eventName, callback);
-        this._eventsList.push({ el: el, name: eventName, callback: cb });
-    };
-    Input.prototype.removeEvent = function (target) {
-        this._eventsList
-            .filter(function (_a) {
-            var el = _a.el;
-            return el === target;
-        })
-            .forEach(function (_a) {
-            var el = _a.el, eventName = _a.eventName, callback = _a.callback;
-            el.removeEventListener(eventName, callback);
-        });
-    };
-    Input.prototype.removeElement = function (target) {
-        this.removeEvent(target);
-        removeHTMLElement(target);
-    };
-    Input.prototype.destroyBlock = function () {
-        this._eventsList.forEach(function (_a) {
-            var el = _a.el, eventName = _a.eventName, callback = _a.callback;
-            el.removeEventListener(eventName, callback);
         });
     };
     return Input;

@@ -131,7 +131,7 @@ export abstract class Block<TProps extends object> {
 
     public getContent(): HTMLElement {
         // Берем только содержание, без вспомогательного елемента-враппера
-        return <HTMLElement>this._parentElement.children[0];
+        return <HTMLElement>this._parentElement;//.children[0];
     }
 
     private _makePropsProxy(props: TProps): TProps {

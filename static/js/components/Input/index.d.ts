@@ -7,6 +7,7 @@ export interface InputProps extends TitleProps {
     placeholder?: string;
     isReadonly?: boolean;
     iconStyles?: string;
+    validationError?: string;
 }
 export declare class Input extends Block<InputProps> {
     private _eventsList;

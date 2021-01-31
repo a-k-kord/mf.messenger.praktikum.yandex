@@ -26,6 +26,18 @@ import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
 import { removeHTMLElement } from "../../utils/dom.js";
+function validateLogin(parent, event) {
+    var input = parent.querySelector('input');
+    if (input.value.length > 20) {
+        this.childBlocks.error.setProps({ text: 'Слишком длинный логин', isHidden: false });
+    }
+}
+function validateEmail(parent, event) {
+    var input = parent.querySelector('input');
+    if (!new RegExp('/^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/').test(input.value)) {
+        this.childBlocks.error.setProps({ text: 'Не валидный формат почты', isHidden: false });
+    }
+}
 var Input = (function (_super) {
     __extends(Input, _super);
     function Input() {
@@ -34,6 +46,7 @@ var Input = (function (_super) {
         return _this;
     }
     Input.prototype.render = function () {
+        this.addEvent(this.getContent(), 'blur', validateLogin.bind(this));
         return compileTemplate(template, {
             props: __assign({}, this.props),
             slots: __assign({}, this.slots)

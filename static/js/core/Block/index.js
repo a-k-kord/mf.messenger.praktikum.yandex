@@ -76,7 +76,7 @@ var Block = (function () {
         }
     };
     Block.prototype.getContent = function () {
-        return this._parentElement.children[0];
+        return this._parentElement;
     };
     Block.prototype._makePropsProxy = function (props) {
         var self = this;

@@ -15,34 +15,10 @@
 </head>
 
 <body>
-    <form class="form form--columns box box--round-border--small  box--has-shadow box--center">
-        <h1 class="form__title text">Вход</h1>
-        <div class="form__content form__content--with-min-height">
-            <div class="form__item form__item--big">
-                <input class="text text--size--small form__input box box--underlined-primary" type="text" id="login"
-                    placeholder="Логин">
-                <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up"
-                    for="login">Логин</label>
-                <div class="text text--size--small text--theme--danger form__error-msg">Неверный логин</div>
-            </div>
-            <div class="form__item form__item--big">
-                <input class="text text--size--small form__input box box--underlined-primary" type="password"
-                    id="password" placeholder="Пароль">
-                <label class="text text--size--tiny text--theme--label form__label form__label--with-anim-up"
-                    for="password">Пароль</label>
-                <div class="text text--size--small text--theme--danger form__error-msg">Неверный пароль</div>
-            </div>
-        </div>
-        <div class="form__button">
-            <button class="text text--theme--light text--size--small text--weight--bold button button__text"
-                 type="submit"  formmethod="POST">Авторизоваться</button>
-        </div>
-        <div class="form__link">
-            <a class="link text--size--small text--theme--primary" href="signin.html">Нет аккаунта?</a>
-        </div>
-    </form>
+<div id="app"></div>
+<script type="module" src="./js/pages/Login/index.js"></script>
+<script src="js/form_to_out.js"></script>
 </body>
 
-    <script src="js/form_to_out.js"></script>
 
 </html>

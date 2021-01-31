@@ -86,7 +86,9 @@
     }
   }
 
-  &__input:placeholder-shown + &__label--with-anim-up {
+  &__input:placeholder-shown + &__label--with-anim-up,
+  &__input:placeholder-shown + .block-wrapper > &__label--with-anim-up,
+  {
     opacity: 0;
     visibility: hidden;
     width: 100%;
@@ -100,7 +102,9 @@
     border-bottom: 1px solid $color-primary;
   }
 
-  &__input:placeholder-shown + &__label--with-anim-left {
+  &__input:placeholder-shown + &__label--with-anim-left,
+  &__input:placeholder-shown + .block-wrapper > &__label--with-anim-left
+  {
     opacity: 0;
     visibility: hidden;
     font-size: 1.3rem;

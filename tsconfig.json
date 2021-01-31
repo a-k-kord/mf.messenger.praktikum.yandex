@@ -1,0 +1,29 @@
+
+  {
+    "compilerOptions": {
+      "lib": ["es2015", "es2016", "es2017", "es2019.string", "dom"],
+      "outDir": "./static/js",
+      "rootDir": "./src",
+      "moduleResolution": "node",
+      "module": "es6",
+      "target": "es5",
+      "suppressImplicitAnyIndexErrors": true,
+      "allowSyntheticDefaultImports": true,
+      "noFallthroughCasesInSwitch": true,
+      "downlevelIteration": true,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+      "esModuleInterop": true,
+      "noUnusedLocals": false,
+      "removeComments": true,
+//      "noImplicitAny": true,
+      "declaration": true,
+      // "strict": true,
+      "allowJs": true,
+      "skipLibCheck": true,                     /* Skip type checking of declaration files. */
+      "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */,
+//      "typeRoots": ["./vendor/types"],
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["build", "dist", "src/**/*.js", "src/**/*.spec.ts"]
+  }

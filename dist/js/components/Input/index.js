@@ -25,43 +25,29 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
-import { removeHTMLElement } from "../../utils/dom.js";
+function validateLogin(event) {
+    var input = event.target;
+    if (input.value.length > 10) {
+        this.childBlocks.error.setProps({ text: 'Слишком длинный логин', isHidden: false });
+    }
+}
+function validateEmail(event) {
+    var input = event.target;
+    if (!new RegExp('/^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/').test(input.value)) {
+        this.childBlocks.error.setProps({ text: 'Не валидный формат почты', isHidden: false });
+    }
+}
 var Input = (function (_super) {
     __extends(Input, _super);
-    function Input() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._eventsList = [];
+    function Input(parentElement, props, children) {
+        var _this = _super.call(this, parentElement, props, children) || this;
+        _this.addListener(_this.getContent(), 'blur', validateLogin.bind(_this), 'input');
         return _this;
     }
     Input.prototype.render = function () {
         return compileTemplate(template, {
             props: __assign({}, this.props),
             slots: __assign({}, this.slots)
-        });
-    };
-    Input.prototype.addEvent = function (el, eventName, callback) {
-        var cb = el.addEventListener(eventName, callback);
-        this._eventsList.push({ el: el, name: eventName, callback: cb });
-    };
-    Input.prototype.removeEvent = function (target) {
-        this._eventsList
-            .filter(function (_a) {
-            var el = _a.el;
-            return el === target;
-        })
-            .forEach(function (_a) {
-            var el = _a.el, eventName = _a.eventName, callback = _a.callback;
-            el.removeEventListener(eventName, callback);
-        });
-    };
-    Input.prototype.removeElement = function (target) {
-        this.removeEvent(target);
-        removeHTMLElement(target);
-    };
-    Input.prototype.destroyBlock = function () {
-        this._eventsList.forEach(function (_a) {
-            var el = _a.el, eventName = _a.eventName, callback = _a.callback;
-            el.removeEventListener(eventName, callback);
         });
     };
     return Input;

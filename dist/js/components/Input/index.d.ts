@@ -7,12 +7,9 @@ export interface InputProps extends TitleProps {
     placeholder?: string;
     isReadonly?: boolean;
     iconStyles?: string;
+    validationError?: string;
 }
 export declare class Input extends Block<InputProps> {
-    private _eventsList;
+    constructor(parentElement: any, props: any, children: any);
     render(): string;
-    addEvent(el: HTMLElement, eventName: keyof HTMLElementEventMap, callback: (this: HTMLElement, ev: HTMLElementEventMap[keyof HTMLElementEventMap]) => {}): void;
-    removeEvent(target: HTMLElement): void;
-    removeElement(target: HTMLElement): void;
-    destroyBlock(): void;
 }

@@ -25,23 +25,29 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
-function validateLogin(parent, event) {
-    var input = parent.querySelector('input');
-    if (input.value.length > 20) {
+function validateLogin(event) {
+    var input = event.target;
+    if (input.value.length > 10) {
         this.childBlocks.error.setProps({ text: 'Слишком длинный логин', isHidden: false });
     }
+    else {
+        this.childBlocks.error.setProps({ text: '', isHidden: true });
+    }
 }
-function validateEmail(parent, event) {
-    var input = parent.querySelector('input');
+function validateEmail(event) {
+    var input = event.target;
     if (!new RegExp('/^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/').test(input.value)) {
         this.childBlocks.error.setProps({ text: 'Не валидный формат почты', isHidden: false });
+    }
+    else {
+        this.childBlocks.error.setProps({ text: '', isHidden: true });
     }
 }
 var Input = (function (_super) {
     __extends(Input, _super);
-    function Input() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._eventsList = {};
+    function Input(parentElement, props, children) {
+        var _this = _super.call(this, parentElement, props, children) || this;
+        _this.addListener(_this.getContent(), 'blur', validateLogin.bind(_this), 'input');
         return _this;
     }
     Input.prototype.render = function () {

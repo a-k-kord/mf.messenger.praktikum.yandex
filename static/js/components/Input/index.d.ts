@@ -10,6 +10,6 @@ export interface InputProps extends TitleProps {
     validationError?: string;
 }
 export declare class Input extends Block<InputProps> {
-    private _eventsList;
+    constructor(parentElement: any, props: any, children: any);
     render(): string;
 }

@@ -101,3 +101,5 @@ const login = new Login(root, {}, {
         }
     }
 });
+
+login.render();

@@ -1,6 +1,6 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block } from "../../core/Block/index.js";
+import { Block, Children } from "../../core/Block/index.js";
 import { removeHTMLElement } from "../../utils/dom.js";
 import { TitleProps } from "../Title/index.js";
 import { Listeners } from "../../core/EventBus";
@@ -16,55 +16,37 @@ export interface InputProps extends TitleProps{
 }
 
 // TODO: пример валидации, надо доделать.
-function validateLogin(parent: HTMLElement, event: Event) {
-    const input = parent.querySelector('input');
-    if(input.value.length > 20) {
+function validateLogin(event: Event) {
+    const input: HTMLInputElement = (<HTMLInputElement>event.target);
+    if(input.value.length > 10) {
         this.childBlocks.error.setProps({text: 'Слишком длинный логин', isHidden: false})
+    } else {
+        this.childBlocks.error.setProps({text: '', isHidden: true})
     }
 }
 
-function validateEmail(parent: HTMLElement, event: Event) {
-    const input = parent.querySelector('input');
+function validateEmail(event: Event) {
+    const input: HTMLInputElement = (<HTMLInputElement>event.target);
     if(! new RegExp('/^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/').test(input.value)) {
         this.childBlocks.error.setProps({text: 'Не валидный формат почты', isHidden: false})
+    } else {
+        this.childBlocks.error.setProps({text: '', isHidden: true})
     }
 }
 
 export class Input extends Block<InputProps> {
-    private _eventsList: Listeners = {};
+
+    constructor(parentElement, props, children) {
+        super(parentElement, props, children);
+        this.addListener(this.getContent(), 'blur', validateLogin.bind(this), 'input');
+    }
 
     render(): string {
-        // this.addEvent(this.getContent(), 'blur', validateLogin.bind(this));
         return compileTemplate<InputProps>(template, {
             props: {...this.props},
             slots: {...this.slots}
         });
     }
 
-    // addEvent(event: string, callback: Function): void {
-    //     if (!this.listeners[event]) {
-    //         this.listeners[event] = [];
-    //     }
 
-    //     this.listeners[event].push(callback);
-    // }
-
-    // public addEvent(el: HTMLElement, eventName: keyof HTMLElementEventMap , callback: (this:HTMLElement, ev: HTMLElementEventMap[keyof HTMLElementEventMap])=>{}): void {
-    //     const cb = el.addEventListener(eventName, callback);
-
-    //     this._eventsList.push(name: eventName, callback: cb )
-    // }
-
-
-
-    // public removeElement(target: HTMLElement): void {
-    //     this.removeEvent(target);
-    //     removeHTMLElement(target);
-    // }
-
-    // destroyBlock() {
-    //     this._eventsList.forEach(({ el, eventName, callback }) => {
-    //         el.removeEventListener(eventName, callback)
-    //     })
-    // }
 }

@@ -1,5 +1,7 @@
 import { Listeners } from "../EventBus";
 
+
+
 export class Validation {
     private readonly listeners: Listeners;
 
@@ -7,38 +9,36 @@ export class Validation {
         this.listeners = {};
     }
 
-    addListener(el: HTMLElement, event: string, callback: Function): void {
+    addListener(el: HTMLElement, event: keyof HTMLElementEventMap , callback: () => any): void {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-
+        el.addEventListener(event, callback);
         this.listeners[event].push(callback);
     }
 
-    removeListener(el: HTMLElement, event: string, callback: Function): void {
+    removeListener(el: HTMLElement, event: keyof HTMLElementEventMap, callback: () => any): void {
         if (!this.listeners[event]) {
             throw new Error(`Нет события: ${event}`);
         }
 
         this.listeners[event] = this.listeners[event].filter(
             listener => {
-                listener
-                return listener !== callback
+                if(listener !== callback) {
+                    el.removeEventListener(event, callback);
+                    return true;
+                }
+                return false;
             }
         );
     }
 
     removeAllListeners(el: HTMLElement): void {
-        // for(let {event: listener} in this.listeners) {
-        //     el.removeEventListener(event, listener);
-        // }
-        //
-        // this.listeners[event] = this.listeners[event].filter(
-        //     listener => {
-        //         listener
-        //         return listener !== callback
-        //     }
-        // );
+        Object.keys(this.listeners).map((event: keyof HTMLElementEventMap) => {
+            this.listeners[event].map((callback: () => any) => {
+                el.removeEventListener(event, callback);
+            })
+        });
     }
 
 }

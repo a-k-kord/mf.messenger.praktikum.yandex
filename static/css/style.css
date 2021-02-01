@@ -66,7 +66,8 @@ li {
       transform: translateY(-5.5rem); }
     .form__label--with-anim-left {
       transition: all 0.2s; }
-  .form__input:placeholder-shown + .form__label--with-anim-up {
+  .form__input:placeholder-shown + .form__label--with-anim-up,
+  .form__input:placeholder-shown + .block-wrapper > .form__label--with-anim-up {
     opacity: 0;
     visibility: hidden;
     width: 100%;
@@ -76,23 +77,19 @@ li {
     top: 84%; }
   .form__input:focus + .form__label--with-anim-left {
     border-bottom: 1px solid #3369F3; }
-  .form__input:placeholder-shown + .form__label--with-anim-left {
+  .form__input:placeholder-shown + .form__label--with-anim-left,
+  .form__input:placeholder-shown + .block-wrapper > .form__label--with-anim-left {
     opacity: 0;
     visibility: hidden;
     font-size: 1.3rem;
     transform: translateX(40rem); }
   .form__error-msg {
-    transform: translateY(-1.5rem);
-    display: none; }
+    transform: translateY(-6rem); }
     .form__error-msg--shown {
       display: block; }
 
 .link {
   text-decoration: none; }
-  .link--all-space {
-    display: block;
-    width: 100%;
-    height: 100%; }
   .link--with--underline {
     text-decoration: underline; }
     .link--with--underline:hover {
@@ -126,24 +123,34 @@ li {
   height: 100%; }
 
 .button {
-  width: 280px;
-  height: 37px;
-  background: #3369F3;
   color: #FFF;
-  border-radius: 8px;
   border: none;
   cursor: pointer; }
   .button__text {
     font-size: 1.3rem;
-    font-weight: 700; }
+    font-weight: 700;
+    width: 280px;
+    height: 37px;
+    background: #3369F3;
+    border-radius: 8px; }
   .button:focus {
     outline: none; }
+
+.block-wrapper {
+  width: 100%;
+  height: 100%;
+  display: contents; }
 
 .box--center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); }
+
+.box--all-parent-space {
+  display: block;
+  width: 100%;
+  height: 100%; }
 
 .box--has-shadow {
   box-shadow: 0 0 6px rgba(30, 30, 30, 0.14); }
@@ -204,6 +211,8 @@ li {
     text-align: center; }
   .text--align--right {
     text-align: right; }
+  .text--align--left {
+    text-align: left; }
   .text--weight--bold {
     font-weight: 700; }
   .text--size--big {
@@ -382,8 +391,6 @@ li {
     width: 51rem;
     display: flex;
     flex-direction: column; }
-  .profile__footer {
-    margin: 0 auto; }
   .profile__avatar {
     position: relative;
     margin: 0 auto;

@@ -1,7 +1,7 @@
 {
   "name": "mf.messenger.praktikum.yandex",
   "version": "1.0.0",
-  "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
+  "description": "Приложение Чат.",
   "main": "index.js",
   "engine": {
     "node": "~15.2.1"
@@ -9,7 +9,8 @@
   "scripts": {
     "compile:scss": "node-sass static/scss/main.scss static/css/style.css",
     "watch:scss": "node-sass static/scss/*.scss static/css/style.css -w",
-    "copy:assets": "cp -r static/* dist"
+    "copy:assets": "cp -r static/* dist",
+    "build": "./node_modules/.bin/tsc --project ./tsconfig.json --watch"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,10 @@
   "homepage": "https://github.com/a-k-kord/mf.messenger.praktikum.yandex#readme",
   "devDependencies": {
     "express": "^4.17.1",
-    "node-sass": "^5.0.0"
+    "node-sass": "^5.0.0",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "eta": "^1.12.1"
   }
 }

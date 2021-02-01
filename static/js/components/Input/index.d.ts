@@ -10,9 +10,6 @@ export interface InputProps extends TitleProps {
     validationType?: string;
 }
 export declare class Input extends Block<InputProps> {
-    validationMethods: {
-        [key: string]: Function;
-    };
     constructor(parentElement: any, props: any, children: any);
     render(): string;
 }

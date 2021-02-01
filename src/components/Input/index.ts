@@ -34,19 +34,19 @@ function validateEmail(event: Event) {
     }
 }
 
-const ValidationMethods = {
+const ValidationMethods: {[key: string]: Function} = {
     login: validateLogin,
     email: validateEmail,
 };
 
 export class Input extends Block<InputProps> {
-    validationMethods: {[key: string]: Function};
 
     constructor(parentElement, props, children) {
         super(parentElement, props, children)
 
         if(props.validationType) {
             this.addListener(this.getContent(), 'blur', ValidationMethods[props.validationType].bind(this), 'input');
+            this.addListener(this.getContent(), 'focus', ValidationMethods[props.validationType].bind(this), 'input');
         }
     }
 

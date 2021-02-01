@@ -53,6 +53,7 @@ var Input = (function (_super) {
         var _this = _super.call(this, parentElement, props, children) || this;
         if (props.validationType) {
             _this.addListener(_this.getContent(), 'blur', ValidationMethods[props.validationType].bind(_this), 'input');
+            _this.addListener(_this.getContent(), 'focus', ValidationMethods[props.validationType].bind(_this), 'input');
         }
         return _this;
     }

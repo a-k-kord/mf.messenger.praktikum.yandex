@@ -83,10 +83,10 @@ var Block = (function () {
             var childBlocksFromDom = document.querySelectorAll("[data-block-id]");
             this.checkAllBlocksTree(this, childBlocksFromDom);
         }
-        if (this.props.isHidden) {
+        if (this.props.isHidden === true) {
             this.hide();
         }
-        else {
+        else if (this.props.isHidden === false) {
             this.show();
         }
     };

@@ -1,7 +1,7 @@
 import { Chat } from "./Chat.js";
 import { Button } from "../../components/Button/index.js";
-import { Input } from "../../components/Input";
-import { Title } from "../../components/Title";
+import { Input } from "../../components/Input/index.js";
+import { Title } from "../../components/Title/index.js";
 var root = document.querySelector('#app');
 var chat = new Chat(root, {}, {
     buttonAdd: {
@@ -53,7 +53,7 @@ var chat = new Chat(root, {}, {
             image: '<img src="img/arrow-back-btn.svg" alt="Send message" class="dropdown__icon">'
         }
     },
-    Login: {
+    login: {
         blockConstructor: Input,
         blockProps: {
             id: 'login',

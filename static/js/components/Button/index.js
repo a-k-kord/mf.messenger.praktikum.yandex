@@ -25,10 +25,17 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
+function preventSubmit(event) {
+    event.preventDefault();
+}
 var Button = (function (_super) {
     __extends(Button, _super);
-    function Button() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Button(parentElement, props, children) {
+        var _this = _super.call(this, parentElement, props, children) || this;
+        if (props.type === 'submit') {
+            _this.addListener(_this.getContent(), 'submit', preventSubmit.bind(_this), 'form');
+        }
+        return _this;
     }
     Button.prototype.render = function () {
         return compileTemplate(template, {

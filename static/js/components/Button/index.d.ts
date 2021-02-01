@@ -6,5 +6,6 @@ export interface ButtonProps extends TitleProps {
     image?: string;
 }
 export declare class Button extends Block<ButtonProps> {
+    constructor(parentElement: any, props: any, children: any);
     render(): string;
 }

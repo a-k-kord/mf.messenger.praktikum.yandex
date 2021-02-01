@@ -157,18 +157,19 @@ var Block = (function () {
     };
     Block.prototype.detachListenersFromElement = function (parent) {
         var _this = this;
+        var el = parent.querySelector('input,button');
         Object.keys(this._domListeners).map(function (event) {
             _this._domListeners[event].map(function (callback) {
-                parent.removeEventListener(event, callback);
+                el.removeEventListener(event, callback);
             });
         });
     };
     Block.prototype.attachListenersToElement = function (parent) {
         var _this = this;
-        var input = parent.querySelector('input');
+        var el = parent.querySelector('input,button');
         Object.keys(this._domListeners).map(function (event) {
             _this._domListeners[event].map(function (callback) {
-                input.addEventListener(event, callback);
+                el.addEventListener(event, callback);
             });
         });
     };

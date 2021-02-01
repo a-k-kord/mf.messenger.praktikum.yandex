@@ -237,18 +237,19 @@ export abstract class Block<TProps extends object> {
     }
 
     public detachListenersFromElement(parent: HTMLElement): void {
+        const el = parent.querySelector('input,button');
         Object.keys(this._domListeners).map((event: keyof HTMLElementEventMap) => {
             this._domListeners[event].map((callback: () => any) => {
-                parent.removeEventListener(event, callback);
+                el.removeEventListener(event, callback);
             })
         });
     }
 
     public attachListenersToElement(parent: HTMLElement): void {
-        const input = parent.querySelector('input');
+        const el = parent.querySelector('input,button');
         Object.keys(this._domListeners).map((event: keyof HTMLElementEventMap) => {
             this._domListeners[event].map((callback: () => any) => {
-                input.addEventListener(event, callback);
+                el.addEventListener(event, callback);
             })
         });
     }

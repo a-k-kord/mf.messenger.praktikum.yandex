@@ -83,10 +83,13 @@ li {
     visibility: hidden;
     font-size: 1.3rem;
     transform: translateX(40rem); }
-  .form__error-msg--hidden {
-    display: none; }
-  .form__error-msg--shown {
-    display: block; }
+  .form__error-msg {
+    position: absolute;
+    bottom: 0; }
+    .form__error-msg--hidden {
+      display: none; }
+    .form__error-msg--shown {
+      display: block; }
 
 .link {
   text-decoration: none; }

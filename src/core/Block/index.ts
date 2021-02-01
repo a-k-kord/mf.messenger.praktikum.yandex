@@ -138,9 +138,9 @@ export abstract class Block<TProps extends object> {
             this.checkAllBlocksTree(this, childBlocksFromDom);
         }
 
-        if ((<Props>this.props).isHidden) {
+        if ((<Props>this.props).isHidden === true) {
             this.hide();
-        } else {
+        } else if((<Props>this.props).isHidden === false){
             this.show();
         }
     }

@@ -114,6 +114,8 @@
   &__error-msg {
     //transform: translateY(-6rem); // was -1.5rem
     //display: none;
+    position: absolute;
+    bottom: 0;
 
     &--hidden {
       display: none;

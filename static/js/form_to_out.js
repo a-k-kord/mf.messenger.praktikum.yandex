@@ -1,19 +1,18 @@
 function preventSubmit(event) {
     const obj = {}
-    for (let form of document.forms) {
-        event.preventDefault();
-        const inputs = form.querySelectorAll('input');
-        for (let input of inputs) {
-            var event = new Event('blur', {
-                bubbles: true,
-                cancelable: true,
-            });
+    const form = event.target.closest('form')
+    event.preventDefault();
+    const inputs = form.querySelectorAll('input');
+    for (let input of inputs) {
+        var event = new Event('blur', {
+            bubbles: true,
+            cancelable: true,
+        });
 
-            input.dispatchEvent(event);
-            obj[input.id] = input.value
-        }
-        console.log(obj);
+        input.dispatchEvent(event);
+        obj[input.id] = input.value
     }
+    console.log(obj);
 }
 
 function setUploadedFileName(input, fileNameLabelSelector, errorLabelSelector) {

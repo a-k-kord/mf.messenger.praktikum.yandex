@@ -43,11 +43,17 @@ function validateEmail(event) {
         this.childBlocks.error.setProps({ text: '', isHidden: true });
     }
 }
+var ValidationMethods = {
+    login: validateLogin,
+    email: validateEmail,
+};
 var Input = (function (_super) {
     __extends(Input, _super);
     function Input(parentElement, props, children) {
         var _this = _super.call(this, parentElement, props, children) || this;
-        _this.addListener(_this.getContent(), 'blur', validateLogin.bind(_this), 'input');
+        if (props.validationType) {
+            _this.addListener(_this.getContent(), 'blur', ValidationMethods[props.validationType].bind(_this), 'input');
+        }
         return _this;
     }
     Input.prototype.render = function () {

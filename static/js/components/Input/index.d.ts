@@ -7,9 +7,12 @@ export interface InputProps extends TitleProps {
     placeholder?: string;
     isReadonly?: boolean;
     iconStyles?: string;
-    validationError?: string;
+    validationType?: string;
 }
 export declare class Input extends Block<InputProps> {
+    validationMethods: {
+        [key: string]: Function;
+    };
     constructor(parentElement: any, props: any, children: any);
     render(): string;
 }

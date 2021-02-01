@@ -15,6 +15,7 @@ var register = new Register(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'email',
         },
         children: {
             label: {
@@ -49,6 +50,7 @@ var register = new Register(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'login',
         },
         children: {
             label: {

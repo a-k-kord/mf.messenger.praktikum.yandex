@@ -12,7 +12,7 @@ export interface InputProps extends TitleProps{
     placeholder?: string,
     isReadonly?: boolean,
     iconStyles?: string,
-    validationError?: string,
+    validationType?: string,
 }
 
 // TODO: пример валидации, надо доделать.
@@ -34,11 +34,20 @@ function validateEmail(event: Event) {
     }
 }
 
+const ValidationMethods = {
+    login: validateLogin,
+    email: validateEmail,
+};
+
 export class Input extends Block<InputProps> {
+    validationMethods: {[key: string]: Function};
 
     constructor(parentElement, props, children) {
-        super(parentElement, props, children);
-        this.addListener(this.getContent(), 'blur', validateLogin.bind(this), 'input');
+        super(parentElement, props, children)
+
+        if(props.validationType) {
+            this.addListener(this.getContent(), 'blur', ValidationMethods[props.validationType].bind(this), 'input');
+        }
     }
 
     render(): string {

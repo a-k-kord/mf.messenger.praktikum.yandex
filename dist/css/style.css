@@ -83,6 +83,8 @@ li {
     visibility: hidden;
     font-size: 1.3rem;
     transform: translateX(40rem); }
+  .form__error-msg--hidden {
+    display: none; }
   .form__error-msg--shown {
     display: block; }
 

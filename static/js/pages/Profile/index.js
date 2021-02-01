@@ -53,7 +53,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -89,7 +89,7 @@ var profile = new Profile(root, {}, {
                     text: 'Неверный логин',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -125,7 +125,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -161,7 +161,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -197,7 +197,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -233,7 +233,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -269,7 +269,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -305,7 +305,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }
@@ -341,7 +341,7 @@ var profile = new Profile(root, {}, {
                     text: '',
                     size: 'small',
                     theme: 'danger',
-                    stylesAfter: 'form__error-msg box box--hidden',
+                    stylesAfter: 'form__error-msg box box--none',
                 }
             }
         }

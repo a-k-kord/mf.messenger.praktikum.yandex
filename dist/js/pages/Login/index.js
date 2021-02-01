@@ -15,6 +15,7 @@ var login = new Login(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'login',
         },
         children: {
             label: {

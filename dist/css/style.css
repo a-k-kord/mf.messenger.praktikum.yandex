@@ -84,8 +84,7 @@ li {
     font-size: 1.3rem;
     transform: translateX(40rem); }
   .form__error-msg {
-    transform: translateY(-1.5rem);
-    display: none; }
+    transform: translateY(-6rem); }
     .form__error-msg--shown {
       display: block; }
 

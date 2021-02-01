@@ -113,12 +113,11 @@ var Block = (function () {
         var proxyProps = new Proxy(props, {
             set: function (target, prop, val) {
                 var _a, _b;
-                if (target[prop] === val) {
-                    return false;
+                if (target[prop] !== val) {
+                    var oldPropVal = target[prop];
+                    target[prop] = val;
+                    self.eventBus.emit(EVENTS.FLOW_CDU, (_a = {}, _a[prop] = oldPropVal, _a), (_b = {}, _b[prop] = val, _b));
                 }
-                var oldPropVal = target[prop];
-                target[prop] = val;
-                self.eventBus.emit(EVENTS.FLOW_CDU, (_a = {}, _a[prop] = oldPropVal, _a), (_b = {}, _b[prop] = val, _b));
                 return true;
             },
             deleteProperty: function () {

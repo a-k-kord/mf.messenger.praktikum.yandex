@@ -60,7 +60,7 @@ const chat = new Chat(root, {}, {
         }
     },
 
-    Login: {
+    login: {
         blockConstructor: Input,
         blockProps: {
             id: 'login',

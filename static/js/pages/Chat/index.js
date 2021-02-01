@@ -53,7 +53,7 @@ var chat = new Chat(root, {}, {
             image: '<img src="img/arrow-back-btn.svg" alt="Send message" class="dropdown__icon">'
         }
     },
-    Login: {
+    login: {
         blockConstructor: Input,
         blockProps: {
             id: 'login',

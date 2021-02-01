@@ -59,6 +59,10 @@
         visibility: hidden;
     }
 
+    &--none {
+        display: none;
+    }
+
     &--as--block {
         display: block;
     }

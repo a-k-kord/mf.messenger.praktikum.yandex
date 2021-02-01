@@ -182,6 +182,9 @@ li {
   opacity: 0;
   visibility: hidden; }
 
+.box--none {
+  display: none; }
+
 .box--as--block {
   display: block; }
 

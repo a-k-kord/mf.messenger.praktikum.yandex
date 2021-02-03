@@ -24,6 +24,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
+import { mockChatData } from '../../mockData/Chat.js';
 import { Block } from "../../core/Block/index.js";
 var Chat = (function (_super) {
     __extends(Chat, _super);
@@ -32,7 +33,7 @@ var Chat = (function (_super) {
     }
     Chat.prototype.render = function () {
         return compileTemplate(template, {
-            props: __assign({}, this.props),
+            props: __assign(__assign({}, this.props), { mockData: mockChatData }),
             slots: __assign({}, this.slots)
         });
     };

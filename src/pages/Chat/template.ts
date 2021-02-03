@@ -23,18 +23,12 @@ export default `
                                     </div>
                                 </div>
                                 <div class="chat-item__msg-wrap">
-                                    <div class="chat-item__name text text--size--small text--weight--bold">Андрей
-                                    Длинноимянный</div>
-                                    <div class="chat-item__msg text text--size--smaller text--theme--label">Так
-                                    увлёкся
-                                    работой по курсу, что совсем забыл его анонсировать совсем</div>
+                                    <div class="chat-item__name text text--size--small text--weight--bold"><%= it.props.mockData.userName %></div>
+                                    <div class="chat-item__msg text text--size--smaller text--theme--label"><%= it.props.mockData.message %></div>
                                 </div>
-                                <span class="chat-item__date text text--size--tiny text--theme--label">10 Мая
-                                        2020</span>
+                                <span class="chat-item__date text text--size--tiny text--theme--label"><%= it.props.mockData.messageDate %></span>
                                 <div class="chat-item__badge ">
-                                    <div
-                                            class="chat-item__counter text text--size--smaller text--theme--label box box--center">
-                                        2</div>
+                                    <div class="chat-item__counter text text--size--smaller text--theme--label box box--center"><%= it.props.mockData.unreadCounter %></div>
                                 </div>
                             </a>
                         </li>
@@ -54,7 +48,7 @@ export default `
                     </div>
                 </div>
             </div>
-            <div class="text text--align--left text--size--small text--weight--bold avatar__title">Андрей</div>
+            <div class="text text--align--left text--size--small text--weight--bold avatar__title"><%= it.props.mockData.userName %></div>
             <div class="dropdown">
                 <button class="button dropdown__toggle dropdown__toggle--with-round-background">
                     <svg class="dropdown__icon  dropdown__icon--small" width="100%" height="100%" viewBox="0 0 3 16"
@@ -99,19 +93,9 @@ export default `
                 <div class="message history__message-wrap history__message-wrap--align--left">
                     <div class="message__text message__text--left">
                         <div class="text text--size--small">
-                            Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то
-                            момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-                            знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер
-                            все
-                            еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с
-                            пленкой.
-
-                            Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они
-                            так
-                            никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на
-                            аукционе за 45000 евро.
+                            <%= it.props.mockData.mes1 %>
                         </div>
-                        <div class="badge text text--theme--label text--size--tiny">11:56</div>
+                        <div class="badge text text--theme--label text--size--tiny"><%= it.props.mockData.mesTime %></div>
                     </div>
                 </div>
                 <div class="message history__message-wrap history__message-wrap--align--left">
@@ -119,40 +103,36 @@ export default `
                         <img class="image  box box--round-border--small" src="img/chat-image.png" alt="photo">
                         <div
                                 class="badge text text--theme--light text--size--tiny box box--round-border--big box--background--label">
-                            11:56</div>
+                            <%= it.props.mockData.mesTime %></div>
                     </div>
                 </div>
                 <div class="history__message-wrap history__message-wrap--align--right">
                     <div class="message__text message__text--right text text--size--small">
-                        <div class="text text--size--small">Круто!</div>
+                        <div class="text text--size--small"><%= it.props.mockData.mes2 %></div>
                         <div class="badge">
                             <img class="confirmation" src="img/confirmation_msg_read.svg"
                                  alt="Confirmation about message recieved and read">
-                            <div class="timestamp text text--size--tiny text--theme--primary">11:56</div>
+                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props.mockData.mesTime %></div>
                         </div>
                     </div>
                 </div>
                 <div class="message history__message-wrap history__message-wrap--align--left">
                     <div class="message__text message__text--left">
                         <div class="text text--size--small">
-                            Yeeeeeeh!
+                        <%= it.props.mockData.mes3 %>
                         </div>
-                        <div class="badge text text--theme--label text--size--tiny">11:56</div>
+                        <div class="badge text text--theme--label text--size--tiny"><%= it.props.mockData.mesTime %></div>
                     </div>
                 </div>
                 <div class="history__message-wrap history__message-wrap--align--right">
                     <div class="message__text message__text--right text text--size--small ">
                         <div class="text text--size--small">
-                            А что было до:
-                            Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они
-                            так
-                            никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на
-                            аукционе за 45000 евро.
+                        <%= it.props.mockData.mes4 %>
                         </div>
                         <div class="badge">
                             <img class="confirmation" src="img/confirmation_msg_recieved.svg"
                                  alt="Confirmation about message recieved and read">
-                            <div class="timestamp text text--size--tiny text--theme--primary">11:56</div>
+                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props.mockData.mesTime %></div>
                         </div>
                     </div>
                 </div>

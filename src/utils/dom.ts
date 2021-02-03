@@ -1,9 +1,13 @@
-export const generateId = (length: number = 4): string => {
-    let result: string = '';
-    for (let i = 0; i < length; i += 1) {
-        result += Math.random().toString(16).slice(-4);
+import '../vendor/uuid_v4.min.js';
+
+declare global {
+    interface Window {
+        uuidv4: () => string;
     }
-    return result;
+}
+
+export const generateId = (): string => {
+    return window.uuidv4();
 }
 
 export const isInDom = (node: HTMLElement): boolean => {

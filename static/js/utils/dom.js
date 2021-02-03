@@ -1,10 +1,6 @@
-export var generateId = function (length) {
-    if (length === void 0) { length = 4; }
-    var result = '';
-    for (var i = 0; i < length; i += 1) {
-        result += Math.random().toString(16).slice(-4);
-    }
-    return result;
+import '../vendor/uuid_v4.min.js';
+export var generateId = function () {
+    return window.uuidv4();
 };
 export var isInDom = function (node) {
     return !!node.parentElement;

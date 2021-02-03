@@ -1,4 +1,10 @@
-export declare const generateId: (length?: number) => string;
+import '../vendor/uuid_v4.min.js';
+declare global {
+    interface Window {
+        uuidv4: () => string;
+    }
+}
+export declare const generateId: () => string;
 export declare const isInDom: (node: HTMLElement) => boolean;
 export declare const createBlockDocumentElement: (blockName: string, tagName?: string) => HTMLElement;
 export declare const applyStyles: (nodes: HTMLElement | HTMLElement[], styles: object) => HTMLElement | HTMLElement[];

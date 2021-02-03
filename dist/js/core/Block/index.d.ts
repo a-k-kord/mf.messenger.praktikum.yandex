@@ -28,7 +28,7 @@ export declare abstract class Block<TProps extends object> {
     slots: {
         [blockName: string]: HTMLElement;
     };
-    constructor(parentElement: HTMLElement, props?: TProps, children?: Children);
+    constructor(parentElement: HTMLElement, props?: TProps, children?: Children, tagName?: string);
     private _registerEvents;
     init(): void;
     private _componentDidMount;

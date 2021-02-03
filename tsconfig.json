@@ -16,13 +16,12 @@
       "esModuleInterop": true,
       "noUnusedLocals": false,
       "removeComments": true,
-//      "noImplicitAny": true,
       "declaration": true,
-      // "strict": true,
       "allowJs": true,
       "skipLibCheck": true,                     /* Skip type checking of declaration files. */
-      "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */,
-//      "typeRoots": ["./vendor/types"],
+      "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+      // "noImplicitAny": true,
+      // "strict": true,
     },
     "include": ["src/**/*.ts"],
     "exclude": ["build", "dist", "src/**/*.js", "src/**/*.spec.ts"]

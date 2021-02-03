@@ -355,6 +355,7 @@ const profile = new Profile(root, {}, {
         blockConstructor: Link,
         blockProps: {
             linkTo: 'profile-edit.html',
+            // onclick: 'toggleReadonly', // TODO: раскоментить когда будет store
             text: 'Изменить данные',
             hasText: true,
             align: 'left',
@@ -390,6 +391,20 @@ const profile = new Profile(root, {}, {
     buttonSave: {
         blockConstructor: Button,
         blockProps: {
+            text: 'Сохранить',
+            type: 'submit',
+            formMethod: 'POST',
+            hasText: true,
+            size: 'small',
+            theme: 'light',
+            weight: 'bold',
+            stylesAfter: 'form__input box box--underlined-primary',
+            isHidden: true
+        }
+    },
+    buttonSavePassword: {
+        blockConstructor: Button,
+        blockProps: {
             text: 'Поменять',
             type: 'submit',
             formMethod: 'POST',
@@ -402,9 +417,3 @@ const profile = new Profile(root, {}, {
         }
     },
 });
-
-// profile.childBlocks.buttonSave.setProps({
-//     text: 'Бывает, что ж поделать... ',
-// })
-// <button
-//     class="text text--theme--light text--size--small text--weight--bold button button__text"  type="submit"  formmethod="POST">Поменять</button>

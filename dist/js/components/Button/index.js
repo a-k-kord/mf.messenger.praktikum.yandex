@@ -25,15 +25,21 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
-function preventSubmit(event) {
-    event.preventDefault();
-}
+import { inputsToggleReadonly } from "../Link/index.js";
 var Button = (function (_super) {
     __extends(Button, _super);
     function Button(parentElement, props, children) {
         var _this = _super.call(this, parentElement, props, children) || this;
         if (props.type === 'submit') {
-            _this.addListener(_this.getContent(), 'submit', preventSubmit.bind(_this), 'form');
+            var handler = function () { };
+            switch (props.onclick) {
+                case 'toggleReadonly':
+                    handler = inputsToggleReadonly;
+                    break;
+                case 'submit':
+                default: handler = validateForm;
+            }
+            _this.addListener(_this.getContent(), 'submit', handler.bind(_this), 'form');
         }
         return _this;
     }
@@ -46,3 +52,18 @@ var Button = (function (_super) {
     return Button;
 }(Block));
 export { Button };
+function validateForm(event) {
+    event.preventDefault();
+    var obj = {};
+    var form = event.target.closest('form');
+    var inputs = form.querySelectorAll('input');
+    inputs.forEach(function (input) {
+        var event = new Event('blur', {
+            bubbles: true,
+            cancelable: true,
+        });
+        input.dispatchEvent(event);
+        obj[input.id] = input.value;
+    });
+    console.log(obj);
+}

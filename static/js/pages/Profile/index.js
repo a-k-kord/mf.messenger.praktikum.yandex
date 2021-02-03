@@ -385,6 +385,20 @@ var profile = new Profile(root, {}, {
     buttonSave: {
         blockConstructor: Button,
         blockProps: {
+            text: 'Сохранить',
+            type: 'submit',
+            formMethod: 'POST',
+            hasText: true,
+            size: 'small',
+            theme: 'light',
+            weight: 'bold',
+            stylesAfter: 'form__input box box--underlined-primary',
+            isHidden: true
+        }
+    },
+    buttonSavePassword: {
+        blockConstructor: Button,
+        blockProps: {
             text: 'Поменять',
             type: 'submit',
             formMethod: 'POST',

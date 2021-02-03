@@ -41,10 +41,9 @@ export abstract class Block<TProps extends object> {
     childBlocks: ChildBlocks;
     slots: { [blockName: string]: HTMLElement }
 
-    constructor(parentElement: HTMLElement, props?: TProps, children?: Children) {
+    constructor(parentElement: HTMLElement, props?: TProps, children?: Children, tagName?: string) {
         this.eventBus = new EventBus();
 
-        // this._element = createDocumentElement(tagName);
         this._parentElement = parentElement;
         this.props = this._makePropsProxy(props);
         this.slots = {};
@@ -58,7 +57,7 @@ export abstract class Block<TProps extends object> {
                 // Создаем слот-wrapper (пустой HTMLElement) для монтирования ребенка
                 // TODO: для наглядности и дебага слотом будет div-обертка.
                 //  В будущем подумать над заменой на что-то типа <template> или DocumentFragment
-                this.slots[blockName] = createBlockDocumentElement(blockName);
+                this.slots[blockName] = createBlockDocumentElement(blockName, tagName);
 
                 // создаем компонент ребенка и сохраняем на него ссылку
                 this.childBlocks[blockName] = new blockConstructor(this.slots[blockName], blockProps, subChildren);
@@ -197,14 +196,6 @@ export abstract class Block<TProps extends object> {
         hide(this._parentElement);
     }
 
-    // public addListener(parent: HTMLElement, event: keyof HTMLElementEventMap , callback: (any) => any): void {
-    //     if (!this._domListeners[event]) {
-    //         this._domListeners[event] = [];
-    //     }
-    //     input.addEventListener(event, callback);
-    //     this._domListeners[event].push(callback);
-    // }
-
     public removeListener(parent: HTMLElement, event: keyof HTMLElementEventMap, callback: (any) => any): void {
         this._domListeners[event] = this._domListeners[event].filter(
             listener => {
@@ -237,7 +228,7 @@ export abstract class Block<TProps extends object> {
     }
 
     public detachListenersFromElement(parent: HTMLElement): void {
-        const el = parent.querySelector('input,button');
+        const el = parent.querySelector('input,button,a');
         Object.keys(this._domListeners).map((event: keyof HTMLElementEventMap) => {
             this._domListeners[event].map((callback: () => any) => {
                 el.removeEventListener(event, callback);
@@ -246,7 +237,7 @@ export abstract class Block<TProps extends object> {
     }
 
     public attachListenersToElement(parent: HTMLElement): void {
-        const el = parent.querySelector('input,button');
+        const el = parent.querySelector('input,button,a');
         Object.keys(this._domListeners).map((event: keyof HTMLElementEventMap) => {
             this._domListeners[event].map((callback: () => any) => {
                 el.addEventListener(event, callback);

@@ -2,27 +2,15 @@ import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
 import { TitleProps } from "../Title/index.js";
+import { inputsToggleReadonly } from "../Link/index.js";
 
 export interface ButtonProps extends TitleProps{
     type?: string,
     formMethod?: string,
+    onclick?: string,
     image?: string   // TODO: заменить на внутренний компонент Image
 }
 
-function preventSubmit(event) {
-    event.preventDefault();
-    // const obj = {};
-    // for(let form of document.forms) {
-    //     form.addEventListener('submit', event => {
-    //         for (let input of event.target.elements) {
-    //             if (input.tagName === 'INPUT') {
-    //                 obj[input.id] = input.value
-    //             }
-    //         }
-    //         console.log(obj);
-    //     });
-    // }
-}
 
 export class Button extends Block<ButtonProps> {
 
@@ -30,7 +18,13 @@ export class Button extends Block<ButtonProps> {
         super(parentElement, props, children)
 
         if(props.type === 'submit') {
-            this.addListener(this.getContent(), 'submit', preventSubmit.bind(this), 'form');
+            let handler: (event: Event) => void = ()=>{};
+            switch(props.onclick) {
+                case 'toggleReadonly': handler = inputsToggleReadonly; break;
+                case 'submit':
+                default: handler = validateForm;
+            }
+            this.addListener(this.getContent(), 'submit', handler.bind(this), 'form');
         }
     }
 
@@ -41,4 +35,22 @@ export class Button extends Block<ButtonProps> {
         });
     }
 
+}
+
+
+function validateForm(event: Event) {
+    event.preventDefault();
+    const obj = {}
+    const form = (<HTMLInputElement>event.target).closest('form')
+    const inputs = form.querySelectorAll('input');
+    inputs.forEach(input => {
+        const event = new Event('blur', {
+            bubbles: true,
+            cancelable: true,
+        });
+
+        input.dispatchEvent(event);
+        obj[input.id] = input.value
+    })
+    console.log(obj);
 }

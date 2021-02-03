@@ -1,9 +1,7 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block, Children } from "../../core/Block/index.js";
-import { removeHTMLElement } from "../../utils/dom.js";
+import { Block } from "../../core/Block/index.js";
 import { TitleProps } from "../Title/index.js";
-import { Listeners } from "../../core/EventBus";
 
 export interface InputProps extends TitleProps{
     type?: string,
@@ -14,6 +12,34 @@ export interface InputProps extends TitleProps{
     iconStyles?: string,
     validationType?: string,
 }
+
+
+const ValidationMethods: {[key: string]: Function} = {
+    login: validateLogin,
+    email: validateEmail,
+};
+
+export class Input extends Block<InputProps> {
+
+    constructor(parentElement, props, children) {
+        super(parentElement, props, children)
+
+        if(props.validationType) {
+            this.addListener(this.getContent(), 'blur', ValidationMethods[props.validationType].bind(this), 'input');
+            this.addListener(this.getContent(), 'focus', ValidationMethods[props.validationType].bind(this), 'input');
+        }
+    }
+
+    render(): string {
+        return compileTemplate<InputProps>(template, {
+            props: {...this.props},
+            slots: {...this.slots}
+        });
+    }
+
+
+}
+
 
 // TODO: пример валидации, надо доделать.
 function validateLogin(event: Event) {
@@ -41,31 +67,4 @@ function validateEmail(event: Event) {
             this.childBlocks.error.setProps({text: 'Не валидный формат почты', isHidden: false})
         }
     }
-}
-
-const ValidationMethods: {[key: string]: Function} = {
-    login: validateLogin,
-    email: validateEmail,
-};
-
-export class Input extends Block<InputProps> {
-
-    constructor(parentElement, props, children) {
-        super(parentElement, props, children)
-
-        if(props.validationType) {
-            this.addListener(this.getContent(), 'blur', ValidationMethods[props.validationType].bind(this), 'input');
-            this.addListener(this.getContent(), 'focus', ValidationMethods[props.validationType].bind(this), 'input');
-            // this.addListener(this.getContent(), 'submit', ValidationMethods[props.validationType].bind(this), 'input');
-        }
-    }
-
-    render(): string {
-        return compileTemplate<InputProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
-        });
-    }
-
-
 }

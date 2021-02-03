@@ -25,6 +25,29 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
+var ValidationMethods = {
+    login: validateLogin,
+    email: validateEmail,
+};
+var Input = (function (_super) {
+    __extends(Input, _super);
+    function Input(parentElement, props, children) {
+        var _this = _super.call(this, parentElement, props, children) || this;
+        if (props.validationType) {
+            _this.addListener(_this.getContent(), 'blur', ValidationMethods[props.validationType].bind(_this), 'input');
+            _this.addListener(_this.getContent(), 'focus', ValidationMethods[props.validationType].bind(_this), 'input');
+        }
+        return _this;
+    }
+    Input.prototype.render = function () {
+        return compileTemplate(template, {
+            props: __assign({}, this.props),
+            slots: __assign({}, this.slots)
+        });
+    };
+    return Input;
+}(Block));
+export { Input };
 function validateLogin(event) {
     var input = event.target;
     if (!input.value.length) {
@@ -53,26 +76,3 @@ function validateEmail(event) {
         }
     }
 }
-var ValidationMethods = {
-    login: validateLogin,
-    email: validateEmail,
-};
-var Input = (function (_super) {
-    __extends(Input, _super);
-    function Input(parentElement, props, children) {
-        var _this = _super.call(this, parentElement, props, children) || this;
-        if (props.validationType) {
-            _this.addListener(_this.getContent(), 'blur', ValidationMethods[props.validationType].bind(_this), 'input');
-            _this.addListener(_this.getContent(), 'focus', ValidationMethods[props.validationType].bind(_this), 'input');
-        }
-        return _this;
-    }
-    Input.prototype.render = function () {
-        return compileTemplate(template, {
-            props: __assign({}, this.props),
-            slots: __assign({}, this.slots)
-        });
-    };
-    return Input;
-}(Block));
-export { Input };

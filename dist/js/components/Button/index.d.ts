@@ -3,6 +3,7 @@ import { TitleProps } from "../Title/index.js";
 export interface ButtonProps extends TitleProps {
     type?: string;
     formMethod?: string;
+    onclick?: string;
     image?: string;
 }
 export declare class Button extends Block<ButtonProps> {

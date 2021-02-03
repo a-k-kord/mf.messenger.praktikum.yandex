@@ -25,10 +25,21 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from "../../core/Block/index.js";
+import { preventEvent } from "../../utils/dom.js";
 var Link = (function (_super) {
     __extends(Link, _super);
-    function Link() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Link(parentElement, props, children) {
+        var _this = _super.call(this, parentElement, props, children) || this;
+        if (props.onclick) {
+            var handler = function () { };
+            switch (props.onclick) {
+                case 'toggleReadonly':
+                    handler = inputsToggleReadonly.bind(_this);
+                    break;
+            }
+            _this.addListener(_this.getContent(), 'click', handler, 'a');
+        }
+        return _this;
     }
     Link.prototype.render = function () {
         return compileTemplate(template, {
@@ -39,3 +50,11 @@ var Link = (function (_super) {
     return Link;
 }(Block));
 export { Link };
+export function inputsToggleReadonly(event) {
+    preventEvent(event);
+    var form = event.target.closest('form');
+    var inputs = form.querySelectorAll('input');
+    inputs.forEach(function (input) {
+        input.toggleAttribute('readonly');
+    });
+}

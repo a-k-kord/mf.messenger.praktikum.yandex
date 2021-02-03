@@ -8,7 +8,7 @@ var EVENTS;
     EVENTS["FLOW_CDU"] = "flow:component-did-update";
 })(EVENTS || (EVENTS = {}));
 var Block = (function () {
-    function Block(parentElement, props, children) {
+    function Block(parentElement, props, children, tagName) {
         var _this = this;
         this.setProps = function (nextProps) {
             if (!nextProps) {
@@ -25,7 +25,7 @@ var Block = (function () {
         if (children) {
             Object.keys(children).forEach(function (blockName) {
                 var _a = children[blockName], blockConstructor = _a.blockConstructor, blockProps = _a.blockProps, subChildren = _a.children;
-                _this.slots[blockName] = createBlockDocumentElement(blockName);
+                _this.slots[blockName] = createBlockDocumentElement(blockName, tagName);
                 _this.childBlocks[blockName] = new blockConstructor(_this.slots[blockName], blockProps, subChildren);
             });
         }
@@ -157,7 +157,7 @@ var Block = (function () {
     };
     Block.prototype.detachListenersFromElement = function (parent) {
         var _this = this;
-        var el = parent.querySelector('input,button');
+        var el = parent.querySelector('input,button,a');
         Object.keys(this._domListeners).map(function (event) {
             _this._domListeners[event].map(function (callback) {
                 el.removeEventListener(event, callback);
@@ -166,7 +166,7 @@ var Block = (function () {
     };
     Block.prototype.attachListenersToElement = function (parent) {
         var _this = this;
-        var el = parent.querySelector('input,button');
+        var el = parent.querySelector('input,button,a');
         Object.keys(this._domListeners).map(function (event) {
             _this._domListeners[event].map(function (callback) {
                 el.addEventListener(event, callback);

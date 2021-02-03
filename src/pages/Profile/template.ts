@@ -28,6 +28,7 @@ export default `
         <%~ it.slots.linkChangePassword.outerHTML %>
         <%~ it.slots.linkLogout.outerHTML %>
         <%~ it.slots.buttonSave.outerHTML %>
+        <%~ it.slots.buttonSavePassword.outerHTML %>
     </div>
   </form>
 </main>

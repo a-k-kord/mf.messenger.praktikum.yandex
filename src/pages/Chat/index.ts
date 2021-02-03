@@ -1,7 +1,7 @@
-import { Chat } from "./Chat.js";
-import { Button } from "../../components/Button/index.js";
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
+import { Chat } from './Chat.js';
+import { Button } from '../../components/Button/index.js';
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
 
 const root: HTMLElement = document.querySelector('#app');
 

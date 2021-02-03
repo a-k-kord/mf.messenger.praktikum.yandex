@@ -1,8 +1,8 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block } from "../../core/Block/index.js";
-import { TitleProps } from "../Title/index.js";
-import { inputsToggleReadonly } from "../Link/index.js";
+import { Block } from '../../core/Block/index.js';
+import { TitleProps } from '../Title/index.js';
+import { inputsToggleReadonly } from '../Link/index.js';
 
 export interface ButtonProps extends TitleProps{
     type?: string,

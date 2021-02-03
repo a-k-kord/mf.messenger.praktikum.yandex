@@ -1,6 +1,6 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block, Props } from "../../core/Block/index.js";
+import { Block, Props } from '../../core/Block/index.js';
 
 export interface TitleProps extends Props{
     size?: string,

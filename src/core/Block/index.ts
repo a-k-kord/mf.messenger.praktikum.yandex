@@ -1,4 +1,4 @@
-import { EventBus, Listeners } from "../EventBus/index.js";
+import { EventBus, Listeners } from '../EventBus/index.js';
 import { createBlockDocumentElement, generateId, hide, isInDom, show } from '../../utils/dom.js';
 
 

@@ -1,4 +1,4 @@
-import { Block } from "../../core/Block/index.js";
+import { Block } from '../../core/Block/index.js';
 declare type ErrorProps = {
     errNum?: string;
     errMessage?: string;

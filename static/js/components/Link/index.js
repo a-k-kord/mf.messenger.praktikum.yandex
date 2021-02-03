@@ -24,8 +24,8 @@ var __assign = (this && this.__assign) || function () {
 };
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block } from "../../core/Block/index.js";
-import { preventEvent } from "../../utils/dom.js";
+import { Block } from '../../core/Block/index.js';
+import { preventEvent } from '../../utils/dom.js';
 var Link = (function (_super) {
     __extends(Link, _super);
     function Link(parentElement, props, children) {

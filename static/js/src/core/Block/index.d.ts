@@ -1,4 +1,4 @@
-import { EventBus } from "../EventBus/index.js";
+import { EventBus } from '../EventBus/index.js';
 export declare abstract class Block<TProps extends object> {
     private _element;
     protected readonly eventBus: EventBus;

@@ -1,7 +1,7 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block } from "../../core/Block/index.js";
-import { TitleProps } from "../Title/index.js";
+import { Block } from '../../core/Block/index.js';
+import { TitleProps } from '../Title/index.js';
 
 export interface InputProps extends TitleProps{
     type?: string,

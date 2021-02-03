@@ -1,6 +1,6 @@
 import { Error } from './Error.js';
-import { Link } from "../../components/Link/index.js";
-import { Title } from "../../components/Title/index.js";
+import { Link } from '../../components/Link/index.js';
+import { Title } from '../../components/Title/index.js';
 var mountElement = document.querySelector('#app');
 var propsHolder = document.querySelector("[data-page=\"Error\"]");
 var error = new Error(mountElement, {}, {

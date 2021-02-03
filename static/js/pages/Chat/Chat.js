@@ -25,7 +25,7 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { mockChatData } from '../../mockData/Chat.js';
-import { Block } from "../../core/Block/index.js";
+import { Block } from '../../core/Block/index.js';
 var Chat = (function (_super) {
     __extends(Chat, _super);
     function Chat() {

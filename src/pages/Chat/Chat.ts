@@ -1,7 +1,7 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { mockChatData } from '../../mockData/Chat.js';
-import { Block } from "../../core/Block/index.js";
+import { Block } from '../../core/Block/index.js';
 
 export interface ChatProps {
 }

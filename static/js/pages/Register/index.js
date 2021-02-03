@@ -1,8 +1,8 @@
-import { Register } from "./Register.js";
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
-import { Button } from "../../components/Button/index.js";
-import { Link } from "../../components/Link/index.js";
+import { Register } from './Register.js';
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Button } from '../../components/Button/index.js';
+import { Link } from '../../components/Link/index.js';
 var root = document.querySelector('#app');
 var register = new Register(root, {}, {
     email: {

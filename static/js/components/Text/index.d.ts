@@ -1,4 +1,4 @@
-import { Block } from "../../core/Block/index.js";
+import { Block } from '../../core/Block/index.js';
 export interface LinkProps {
     linkTo: string;
     text?: string;

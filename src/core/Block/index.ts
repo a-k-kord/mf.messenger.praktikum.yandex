@@ -1,4 +1,4 @@
-import { EventBus, Listeners } from "../EventBus/index.js";
+import { EventBus, Listeners } from '../EventBus/index.js';
 import { createBlockDocumentElement, generateId, hide, isInDom, show } from '../../utils/dom.js';
 
 
@@ -51,12 +51,8 @@ export abstract class Block<TProps extends object> {
         this._domListeners = {};
         if (children) {
             // создаем компоненты детей
-            Object.keys(children).forEach((blockName: string) => {
-                const {blockConstructor, blockProps, children: subChildren} = children[blockName];
-
+            Object.entries(children).forEach(([blockName, {blockConstructor, blockProps, children: subChildren}]) => {
                 // Создаем слот-wrapper (пустой HTMLElement) для монтирования ребенка
-                // TODO: для наглядности и дебага слотом будет div-обертка.
-                //  В будущем подумать над заменой на что-то типа <template> или DocumentFragment
                 this.slots[blockName] = createBlockDocumentElement(blockName, tagName);
 
                 // создаем компонент ребенка и сохраняем на него ссылку

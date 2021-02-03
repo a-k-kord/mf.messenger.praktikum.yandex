@@ -1,5 +1,5 @@
 import { Error } from './Error.js';
-import { Link } from "../../components/Link/index.js";
+import { Link } from '../../components/Link/index.js';
 var mountElement = document.querySelector('#app');
 var error404 = new Error({
     errNum: '404',

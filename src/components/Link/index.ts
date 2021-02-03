@@ -1,8 +1,8 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block } from "../../core/Block/index.js";
-import { TitleProps } from "../Title";
-import { preventEvent } from "../../utils/dom.js";
+import { Block } from '../../core/Block/index.js';
+import { TitleProps } from '../Title';
+import { preventEvent } from '../../utils/dom.js';
 
 export interface LinkProps extends TitleProps{
     linkTo: string,

@@ -1,4 +1,4 @@
-import { EventBus } from "../EventBus/index.js";
+import { EventBus } from '../EventBus/index.js';
 var EVENTS;
 (function (EVENTS) {
     EVENTS["INIT"] = "init";

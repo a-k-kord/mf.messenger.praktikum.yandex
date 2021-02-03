@@ -24,7 +24,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block } from "../../core/Block/index.js";
+import { Block } from '../../core/Block/index.js';
 var Register = (function (_super) {
     __extends(Register, _super);
     function Register() {

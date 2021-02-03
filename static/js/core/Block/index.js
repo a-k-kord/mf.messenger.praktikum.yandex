@@ -1,3 +1,19 @@
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 import { EventBus } from '../EventBus/index.js';
 import { createBlockDocumentElement, hide, isInDom, show } from '../../utils/dom.js';
 var EVENTS;
@@ -23,8 +39,8 @@ var Block = (function () {
         this.childBlocks = {};
         this._domListeners = {};
         if (children) {
-            Object.keys(children).forEach(function (blockName) {
-                var _a = children[blockName], blockConstructor = _a.blockConstructor, blockProps = _a.blockProps, subChildren = _a.children;
+            Object.entries(children).forEach(function (_a) {
+                var _b = __read(_a, 2), blockName = _b[0], _c = _b[1], blockConstructor = _c.blockConstructor, blockProps = _c.blockProps, subChildren = _c.children;
                 _this.slots[blockName] = createBlockDocumentElement(blockName, tagName);
                 _this.childBlocks[blockName] = new blockConstructor(_this.slots[blockName], blockProps, subChildren);
             });

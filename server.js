@@ -12,8 +12,6 @@ const app = express()
 
 const PORT = 4000
 
-const API_PREFIX = '/api/v1';
-
 app.get('/', function(req, res) {
     res.redirect("login.html");
 });

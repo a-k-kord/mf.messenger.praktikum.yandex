@@ -2,17 +2,17 @@
 @import "base/base";
 
 @import "components/form";
-@import "components/link";
-@import "components/image";
+@import "src/components/Link/link";
+@import "src/components/Image/image";
 @import "components/avatar";
-@import "components/button";
+@import "src/components/Button/button";
 @import "components/box";
-@import "components/text";
+@import "src/components/Title/text";
 @import "components/scroller";
 @import "components/dropdown";
 @import "components/popup";
 
 
-@import "pages/error";
-@import "pages/profile";
-@import "pages/chat";
+@import "src/pages/Error/error";
+@import "src/pages/Profile/profile";
+@import "src/pages/Chat/chat";

@@ -3,7 +3,7 @@ export var generateId = function () {
     return window.uuidv4();
 };
 export var isInDom = function (node) {
-    return !!node.parentElement;
+    return !!node.closest('body');
 };
 export var createBlockDocumentElement = function (blockName, tagName) {
     if (tagName === void 0) { tagName = 'div'; }
@@ -60,12 +60,12 @@ export var sanitizeHTML = function (html) {
     return textArea.value;
 };
 export var hide = function (el) {
-    if (!el.style.display || el.style.display === 'block') {
+    if (!el.style.display || el.style.display === 'contents') {
         applyStyles(el, { display: 'none' });
     }
 };
 export var show = function (el) {
     if (!el.style.display || el.style.display === 'none') {
-        applyStyles(el, { display: 'block' });
+        applyStyles(el, { display: 'contents' });
     }
 };

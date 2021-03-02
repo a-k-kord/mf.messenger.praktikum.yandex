@@ -27,7 +27,7 @@
   &__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
 
     &--with-min-height {
       min-height: 25rem;
@@ -47,6 +47,7 @@
       display: flex;
       flex-direction: row-reverse;
       align-content: space-between;
+      margin-bottom: 2.0rem;
     }
   }
 
@@ -68,6 +69,11 @@
 
     &:read-only {
       border: none;
+    }
+
+    &--inline {
+      position: absolute;
+      width: 70%;
     }
   }
 

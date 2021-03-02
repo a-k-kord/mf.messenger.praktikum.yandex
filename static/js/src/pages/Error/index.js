@@ -1,36 +1,37 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block } from '../../core/Block/index.js';
-var Error = (function (_super) {
-    __extends(Error, _super);
-    function Error(props) {
-        return _super.call(this, props) || this;
+import { Error } from './Error.js';
+import { Link } from '../../components/Link/index.js';
+import { Title } from '../../components/Title/index.js';
+var mountElement = document.querySelector('#app');
+var propsHolder = document.querySelector("[data-page=\"Error\"]");
+var error = new Error(mountElement, {}, {
+    errNum: {
+        blockConstructor: Title,
+        blockProps: {
+            stylesBefore: 'error__number',
+            text: propsHolder.dataset.errNum,
+            size: 'big',
+        }
+    },
+    errMessage: {
+        blockConstructor: Title,
+        blockProps: {
+            stylesBefore: 'error__msg',
+            text: propsHolder.dataset.errMessage,
+        }
+    },
+    linkBack: {
+        blockConstructor: Link,
+        blockProps: {
+            linkTo: 'chat.html',
+            text: 'Назад к чатам',
+            size: 'small',
+            theme: 'primary'
+        }
     }
-    Error.prototype.render = function () {
-        return compileTemplate(template, this.props);
-    };
-    return Error;
-}(Block));
-function render(query, block) {
-    var root = document.querySelector(query);
-    root.appendChild(block.getContent());
-    return root;
-}
-var error404 = new Error({
-    errNum: '404',
-    errorMsg: 'Не туда попали'
 });
-render("#app", error404);
+setTimeout(function () {
+    error.childBlocks.errMessage.setProps({
+        text: 'Бывает, что ж поделать... ',
+    });
+    error.childBlocks.linkBack.setProps({ text: 'Назад к чатам, скорее!' });
+}, 3000);

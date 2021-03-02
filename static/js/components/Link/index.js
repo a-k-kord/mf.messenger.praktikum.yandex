@@ -25,20 +25,12 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
-import { preventEvent } from '../../utils/dom.js';
+import { Router } from "../../core/Router/index.js";
 var Link = (function (_super) {
     __extends(Link, _super);
     function Link(parentElement, props, children) {
         var _this = _super.call(this, parentElement, props, children) || this;
-        if (props.onclick) {
-            var handler = function () { };
-            switch (props.onclick) {
-                case 'toggleReadonly':
-                    handler = inputsToggleReadonly.bind(_this);
-                    break;
-            }
-            _this.addListener(_this.getContent(), 'click', handler, 'a');
-        }
+        _this.addListener(_this.getContent(), 'click', handleClick.bind(_this), 'a');
         return _this;
     }
     Link.prototype.render = function () {
@@ -50,11 +42,15 @@ var Link = (function (_super) {
     return Link;
 }(Block));
 export { Link };
-export function inputsToggleReadonly(event) {
-    preventEvent(event);
-    var form = event.target.closest('form');
-    var inputs = form.querySelectorAll('input');
-    inputs.forEach(function (input) {
-        input.toggleAttribute('readonly');
-    });
+function handleClick(evt) {
+    evt.preventDefault();
+    if (typeof this.props.handleMethod === 'function') {
+        this.props.handleMethod();
+    }
+    else {
+        var element = this._parentElement.querySelector('a');
+        var pathnameArr = element.href.split('/');
+        var pathname = pathnameArr[pathnameArr.length - 1];
+        Router.__instance.go("/" + pathname);
+    }
 }

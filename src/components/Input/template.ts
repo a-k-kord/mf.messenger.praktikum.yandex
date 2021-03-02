@@ -23,6 +23,10 @@ name="<%= it.props.name %>"
 value="<%= it.props.text %>" 
 <% } %>
 
+<% if(it.props.accept) { %>
+accept="<%= it.props.accept %>" 
+<% } %>
+
 <% if(it.props.placeholder) { %>
 placeholder="<%= it.props.placeholder %>" 
 <% } %> 

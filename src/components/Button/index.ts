@@ -2,30 +2,23 @@ import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
 import { TitleProps } from '../Title/index.js';
-import { inputsToggleReadonly } from '../Link/index.js';
+import { FormInputs } from "../../utils/validation.js";
 
 export interface ButtonProps extends TitleProps{
     type?: string,
     formMethod?: string,
     onclick?: string,
+    handleMethod?: ()=>{},
+    isDisabled?: boolean,
     image?: string   // TODO: заменить на внутренний компонент Image
 }
-
 
 export class Button extends Block<ButtonProps> {
 
     constructor(parentElement, props, children) {
         super(parentElement, props, children)
 
-        if(props.type === 'submit') {
-            let handler: (event: Event) => void = ()=>{};
-            switch(props.onclick) {
-                case 'toggleReadonly': handler = inputsToggleReadonly; break;
-                case 'submit':
-                default: handler = validateForm;
-            }
-            this.addListener(this.getContent(), 'submit', handler.bind(this), 'form');
-        }
+        this.addListener(this.getContent(), 'click', handleSubmit.bind(this), 'button[type="submit"]');
     }
 
     render(): string {
@@ -37,20 +30,41 @@ export class Button extends Block<ButtonProps> {
 
 }
 
-
-function validateForm(event: Event) {
+function handleSubmit(event: Event) {
     event.preventDefault();
-    const obj = {}
-    const form = (<HTMLInputElement>event.target).closest('form')
-    const inputs = form.querySelectorAll('input');
-    inputs.forEach(input => {
-        const event = new Event('blur', {
-            bubbles: true,
-            cancelable: true,
-        });
+    const data = validateForm(event);
+    if(data.isValid && typeof this.props.handleMethod === 'function') {
+        this.props.handleMethod(data);
+    }
+}
 
-        input.dispatchEvent(event);
-        obj[input.id] = input.value
+function validateForm(event: Event): FormInputs {
+    let isValid = true;
+    const obj: Record<string, string> = {}
+    const form = (<HTMLInputElement>event.target).closest('form')
+    const inputs = form.querySelectorAll('[data-block-name]:not([style*="none"]) > div > input')
+    const errorInputs: HTMLInputElement[] = [];
+    inputs.forEach((input: HTMLInputElement) => {
+        const inputWrapper: HTMLElement = input.closest('.block-wrapper');
+        if(!inputWrapper.style.display || inputWrapper.style.display !== 'none') {
+            const event = new Event('blur', {
+                bubbles: true,
+                cancelable: true,
+            });
+
+            input.dispatchEvent(event);
+            obj[input.name] = input.value
+            const errorBlock: HTMLElement = inputWrapper.querySelector('[data-block-name="error"]');
+            if(errorBlock.style.display !== 'none') {
+                isValid = false;
+                errorInputs.push(input);
+            }
+        }
     })
-    console.log(obj);
+    return {
+        data: obj,
+        form,
+        errorInputs,
+        isValid
+    };
 }

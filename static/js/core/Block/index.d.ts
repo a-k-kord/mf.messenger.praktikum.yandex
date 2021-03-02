@@ -6,11 +6,12 @@ export interface Props {
     wrapperStyles?: string;
     isHidden?: boolean;
 }
+export interface BlockClass {
+    new (parentElement: HTMLElement, props: Props, children?: Children): any;
+}
 export interface Children {
     [blockName: string]: {
-        blockConstructor: {
-            new (parentElement: HTMLElement, props: unknown, children?: Children): any;
-        };
+        blockConstructor: BlockClass;
         blockProps: unknown;
         children?: Children;
     };
@@ -19,7 +20,6 @@ export interface ChildBlocks {
     [blockName: string]: Block<object>;
 }
 export declare abstract class Block<TProps extends object> {
-    private readonly _element;
     private readonly _domListeners;
     private _parentElement;
     private readonly eventBus;
@@ -28,22 +28,28 @@ export declare abstract class Block<TProps extends object> {
     slots: {
         [blockName: string]: HTMLElement;
     };
-    constructor(parentElement: HTMLElement, props?: TProps, children?: Children, tagName?: string);
+    constructor(parentElement: HTMLElement, props: TProps, children?: Children, tagName?: string);
     private _registerEvents;
     init(): void;
     private _componentDidMount;
     componentDidMount(): void;
     private _componentDidUpdate;
     componentDidUpdate(oldProps: TProps, newProps: TProps): boolean;
-    setProps: (nextProps: object) => void;
-    reconnectWithDom(): void;
+    setProps(nextProps: object): void;
+    reconnectBlockWithDom(block: Block<object>): void;
+    reconnectChildrenSlotsWithDom(): void;
+    removeFromDom(): void;
+    togglePopup(isShow: boolean, cssSelector: string): void;
+    forceRender(): void;
     private _render;
     checkAllBlocksTree(block: Block<Props>, nodesFromDom: NodeListOf<HTMLElement>): void;
     abstract render(): string;
     getContent(): HTMLElement;
     private _makePropsProxy;
     show(): void;
+    private makeHtmlElementVisible;
     hide(): void;
+    private makeHtmlElementHidden;
     removeListener(parent: HTMLElement, event: keyof HTMLElementEventMap, callback: (any: any) => any): void;
     addListener(parent: HTMLElement, event: keyof HTMLElementEventMap, callback: (any: any) => any, cssSelector: any): this;
     detachListenersFromElement(parent: HTMLElement): void;

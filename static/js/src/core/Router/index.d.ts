@@ -1,0 +1,28 @@
+import { BlockClass } from "../Block/index.js";
+import { PlainObject } from "../../utils/utils";
+export declare class Route {
+    private _pathname;
+    private _blockClass;
+    private _block;
+    private _props;
+    constructor(pathname: string, view: BlockClass, props: PlainObject);
+    navigate(pathname: string): void;
+    leave(): void;
+    match(pathname: any): boolean;
+    render(): void;
+}
+export declare class Router {
+    static __instance: any;
+    routes: Route[];
+    history: History;
+    private _currentRoute;
+    private _rootQuery;
+    constructor(rootQuery: string);
+    use(pathname: string, blockClass: BlockClass): this;
+    start(): void;
+    _onRoute(pathname: string): void;
+    go(pathname: string): void;
+    back(): void;
+    forward(): void;
+    getRoute(pathname: string): Route;
+}

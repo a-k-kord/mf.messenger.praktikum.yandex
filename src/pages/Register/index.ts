@@ -1,19 +1,43 @@
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
-import { Block, Children } from '../../core/Block/index.js';
-import { LoginProps } from "../Login/Login";
-import { Input } from "../../components/Input";
-import { Title } from "../../components/Title";
-import { Button } from "../../components/Button";
-import { Link } from "../../components/Link";
+import { Block, Children, Props } from '../../core/Block/index.js';
+import { Input } from "../../components/Input/index.js";
+import { Title } from "../../components/Title/index.js";
+import { Button, ButtonProps } from "../../components/Button/index.js";
+import { Link } from "../../components/Link/index.js";
+import { getUserApi, handleError, registerApi } from "../../utils/api.js";
+import { Router } from "../../core/Router/index.js";
+import { PlainObject } from "../../utils/utils.js";
+import { FormInputs } from "../../utils/validation.js";
 
-export interface RegisterProps {
+export interface RegisterProps extends Props {
 }
 
 export class Register extends Block<RegisterProps> {
 
     constructor(parentElement: HTMLElement, props: RegisterProps, children: Children = defaultChildren, tagName?: string) {
         super(parentElement, props, children, tagName);
+
+        (children.button.blockProps as ButtonProps).handleMethod = this.registerUser.bind(this);
+        getUserApi().then((data: PlainObject) => {
+            Router.__instance.go('/chat');
+        });
+    }
+
+    registerUser(inputs: FormInputs) {
+        const {data} = inputs;
+        this.childBlocks.button.setProps({isDisabled: true});
+        registerApi(data).then((data: PlainObject) => {
+            this.childBlocks.button.setProps({isDisabled: false});
+            if(!data.errorMsg) {
+                Router.__instance.go('/chat');
+            } else {
+                throw new Error(data.errorMsg as string);
+            }
+        }).catch(err => {
+            this.childBlocks.button.setProps({isDisabled: false});
+            handleError(err, this.childBlocks.login.childBlocks.error);
+        });
     }
 
     render(): string {
@@ -70,7 +94,7 @@ const defaultChildren = {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
-            validationType: 'login',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -105,6 +129,7 @@ const defaultChildren = {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -139,6 +164,7 @@ const defaultChildren = {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -173,6 +199,7 @@ const defaultChildren = {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'phone',
         },
         children: {
             label: {
@@ -201,12 +228,14 @@ const defaultChildren = {
         blockConstructor: Input,
         blockProps: {
             id: 'password',
+            name: 'password',
             type: 'password',
             placeholder: 'Пароль',
             hasText: true,
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -217,6 +246,16 @@ const defaultChildren = {
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
                     attrs: 'for="password"'
+                }
+            },
+            error: {
+                blockConstructor: Title,
+                blockProps: {
+                    text: '',
+                    size: 'small',
+                    theme: 'danger',
+                    stylesAfter: 'form__error-msg',
+                    isHidden: true,
                 }
             }
         }
@@ -232,6 +271,7 @@ const defaultChildren = {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'passwordConfirm',
         },
         children: {
             label: {
@@ -262,6 +302,7 @@ const defaultChildren = {
             text: 'Зарегистрироваться',
             type: 'submit',
             formMethod: 'POST',
+            isDisabled: false,
             hasText: true,
             size: 'small',
             theme: 'light',
@@ -272,7 +313,8 @@ const defaultChildren = {
     link: {
         blockConstructor: Link,
         blockProps: {
-            linkTo: 'login.html',
+            type: 'routeLink',
+            linkTo: 'login',
             text: 'Войти',
             size: 'small',
             theme: 'primary',

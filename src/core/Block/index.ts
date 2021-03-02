@@ -1,5 +1,5 @@
 import { EventBus, Listeners } from '../EventBus/index.js';
-import { createBlockDocumentElement, generateId, hide, isInDom, show } from '../../utils/dom.js';
+import { createBlockDocumentElement, hide, isInDom, show } from '../../utils/dom.js';
 
 
 enum EVENTS {
@@ -18,9 +18,13 @@ export interface Props {
     isHidden?: boolean,
 }
 
+export interface BlockClass {
+    new(parentElement: HTMLElement, props: Props, children?: Children)
+}
+
 export interface Children {
     [blockName: string]: {
-        blockConstructor: { new(parentElement: HTMLElement, props: unknown, children?: Children) },
+        blockConstructor: BlockClass,
         blockProps: unknown,
         children?: Children
     }
@@ -33,7 +37,6 @@ export interface ChildBlocks {
 // Стратегия монтирования: компоненту предоставляется parent: HTMLElement,
 // куда он должен монтировать себя сам
 export abstract class Block<TProps extends object> {
-    private readonly _element: HTMLElement;
     private readonly _domListeners: Listeners;
     private _parentElement: HTMLElement;
     private readonly eventBus: EventBus;
@@ -41,7 +44,7 @@ export abstract class Block<TProps extends object> {
     childBlocks: ChildBlocks;
     slots: { [blockName: string]: HTMLElement }
 
-    constructor(parentElement: HTMLElement, props?: TProps, children?: Children, tagName?: string) {
+    constructor(parentElement: HTMLElement, props: TProps, children?: Children, tagName?: string) {
         this.eventBus = new EventBus();
 
         this._parentElement = parentElement;
@@ -51,13 +54,13 @@ export abstract class Block<TProps extends object> {
         this._domListeners = {};
         if (children) {
             // создаем компоненты детей
-            Object.entries(children).forEach(([blockName, {blockConstructor, blockProps, children: subChildren}]) => {
+            for(let [blockName, {blockConstructor, blockProps, children: subChildren}] of Object.entries(children)) {
                 // Создаем слот-wrapper (пустой HTMLElement) для монтирования ребенка
                 this.slots[blockName] = createBlockDocumentElement(blockName, tagName);
 
                 // создаем компонент ребенка и сохраняем на него ссылку
-                this.childBlocks[blockName] = new blockConstructor(this.slots[blockName], blockProps, subChildren);
-            })
+                this.childBlocks[blockName] = new blockConstructor(this.slots[blockName], blockProps as TProps, subChildren);
+            }
         }
 
         this._registerEvents(this.eventBus);
@@ -103,7 +106,7 @@ export abstract class Block<TProps extends object> {
         return true;
     }
 
-    public setProps = (nextProps: object) => {
+    public setProps (nextProps: object) {
         if (!nextProps) {
             return;
         }
@@ -111,22 +114,54 @@ export abstract class Block<TProps extends object> {
         Object.assign(this.props, nextProps);
     };
 
-    reconnectWithDom() {
-        if (this._parentElement.dataset.blockId) {
+    reconnectBlockWithDom(block: Block<object>) {
+        if (block._parentElement.dataset.blockId) {
             // Ищем родителя в DOM
-            const parentFromDom: HTMLElement = document.querySelector(`[data-block-id="${this._parentElement.dataset.blockId}"]`);
-            if (parentFromDom && !isInDom(this._parentElement)) {
-                this.detachListenersFromElement(this._parentElement);
-                this._parentElement = parentFromDom;
-                this.attachListenersToElement(this._parentElement);
+            const parentFromDom: HTMLElement = document.querySelector(`[data-block-id="${block._parentElement.dataset.blockId}"]`);
+            if (parentFromDom && !isInDom(block._parentElement)) {
+                block.detachListenersFromElement(block._parentElement);
+                block._parentElement = parentFromDom;
+                block.attachListenersToElement(block._parentElement);
             }
         }
     }
 
+    reconnectChildrenSlotsWithDom() {
+        for(let [blockName, blockObj] of Object.entries(this.childBlocks)) {
+            this.reconnectBlockWithDom(blockObj);
+            this.slots[blockName] = blockObj._parentElement;
+        }
+    }
+
+    removeFromDom() {
+        if (this._parentElement.dataset.blockId) {
+            // Ищем родителя в DOM
+            const parentFromDom: HTMLElement = document.querySelector(`[data-block-id="${this._parentElement.dataset.blockId}"]`);
+            if (parentFromDom) {
+                this.detachListenersFromElement(this._parentElement);
+                parentFromDom.parentElement.removeChild(parentFromDom);
+            }
+        }
+    }
+
+    togglePopup(isShow: boolean, cssSelector: string) {
+        //TODO: заменить на блок Modal
+        const popupEl = document.querySelector(cssSelector) as HTMLElement;
+        popupEl.style.display = isShow ? 'block' : 'none';
+    }
+
+    public forceRender() {
+        this.eventBus.emit(EVENTS.FLOW_RENDER);
+    }
+
     private _render() {
-        this.reconnectWithDom();
+        this.reconnectBlockWithDom(this);
+        this.reconnectChildrenSlotsWithDom();
+        this.detachListenersFromElement(this._parentElement);
         this._parentElement.innerHTML = this.render();
-        this.reconnectWithDom();
+        this.attachListenersToElement(this._parentElement);
+        this.reconnectChildrenSlotsWithDom();
+        this.reconnectBlockWithDom(this);
         if (!this._parentElement.dataset.blockId) {
             // Ищем всех  компонент-детей в DOM
             const childBlocksFromDom: NodeListOf<HTMLElement> = document.querySelectorAll(`[data-block-id]`);
@@ -134,9 +169,9 @@ export abstract class Block<TProps extends object> {
         }
 
         if ((<Props>this.props).isHidden === true) {
-            this.hide();
-        } else if((<Props>this.props).isHidden === false){
-            this.show();
+            this.makeHtmlElementHidden();
+        } else if ((<Props>this.props).isHidden === false) {
+            this.makeHtmlElementVisible();
         }
     }
 
@@ -159,7 +194,7 @@ export abstract class Block<TProps extends object> {
     public abstract render(): string;
 
     public getContent(): HTMLElement {
-        return <HTMLElement>this._parentElement;//.children[0];
+        return <HTMLElement>this._parentElement;
     }
 
     private _makePropsProxy(props: TProps): TProps {
@@ -185,10 +220,18 @@ export abstract class Block<TProps extends object> {
     }
 
     public show() {
+        this.setProps({ isHidden: false });
+    }
+
+    private makeHtmlElementVisible() {
         show(this._parentElement);
     }
 
     public hide() {
+        this.setProps({ isHidden: true });
+    }
+
+    private makeHtmlElementHidden() {
         hide(this._parentElement);
     }
 
@@ -206,11 +249,12 @@ export abstract class Block<TProps extends object> {
 
     public addListener(parent: HTMLElement, event: keyof HTMLElementEventMap, callback: (any) => any, cssSelector) {
         const fn = eventName => {
-            if (!eventName.target.matches(cssSelector)) {
-                return;
+            if (eventName.target.matches(cssSelector)
+                || (cssSelector === 'a' && eventName.target.parentElement.matches(cssSelector))
+                || (cssSelector === 'a' && eventName.target.parentElement.parentElement.matches(cssSelector))
+            ) {
+                callback(eventName);
             }
-
-            callback(eventName);
         };
 
         parent.addEventListener(event, fn);
@@ -218,7 +262,7 @@ export abstract class Block<TProps extends object> {
         if (!this._domListeners[event]) {
             this._domListeners[event] = [];
         }
-        this._domListeners[event].push(fn);
+        this._domListeners[event].push(fn);// {el: parent, fn}
 
         return this;
     }

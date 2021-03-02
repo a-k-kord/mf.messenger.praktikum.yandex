@@ -1,3 +1,6 @@
+export declare type Listeners = {
+    [event: string]: Function[];
+};
 export declare class EventBus {
     private readonly listeners;
     constructor();

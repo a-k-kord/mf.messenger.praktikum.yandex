@@ -16,10 +16,9 @@ type="<%= it.props.type %>"
 <% } %>
 
 <% if(it.props.formMethod) { %>
-formmethod="<%= it.props.formMethod %>"
-onclick="preventSubmit(event); return false;"
-<% } %>
 
+<% } %>
+<%-= it.props.isDisabled? 'disabled' : '' %> 
 <%-= it.props.attrs ? it.props.attrs : '' %>
 >
 <%= it.props.text ? it.props.text : '' %>

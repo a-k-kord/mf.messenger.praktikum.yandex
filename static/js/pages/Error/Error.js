@@ -25,10 +25,13 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
+import { Title } from "../../components/Title";
+import { Link } from "../../components/Link";
 var Error = (function (_super) {
     __extends(Error, _super);
-    function Error() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Error(parentElement, props, children, tagName) {
+        if (children === void 0) { children = defaultChildren; }
+        return _super.call(this, parentElement, props, children, tagName) || this;
     }
     Error.prototype.render = function () {
         return compileTemplate(template, {
@@ -39,3 +42,30 @@ var Error = (function (_super) {
     return Error;
 }(Block));
 export { Error };
+var propsHolder = document.querySelector("[data-page=\"Error\"]");
+var defaultChildren = {
+    errNum: {
+        blockConstructor: Title,
+        blockProps: {
+            stylesBefore: 'error__number',
+            text: propsHolder.dataset.errNum,
+            size: 'big',
+        }
+    },
+    errMessage: {
+        blockConstructor: Title,
+        blockProps: {
+            stylesBefore: 'error__msg',
+            text: propsHolder.dataset.errMessage,
+        }
+    },
+    linkBack: {
+        blockConstructor: Link,
+        blockProps: {
+            linkTo: 'chat.html',
+            text: 'Назад к чатам',
+            size: 'small',
+            theme: 'primary'
+        }
+    }
+};

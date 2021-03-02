@@ -6,19 +6,10 @@
     left: 0;
     background-color: rgba($color-black, .8);
     z-index: 9999;
-    opacity: 0;
-    visibility: hidden;
-    // TODO: transition: all 0.2s ;
 
     &__inner {
-        // width: 25%;
         background-color: $color-white;
         box-shadow: 0 2rem 4rem rgba($color-black, .2);
-        display: none;
-        overflow: hidden;
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(.25);
-        // TODO: transition: all 0.2s ;
     }
 
     //Open states

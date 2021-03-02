@@ -1,10 +1,74 @@
-import { Register } from './Register.js';
-import { Input } from '../../components/Input/index.js';
-import { Title } from '../../components/Title/index.js';
-import { Button } from '../../components/Button/index.js';
-import { Link } from '../../components/Link/index.js';
-var root = document.querySelector('#app');
-var register = new Register(root, {}, {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block } from '../../core/Block/index.js';
+import { Input } from "../../components/Input/index.js";
+import { Title } from "../../components/Title/index.js";
+import { Button } from "../../components/Button/index.js";
+import { Link } from "../../components/Link/index.js";
+import { getUserApi, handleError, registerApi } from "../../utils/api.js";
+import { Router } from "../../core/Router/index.js";
+var Register = (function (_super) {
+    __extends(Register, _super);
+    function Register(parentElement, props, children, tagName) {
+        if (children === void 0) { children = defaultChildren; }
+        var _this = _super.call(this, parentElement, props, children, tagName) || this;
+        children.button.blockProps.handleMethod = _this.registerUser.bind(_this);
+        getUserApi().then(function (data) {
+            Router.__instance.go('/chat');
+        });
+        return _this;
+    }
+    Register.prototype.registerUser = function (inputs) {
+        var _this = this;
+        var data = inputs.data;
+        this.childBlocks.button.setProps({ isDisabled: true });
+        registerApi(data).then(function (data) {
+            _this.childBlocks.button.setProps({ isDisabled: false });
+            if (!data.errorMsg) {
+                Router.__instance.go('/chat');
+            }
+            else {
+                throw new Error(data.errorMsg);
+            }
+        }).catch(function (err) {
+            _this.childBlocks.button.setProps({ isDisabled: false });
+            handleError(err, _this.childBlocks.login.childBlocks.error);
+        });
+    };
+    Register.prototype.render = function () {
+        return compileTemplate(template, {
+            props: __assign({}, this.props),
+            slots: __assign({}, this.slots)
+        });
+    };
+    return Register;
+}(Block));
+export { Register };
+var defaultChildren = {
     email: {
         blockConstructor: Input,
         blockProps: {
@@ -50,7 +114,7 @@ var register = new Register(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
-            validationType: 'login',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -85,6 +149,7 @@ var register = new Register(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -119,6 +184,7 @@ var register = new Register(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -153,6 +219,7 @@ var register = new Register(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'phone',
         },
         children: {
             label: {
@@ -181,12 +248,14 @@ var register = new Register(root, {}, {
         blockConstructor: Input,
         blockProps: {
             id: 'password',
+            name: 'password',
             type: 'password',
             placeholder: 'Пароль',
             hasText: true,
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'limitedString',
         },
         children: {
             label: {
@@ -197,6 +266,16 @@ var register = new Register(root, {}, {
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
                     attrs: 'for="password"'
+                }
+            },
+            error: {
+                blockConstructor: Title,
+                blockProps: {
+                    text: '',
+                    size: 'small',
+                    theme: 'danger',
+                    stylesAfter: 'form__error-msg',
+                    isHidden: true,
                 }
             }
         }
@@ -212,6 +291,7 @@ var register = new Register(root, {}, {
             size: 'small',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__item form__item--big',
+            validationType: 'passwordConfirm',
         },
         children: {
             label: {
@@ -242,6 +322,7 @@ var register = new Register(root, {}, {
             text: 'Зарегистрироваться',
             type: 'submit',
             formMethod: 'POST',
+            isDisabled: false,
             hasText: true,
             size: 'small',
             theme: 'light',
@@ -252,11 +333,12 @@ var register = new Register(root, {}, {
     link: {
         blockConstructor: Link,
         blockProps: {
-            linkTo: 'login.html',
+            type: 'routeLink',
+            linkTo: 'login',
             text: 'Войти',
             size: 'small',
             theme: 'primary',
             wrapperStyles: 'form__link',
         }
     }
-});
+};

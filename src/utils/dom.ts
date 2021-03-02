@@ -11,7 +11,7 @@ export const generateId = (): string => {
 }
 
 export const isInDom = (node: HTMLElement): boolean => {
-    return !!node.parentElement;
+    return !!node.closest('body');
 }
 
 export const createBlockDocumentElement = (blockName: string, tagName: string = 'div'): HTMLElement => {
@@ -75,13 +75,13 @@ export const sanitizeHTML = (html: string): string => {
 }
 
 export const hide = (el: HTMLElement): void => {
-    if (!el.style.display || el.style.display === 'block') {
+    if (!el.style.display || el.style.display === 'contents') {
         applyStyles(el, { display: 'none' })
     }
 }
 
 export const show = (el: HTMLElement): void => {
     if (!el.style.display || el.style.display === 'none') {
-        applyStyles(el, { display: 'block' })
+        applyStyles(el, { display: 'contents' })
     }
 }

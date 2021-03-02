@@ -1,12 +1,26 @@
 export default `
+
 <main class="dialogs">
     <div class="dialogs__wrap">
         <div class="dialogs__aside-panel">
-            <nav class="profile-link">
-                <a class="link text text--size--small text--align--right text--theme--label icon-arrow-right"
-                   href="profile.html">Профиль
-                </a>
-            </nav>
+            <div class="dialogs__menu-panel">
+                <div class="dropdown ">
+                    <button class="button dropdown__toggle dropdown__toggle--with-round-background">
+                        <svg class="dropdown__icon  dropdown__icon--small" width="100%" height="100%" viewBox="0 0 3 16"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="1.5" cy="2" r="1.5" />
+                            <circle cx="1.5" cy="8" r="1.5" />
+                            <circle cx="1.5" cy="14" r="1.5" />
+                        </svg>
+                    </button>
+                    <ul class="dropdown__list">
+                        <li class="dropdown__item-wrap">
+                            <%~ it.slots.linkShowAddChatPopup.outerHTML %>
+                        </li>
+                    </ul>
+                </div>
+                <%~ it.slots.linkToProfile.outerHTML %>
+            </div>
             <div class="search dialogs__search">
                 <input class="search__input" type="text" placeholder="Поиск">
                 <i class="fa fa-search input__icon"></i>
@@ -14,25 +28,30 @@ export default `
             <div class="scroller-wrap">
                 <div class="scroller">
                     <ul class="chat-list__items">
-                        <% for(let i=0; i<20; i++) {%>
-                        <li class="chat-item">
-                            <a class="chat-item__inner">
+                    <% const handleSelectChatItem = it.props.handleSelectChatItem %>
+                        <% if(typeof it.props.chats === 'object') {
+                            for(let [id, {title, unreadCount}] of Object.entries(it.props.chats)) {%>
+                        <li class="chat-item <%= it.props.selectedChatItemId == id ? 'chat-item--selected' : '' %>"  >
+                            <a class="chat-item__inner" data-chat-item-id="<%= id %>">
                                 <div class="avatar chat-item__avatar">
                                     <div class="avatar__image">
                                         <img class="image" src="img/avatar_placeholder.svg" alt="Avatar">
                                     </div>
                                 </div>
                                 <div class="chat-item__msg-wrap">
-                                    <div class="chat-item__name text text--size--small text--weight--bold"><%= it.props.mockData.userName %></div>
+                                    <div class="chat-item__name text text--size--small text--weight--bold"><%= title %></div>
                                     <div class="chat-item__msg text text--size--smaller text--theme--label"><%= it.props.mockData.message %></div>
                                 </div>
                                 <span class="chat-item__date text text--size--tiny text--theme--label"><%= it.props.mockData.messageDate %></span>
+                                <% if(unreadCount) { %>
                                 <div class="chat-item__badge ">
-                                    <div class="chat-item__counter text text--size--smaller text--theme--label box box--center"><%= it.props.mockData.unreadCounter %></div>
+                                    <div class="chat-item__counter text text--size--smaller text--theme--label box box--center"><%= unreadCount || '' %></div>
                                 </div>
+                                <% } %>
                             </a>
                         </li>
-                        <% } %>
+                        <% }
+                        } %>
                         
                     </ul>
                 </div>
@@ -40,6 +59,7 @@ export default `
         </div>
     </div>
     <div class="chat-content dialogs__chat-content">
+        <% if(it.props.selectedChatItemId) { %>
         <div class="chat-content__header">
             <div class="chat-content__avatar-wrap">
                 <div class="avatar chat-content__avatar">
@@ -48,7 +68,13 @@ export default `
                     </div>
                 </div>
             </div>
-            <div class="text text--align--left text--size--small text--weight--bold avatar__title"><%= it.props.mockData.userName %></div>
+            <div class="text text--align--left text--size--small text--weight--bold avatar__title">
+                <%= it.props.chats && it.props.selectedChatItemId ? it.props.chats[it.props.selectedChatItemId]?.title : ''%>
+            </div>
+            <div class="text text--size--small text--theme--label">
+                Пользователей: 
+            </div>
+            <%~ it.slots.chatUsersCountLabel.outerHTML %>
             <div class="dropdown">
                 <button class="button dropdown__toggle dropdown__toggle--with-round-background">
                     <svg class="dropdown__icon  dropdown__icon--small" width="100%" height="100%" viewBox="0 0 3 16"
@@ -60,25 +86,13 @@ export default `
                 </button>
                 <ul class="dropdown__list dropdown__list--down-left">
                     <li class="dropdown__item-wrap">
-                        <a class="dropdown__item" href="#add-user-popup">
-                            <img class="image dropdown__image box box--round-border--circle" src="img/plus.svg"
-                                 alt="Add member to chat">
-                            <span class="text text--size--small">Добавить пользователя</span>
-                        </a>
+                        <%~ it.slots.linkShowAddUserPopup.outerHTML %>
                     </li>
                     <li class="dropdown__item-wrap">
-                        <a class="dropdown__item" href="#remove-user-popup">
-                            <img class="image dropdown__image box box--round-border--circle" src="img/close.svg"
-                                 alt="Delete member from chat">
-                            <span class="text text--size--small">Удалить пользователя</span>
-                        </a>
+                        <%~ it.slots.linkShowRemoveUserPopup.outerHTML %>
                     </li>
                     <li class="dropdown__item-wrap">
-                        <a class="dropdown__item" href="#remove-chat-popup">
-                            <img class="image dropdown__image box box--round-border--circle" src="img/close.svg"
-                                 alt="Delete member from chat">
-                            <span class="text text--size--small text--theme--danger">Удалить чат</span>
-                        </a>
+                        <%~ it.slots.linkShowRemoveChatPopup.outerHTML %>
                     </li>
                 </ul>
             </div>
@@ -191,35 +205,48 @@ export default `
                 <%~ it.slots.buttonSend.outerHTML %>
             </form>
         </div>
-        <div class="chat-content__default">Выберите чат чтобы отправить сообщение</div>
+        <% } else {%>
+        <div class="chat-content__default box box--center">Выберите чат чтобы отправить сообщение</div>
+        <% } %>
     </div>
 </main>
 
-<div class="popup" id="add-user-popup">
-    <a href="#" class="popup__close">&times;</a>
+<div  class="popup" style="display:none" id="add-chat-popup">
+    <%~ it.slots.linkCloseAddChatPopup.outerHTML %>
     <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
-        <h1 class="form__title text text--align--center">Добавить пользователя</h1>
+        <h1 class="form__title text text--align--center">Добавить чат</h1>
         <div class="form__content">
-           <%~ it.slots.login.outerHTML %>
+           <%~ it.slots.addChatTitle.outerHTML %>
         </div>
-        <%~ it.slots.buttonAdd.outerHTML %>
+        <%~ it.slots.buttonAddChat.outerHTML %>
     </form>
 </div>
 
-<div class="popup" id="remove-user-popup">
-    <a href="#" class="popup__close">&times;</a>
+<div  class="popup" style="display:none" id="add-user-popup">
+    <%~ it.slots.linkCloseAddUserPopup.outerHTML %>
+    <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
+        <h1 class="form__title text text--align--center">Добавить пользователя</h1>
+        <div class="form__content">
+           <%~ it.slots.addLogin.outerHTML %>
+        </div>
+        <%~ it.slots.buttonAddUser.outerHTML %>
+    </form>
+</div>
+
+<div  class="popup" style="display:none" id="remove-user-popup">
+    <%~ it.slots.linkCloseRemoveUserPopup.outerHTML %>
     <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
         <h1 class="form__title text text--align--center">Удалить пользователя</h1>
         <div class="form__content">
-            <%~ it.slots.login.outerHTML %>
+            <%~ it.slots.removeLogin.outerHTML %>
             
         </div>
         <%~ it.slots.buttonRemoveUser.outerHTML %>
     </form>
 </div>
 
-<div class="popup" id="remove-chat-popup">
-    <a href="#" class="popup__close">&times;</a>
+<div  class="popup" style="display:none" id="remove-chat-popup">
+    <%~ it.slots.linkCloseRemoveChatPopup.outerHTML %>
     <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
         <h1 class="form__title text text--align--center">Удалить чат</h1>
         <div class="form__content">
@@ -229,9 +256,6 @@ export default `
             </div>
         </div>
         <%~ it.slots.buttonRemoveChat.outerHTML %>
-        <div class="form__link">
-            <a class="link text--size--small text--theme--primary" href="#">Отмена</a>
-        </div>
     </form>
 </div>
 

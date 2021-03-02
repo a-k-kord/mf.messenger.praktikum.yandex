@@ -25,22 +25,11 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
-import { inputsToggleReadonly } from '../Link/index.js';
 var Button = (function (_super) {
     __extends(Button, _super);
     function Button(parentElement, props, children) {
         var _this = _super.call(this, parentElement, props, children) || this;
-        if (props.type === 'submit') {
-            var handler = function () { };
-            switch (props.onclick) {
-                case 'toggleReadonly':
-                    handler = inputsToggleReadonly;
-                    break;
-                case 'submit':
-                default: handler = validateForm;
-            }
-            _this.addListener(_this.getContent(), 'submit', handler.bind(_this), 'form');
-        }
+        _this.addListener(_this.getContent(), 'click', handleSubmit.bind(_this), 'button[type="submit"]');
         return _this;
     }
     Button.prototype.render = function () {
@@ -52,18 +41,39 @@ var Button = (function (_super) {
     return Button;
 }(Block));
 export { Button };
-function validateForm(event) {
+function handleSubmit(event) {
     event.preventDefault();
+    var data = validateForm(event);
+    if (data.isValid && typeof this.props.handleMethod === 'function') {
+        this.props.handleMethod(data);
+    }
+}
+function validateForm(event) {
+    var isValid = true;
     var obj = {};
     var form = event.target.closest('form');
-    var inputs = form.querySelectorAll('input');
+    var inputs = form.querySelectorAll('[data-block-name]:not([style*="none"]) > div > input');
+    var errorInputs = [];
     inputs.forEach(function (input) {
-        var event = new Event('blur', {
-            bubbles: true,
-            cancelable: true,
-        });
-        input.dispatchEvent(event);
-        obj[input.id] = input.value;
+        var inputWrapper = input.closest('.block-wrapper');
+        if (!inputWrapper.style.display || inputWrapper.style.display !== 'none') {
+            var event_1 = new Event('blur', {
+                bubbles: true,
+                cancelable: true,
+            });
+            input.dispatchEvent(event_1);
+            obj[input.name] = input.value;
+            var errorBlock = inputWrapper.querySelector('[data-block-name="error"]');
+            if (errorBlock.style.display !== 'none') {
+                isValid = false;
+                errorInputs.push(input);
+            }
+        }
     });
-    console.log(obj);
+    return {
+        data: obj,
+        form: form,
+        errorInputs: errorInputs,
+        isValid: isValid
+    };
 }

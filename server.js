@@ -12,11 +12,20 @@ const app = express()
 
 const PORT = 4000
 
-app.get('/', function(req, res) {
-    res.redirect("login.html");
-});
-
 app.use(express.static(__dirname + '/static'))
+
+const handler =  (req, res) => {
+    res.sendFile(__dirname + '/static/index.html');
+}
+
+app.get('/', handler)
+   .get('/login*', handler)
+   .get('/register*', handler)
+   .get('/chat*', handler)
+   .get('/error*', handler)
+   .get('/profile*', handler)
+    .get('/*', handler);
+
 
 app.listen(PORT, function() {
     console.log(`Example app listening in port ${PORT}! ${__dirname}`)

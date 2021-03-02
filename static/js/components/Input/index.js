@@ -25,9 +25,12 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
-var ValidationMethods = {
-    login: validateLogin,
+import { validateEmail, validatePasswordConfirm, validatePhone, validateLimitedString } from "../../utils/validation.js";
+export var ValidationMethods = {
+    limitedString: validateLimitedString,
     email: validateEmail,
+    passwordConfirm: validatePasswordConfirm,
+    phone: validatePhone
 };
 var Input = (function (_super) {
     __extends(Input, _super);
@@ -36,6 +39,9 @@ var Input = (function (_super) {
         if (props.validationType) {
             _this.addListener(_this.getContent(), 'blur', ValidationMethods[props.validationType].bind(_this), 'input');
             _this.addListener(_this.getContent(), 'focus', ValidationMethods[props.validationType].bind(_this), 'input');
+        }
+        if (props.type === 'file') {
+            _this.addListener(_this.getContent(), 'change', setUploadedFileName.bind(_this), 'input[type="file"]');
         }
         return _this;
     }
@@ -48,31 +54,20 @@ var Input = (function (_super) {
     return Input;
 }(Block));
 export { Input };
-function validateLogin(event) {
+function setUploadedFileName(event) {
     var input = event.target;
-    if (!input.value.length) {
-        this.childBlocks.error.setProps({ text: 'Необходимо заполнить', isHidden: false });
+    var filename = input.value.split('\\').pop();
+    var labelEl = document.querySelector('.uploaded__file-name');
+    var errorEl = document.querySelector('.uploaded__error');
+    if (filename) {
+        labelEl.textContent = filename;
+        labelEl.hidden = false;
+        input.parentElement.style.display = 'none';
+        errorEl.hidden = true;
     }
     else {
-        if (input.value.length < 15) {
-            this.childBlocks.error.setProps({ text: '', isHidden: true });
-        }
-        else {
-            this.childBlocks.error.setProps({ text: 'Слишком длинный логин', isHidden: false });
-        }
-    }
-}
-function validateEmail(event) {
-    var input = event.target;
-    if (!input.value.length) {
-        this.childBlocks.error.setProps({ text: 'Необходимо заполнить', isHidden: false });
-    }
-    else {
-        if (/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(input.value)) {
-            this.childBlocks.error.setProps({ text: '', isHidden: true });
-        }
-        else {
-            this.childBlocks.error.setProps({ text: 'Не валидный формат почты', isHidden: false });
-        }
+        labelEl.hidden = true;
+        errorEl.hidden = false;
+        input.parentElement.style.display = 'block';
     }
 }

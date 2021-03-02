@@ -1,8 +1,8 @@
 export declare const mockChatData: {
     userName: string;
+    unreadCount: number;
     message: string;
     messageDate: string;
-    unreadCounter: number;
     mes1: string;
     mes2: string;
     mes3: string;

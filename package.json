@@ -10,11 +10,7 @@
     "compile:scss": "node-sass static/scss/main.scss static/css/style.css",
     "watch:scss": "node-sass static/scss/*.scss static/css/style.css -w",
     "copy:assets": "cp -r static/* dist",
-    "build": "./node_modules/.bin/tsc --project ./tsconfig.json --watch",
-    "check-types": "tsc",
-    "compile": "babel src -d static/js --extensions '.ts,.tsx'",
-    "prepublish": "npm run check-types && npm run compile",
-    "test": "./node_modules/.bin/mocha"
+    "build": "./node_modules/.bin/tsc --project ./tsconfig.json --watch"
   },
   "directories": {
     "src": "./src",

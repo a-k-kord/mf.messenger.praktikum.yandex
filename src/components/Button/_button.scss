@@ -16,4 +16,8 @@
     &:focus {
         outline: none;
     }
+
+    &:disabled {
+        background: lighten($color-primary, 20%);
+    }
 }

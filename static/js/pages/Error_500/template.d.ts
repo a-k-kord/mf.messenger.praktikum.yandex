@@ -1,2 +1,0 @@
-declare const _default: "\n<main class=\"error\">\n    <div class=\"error__inner\">\n        <div class=\"error__number text text--size--big\"><%= it.props.errNum %></div>\n        <div class=\"error__msg text\"><%= it.props.errMessage %></div>\n        <div data-block-id=\"3263849d44f28e94\" data-block-name=\"Block\"></div>\n        <%~ it.slots.link.outerHTML %>\n    </div>\n</main>\n";
-export default _default;

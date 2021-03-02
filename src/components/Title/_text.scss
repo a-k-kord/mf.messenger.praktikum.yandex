@@ -45,6 +45,10 @@
         color: $color-grey;
     }
 
+    &--theme--grey {
+        color: darken($color-grey, 30%);
+    }
+
     &--theme--primary {
         color: $color-primary;
     }

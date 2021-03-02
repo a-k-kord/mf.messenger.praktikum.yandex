@@ -11,7 +11,15 @@
     flex-direction: column;
   }
 
+  &__menu-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 15px;
+  }
+
   &__chat-content {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -51,7 +59,8 @@
   }
 
   &__default {
-    display: none;
+    font-size: 1.5rem;
+    color: $color-grey;
   }
 
   &__avatar-wrap {
@@ -62,6 +71,10 @@
     width: 3.4rem;
     height: 3.4rem;
   }
+}
+
+.users-count {
+  margin: 0 15px 0 5px;
 }
 
 .profile-link {

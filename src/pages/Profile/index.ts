@@ -1,12 +1,30 @@
-import { Profile } from './Profile.js';
-import { Input } from '../../components/Input/index.js';
-import { Title } from '../../components/Title/index.js';
-import { Link } from '../../components/Link/index.js';
-import { Button } from '../../components/Button/index.js';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block, Children } from '../../core/Block/index.js';
+import { LoginProps } from "../Login/Login";
+import { Link } from "../../components/Link";
+import { Input } from "../../components/Input";
+import { Title } from "../../components/Title";
+import { Button } from "../../components/Button";
 
-const root: HTMLElement = document.querySelector('#app');
+export interface ProfileProps {
+}
 
-const profile = new Profile(root, {}, {
+export class Profile extends Block<ProfileProps> {
+
+    constructor(parentElement: HTMLElement, props: ProfileProps, children: Children = defaultChildren, tagName?: string) {
+        super(parentElement, props, children, tagName);
+    }
+
+    render(): string {
+        return compileTemplate<ProfileProps>(template, {
+            props: {...this.props},
+            slots: {...this.slots}
+        });
+    }
+}
+
+const defaultChildren = {
     linkBack: {
         blockConstructor: Link,
         blockProps: {
@@ -416,4 +434,4 @@ const profile = new Profile(root, {}, {
             isHidden: true
         }
     },
-});
+}

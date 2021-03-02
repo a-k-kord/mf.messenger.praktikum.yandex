@@ -1,11 +1,29 @@
-import { Chat } from './Chat.js';
-import { Button } from '../../components/Button/index.js';
-import { Input } from '../../components/Input/index.js';
-import { Title } from '../../components/Title/index.js';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { mockChatData } from '../../mockData/Chat.js';
+import { Block, Children } from '../../core/Block/index.js';
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
+import { Title } from "../../components/Title";
 
-const root: HTMLElement = document.querySelector('#app');
+export interface ChatProps {
+}
 
-const chat = new Chat(root, {}, {
+export class Chat extends Block<ChatProps> {
+
+    constructor(parentElement: HTMLElement, props: ChatProps, children: Children = defaultChildren, tagName?: string) {
+        super(parentElement, props, children, tagName);
+    }
+    
+    render(): string {
+        return compileTemplate<ChatProps>(template, {
+            props: {...this.props, mockData: mockChatData},
+            slots: {...this.slots}
+        });
+    }
+}
+
+const defaultChildren = {
     buttonAdd: {
         blockConstructor: Button,
         blockProps: {
@@ -96,4 +114,4 @@ const chat = new Chat(root, {}, {
         }
     },
 
-});
+};

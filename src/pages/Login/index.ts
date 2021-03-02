@@ -1,12 +1,15 @@
-import { Login } from './Login.js';
-import { Input } from '../../components/Input/index.js';
-import { Title } from '../../components/Title/index.js';
-import { Button } from '../../components/Button/index.js';
-import { Link } from '../../components/Link/index.js';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block, Children } from '../../core/Block/index.js';
+import { Input } from "../../components/Input/index.js";
+import { Title } from "../../components/Title/index.js";
+import { Button } from "../../components/Button/index.js";
+import { Link } from "../../components/Link/index.js";
 
-const root: HTMLElement = document.querySelector('#app');
+export interface LoginProps{
+}
 
-const login = new Login(root, {}, {
+const defaultChildren = {
     login: {
         blockConstructor: Input,
         blockProps: {
@@ -101,4 +104,18 @@ const login = new Login(root, {}, {
             wrapperStyles: 'form__link',
         }
     }
-});
+};
+
+export class Login extends Block<LoginProps> {
+
+    constructor(parentElement: HTMLElement, props: LoginProps, children: Children = defaultChildren, tagName?: string) {
+        super(parentElement, props, children, tagName);
+    }
+
+    render(): string {
+        return compileTemplate<LoginProps>(template, {
+            props: {...this.props},
+            slots: {...this.slots}
+        });
+    }
+}

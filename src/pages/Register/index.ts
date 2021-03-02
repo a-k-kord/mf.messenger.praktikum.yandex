@@ -1,12 +1,30 @@
-import { Register } from './Register.js';
-import { Input } from '../../components/Input/index.js';
-import { Title } from '../../components/Title/index.js';
-import { Button } from '../../components/Button/index.js';
-import { Link } from '../../components/Link/index.js';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block, Children } from '../../core/Block/index.js';
+import { LoginProps } from "../Login/Login";
+import { Input } from "../../components/Input";
+import { Title } from "../../components/Title";
+import { Button } from "../../components/Button";
+import { Link } from "../../components/Link";
 
-const root: HTMLElement = document.querySelector('#app');
+export interface RegisterProps {
+}
 
-const register = new Register(root, {}, {
+export class Register extends Block<RegisterProps> {
+
+    constructor(parentElement: HTMLElement, props: RegisterProps, children: Children = defaultChildren, tagName?: string) {
+        super(parentElement, props, children, tagName);
+    }
+
+    render(): string {
+        return compileTemplate<RegisterProps>(template, {
+            props: {...this.props},
+            slots: {...this.slots}
+        });
+    }
+}
+
+const defaultChildren = {
     email: {
         blockConstructor: Input,
         blockProps: {
@@ -261,4 +279,4 @@ const register = new Register(root, {}, {
             wrapperStyles: 'form__link',
         }
     }
-});
+};

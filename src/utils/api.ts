@@ -90,10 +90,10 @@ export function addChatApi(chatData: ChatApiData) {
 }
 
 export function removeChatApi(chatData: ChatApiData) {
-    const { formInputs: data } = chatData;
+    const { chatId } = chatData;
     return (new HTTPTransport()).delete(`${serverHost}/api/v2/chats`, {
         withCredentials: true,
-        data
+        data: { chatId }
     });
 }
 

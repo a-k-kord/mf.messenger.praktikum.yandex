@@ -78,6 +78,8 @@ var Chat = (function (_super) {
             },
             callbackWithResponse: function (responseData) {
                 _this.togglePopup(false, removeChatSelector);
+                _this.setProps({ selectedChatItemId: undefined });
+                _this.getChatsFromServer();
             }
         });
         var addUserSelector = '#add-user-popup';
@@ -95,7 +97,6 @@ var Chat = (function (_super) {
             callbackWithResponse: function (responseData) {
                 if (!responseData.errorMsg) {
                     _this.togglePopup(false, addUserSelector);
-                    _this.childBlocks.chatUsersCountLabel.forceRender();
                     var usersCount = _this.childBlocks.chatUsersCountLabel.props.text;
                     _this.childBlocks.chatUsersCountLabel.setProps({ text: parseInt(usersCount) + 1 });
                 }

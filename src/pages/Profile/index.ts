@@ -69,7 +69,7 @@ export class Profile extends Block<ProfileProps> {
                 throw new Error(data.errorMsg as string);
             }
         }).catch(err => {
-            handleError(err);
+            handleError({errorMsg: err.message});
         });
     }
 
@@ -123,7 +123,7 @@ export class Profile extends Block<ProfileProps> {
             })
             .catch(err => {
                 this.childBlocks.buttonSavePassword.setProps({isDisabled: false});
-                handleError(err);
+                handleError({errorMsg: err.message});
             });
     }
 
@@ -142,7 +142,7 @@ export class Profile extends Block<ProfileProps> {
             }
         }).catch(err => {
             this.childBlocks.buttonChangeAvatar.setProps({isDisabled: false});
-            handleError(err);
+            handleError({errorMsg: err.message});
         });
     }
 
@@ -159,7 +159,7 @@ export class Profile extends Block<ProfileProps> {
             }
         }).catch(err => {
             this.childBlocks.buttonSave.setProps({isDisabled: false});
-            handleError(err);
+            handleError({errorMsg: err.message});
         });
     }
 

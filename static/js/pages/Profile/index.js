@@ -76,7 +76,7 @@ var Profile = (function (_super) {
                 throw new Error(data.errorMsg);
             }
         }).catch(function (err) {
-            handleError(err);
+            handleError({ errorMsg: err.message });
         });
     };
     Profile.prototype.hideErrors = function (form) {
@@ -128,7 +128,7 @@ var Profile = (function (_super) {
         })
             .catch(function (err) {
             _this.childBlocks.buttonSavePassword.setProps({ isDisabled: false });
-            handleError(err);
+            handleError({ errorMsg: err.message });
         });
     };
     Profile.prototype.saveAvatar = function (inputs) {
@@ -149,7 +149,7 @@ var Profile = (function (_super) {
             }
         }).catch(function (err) {
             _this.childBlocks.buttonChangeAvatar.setProps({ isDisabled: false });
-            handleError(err);
+            handleError({ errorMsg: err.message });
         });
     };
     Profile.prototype.saveProfile = function (inputs) {
@@ -167,7 +167,7 @@ var Profile = (function (_super) {
             }
         }).catch(function (err) {
             _this.childBlocks.buttonSave.setProps({ isDisabled: false });
-            handleError(err);
+            handleError({ errorMsg: err.message });
         });
     };
     Profile.prototype.show = function () {

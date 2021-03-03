@@ -38,7 +38,7 @@ export class Login extends Block<LoginProps> {
             }
         }).catch(err => {
             this.childBlocks.button.setProps({isDisabled: false});
-            handleError(err, this.childBlocks.login.childBlocks.error);
+            handleError({errorMsg: err.message}, this.childBlocks.login.childBlocks.error);
         });
     }
 

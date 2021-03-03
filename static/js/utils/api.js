@@ -82,10 +82,10 @@ export function addChatApi(chatData) {
     });
 }
 export function removeChatApi(chatData) {
-    var data = chatData.formInputs;
+    var chatId = chatData.chatId;
     return (new HTTPTransport()).delete(serverHost + "/api/v2/chats", {
         withCredentials: true,
-        data: data
+        data: { chatId: chatId }
     });
 }
 export function addUsersToChatApi(chatData) {

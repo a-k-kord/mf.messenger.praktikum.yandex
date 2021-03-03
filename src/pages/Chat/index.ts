@@ -80,6 +80,8 @@ export class Chat extends Block<ChatProps> {
             },
             callbackWithResponse: (responseData: PlainObject) => {
                 this.togglePopup(false, removeChatSelector);
+                this.setProps({ selectedChatItemId: undefined });
+                this.getChatsFromServer();
             }
         });
 
@@ -98,7 +100,6 @@ export class Chat extends Block<ChatProps> {
             callbackWithResponse: (responseData: PlainObject) => {
                 if(!responseData.errorMsg) {
                     this.togglePopup(false, addUserSelector);
-                    this.childBlocks.chatUsersCountLabel.forceRender();
                     const { text: usersCount } = (this.childBlocks.chatUsersCountLabel as Title).props;
                     this.childBlocks.chatUsersCountLabel.setProps({text: parseInt(usersCount) + 1});
                 } else {

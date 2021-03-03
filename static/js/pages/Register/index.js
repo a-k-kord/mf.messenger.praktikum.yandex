@@ -38,7 +38,9 @@ var Register = (function (_super) {
         var _this = _super.call(this, parentElement, props, children, tagName) || this;
         children.button.blockProps.handleMethod = _this.registerUser.bind(_this);
         getUserApi().then(function (data) {
-            Router.__instance.go('/chat');
+            if (!data.errorMsg) {
+                Router.__instance.go('/chat');
+            }
         });
         return _this;
     }
@@ -56,7 +58,7 @@ var Register = (function (_super) {
             }
         }).catch(function (err) {
             _this.childBlocks.button.setProps({ isDisabled: false });
-            handleError(err, _this.childBlocks.login.childBlocks.error);
+            handleError({ errorMsg: err.message }, _this.childBlocks.email.childBlocks.error);
         });
     };
     Register.prototype.render = function () {

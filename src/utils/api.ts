@@ -151,13 +151,13 @@ export function handleApiResponse<TDataType>(xhr: XMLHttpRequest): TDataType {
             result = toJson(response);
             break;
         case 401:
-            if(location.pathname !== '/login') {
+            if(location.pathname !== '/login' && location.pathname !== '/register') {
                 Router.__instance.go('/login');
             }
-            result = {errorMsg: getErrorMsg(response)};
+            result = getErrorMsg(response);
             break;
         default://(errors: 400, 500)
-            result = {errorMsg: getErrorMsg(response)};
+            result = getErrorMsg(response);
     }
     return result;
 }

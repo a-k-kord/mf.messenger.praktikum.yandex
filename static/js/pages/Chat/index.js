@@ -149,7 +149,7 @@ var Chat = (function (_super) {
             }
         }).catch(function (err) {
             afterApiMethodCall();
-            handleError(err);
+            handleError({ errorMsg: err.message });
         });
     };
     Chat.prototype.getChatsFromServer = function () {

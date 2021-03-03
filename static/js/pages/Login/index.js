@@ -58,7 +58,7 @@ var Login = (function (_super) {
             }
         }).catch(function (err) {
             _this.childBlocks.button.setProps({ isDisabled: false });
-            handleError(err, _this.childBlocks.login.childBlocks.error);
+            handleError({ errorMsg: err.message }, _this.childBlocks.login.childBlocks.error);
         });
     };
     Login.prototype.render = function () {

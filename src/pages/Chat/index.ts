@@ -152,7 +152,7 @@ export class Chat extends Block<ChatProps> {
             }
         }).catch(err => {
             afterApiMethodCall();
-            handleError(err);
+            handleError({errorMsg: err.message});
         });
     }
 

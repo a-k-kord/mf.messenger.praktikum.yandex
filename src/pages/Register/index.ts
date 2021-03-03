@@ -20,7 +20,9 @@ export class Register extends Block<RegisterProps> {
 
         (children.button.blockProps as ButtonProps).handleMethod = this.registerUser.bind(this);
         getUserApi().then((data: PlainObject) => {
-            Router.__instance.go('/chat');
+            if(!data.errorMsg) {
+                Router.__instance.go('/chat');
+            }
         });
     }
 
@@ -36,7 +38,7 @@ export class Register extends Block<RegisterProps> {
             }
         }).catch(err => {
             this.childBlocks.button.setProps({isDisabled: false});
-            handleError(err, this.childBlocks.login.childBlocks.error);
+            handleError({errorMsg: err.message}, this.childBlocks.email.childBlocks.error);
         });
     }
 

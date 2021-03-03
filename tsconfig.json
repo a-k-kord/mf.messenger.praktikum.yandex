@@ -24,6 +24,6 @@
       // "noImplicitAny": true,
       // "strict": true,
     },
-    "include": ["./src/**/*.ts",  "./test/**/*.ts"],
+    "include": ["./src/**/*.ts"],
     "exclude": ["build", "dist", "./src/**/*.js", "node_modules"]
   }

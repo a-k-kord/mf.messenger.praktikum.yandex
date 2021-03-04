@@ -217,3 +217,12 @@ export function queryString(data: PlainObject | undefined): string {
 
     return getParams(data).map(arr => arr.join('=')).join('&');
 }
+
+export function toJson(data: string): PlainObject {
+    let json = { data };
+    try {
+        json = JSON.parse(data);
+    } catch(err) {
+    }
+    return json;
+}

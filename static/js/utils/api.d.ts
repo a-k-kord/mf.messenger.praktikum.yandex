@@ -29,5 +29,4 @@ export declare function handleError(err: {
     type?: string;
 }, errorBlock?: Block<object>): void;
 export declare function parseErrorMsg(response: string): string;
-export declare function toJson(data: string): PlainObject;
 export {};

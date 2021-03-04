@@ -16,6 +16,7 @@ var __read = (this && this.__read) || function (o, n) {
 };
 import { fetchWithRetry, HTTPTransport, METHODS } from "./HTTPTransport.js";
 import { getRussianErrorMsg } from "./serverErrors.js";
+import { toJson } from "./utils.js";
 import { Router } from "../core/Router/index.js";
 export var serverHost = 'https://ya-praktikum.tech';
 export function registerApi(data) {
@@ -57,12 +58,14 @@ export function savePasswordApi(data) {
 }
 export function getUserApi() {
     return fetchWithRetry(serverHost + "/api/v2/auth/user", {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
 }
 export function getChatsApi(chatData) {
     return fetchWithRetry(serverHost + "/api/v2/chats", {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
@@ -70,6 +73,7 @@ export function getChatsApi(chatData) {
 export function getNewMessagesCount(chatData) {
     var chatId = chatData.chatId;
     return fetchWithRetry(serverHost + "/api/v2/chats/new/" + chatId, {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
@@ -123,6 +127,7 @@ export function getUsersByLoginApi(data) {
 export function getChatUsersApi(chatData) {
     var chatId = chatData.chatId;
     return fetchWithRetry(serverHost + "/api/v2/chats/" + chatId + "/users", {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
@@ -160,13 +165,4 @@ export function parseErrorMsg(response) {
     var _a;
     var resJson = toJson(response);
     return (_a = resJson.reason) !== null && _a !== void 0 ? _a : resJson.data;
-}
-export function toJson(data) {
-    var json = { data: data };
-    try {
-        json = JSON.parse(data);
-    }
-    catch (err) {
-    }
-    return json;
 }

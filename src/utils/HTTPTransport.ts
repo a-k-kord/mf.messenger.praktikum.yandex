@@ -65,7 +65,7 @@ export class HTTPTransport {
             xhr.open(method, url);
 
             xhr.onload = function () {
-                resolve(handleApiResponse(xhr));
+                resolve(handleApiResponse<PlainObject>(xhr));
             };
 
             xhr.onabort = reject;

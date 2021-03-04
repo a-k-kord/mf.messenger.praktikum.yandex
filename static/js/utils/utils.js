@@ -254,3 +254,12 @@ export function queryString(data) {
     }
     return getParams(data).map(function (arr) { return arr.join('='); }).join('&');
 }
+export function toJson(data) {
+    var json = { data: data };
+    try {
+        json = JSON.parse(data);
+    }
+    catch (err) {
+    }
+    return json;
+}

@@ -6,6 +6,9 @@ module.exports = api => {
         "@babel/preset-typescript",
         "@babel/preset-env"
     ];
+    const plugins = [
+        '@babel/plugin-proposal-class-properties'
+    ]
 
-    return { presets };
+    return { presets, plugins };
 };

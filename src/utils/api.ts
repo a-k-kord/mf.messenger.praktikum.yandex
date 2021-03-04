@@ -1,7 +1,7 @@
 import { fetchWithRetry, HTTPTransport, METHODS } from "./HTTPTransport.js";
 import { Block } from "../core/Block/index.js";
 import { getRussianErrorMsg } from "./serverErrors.js";
-import { PlainObject } from "./utils.js";
+import { PlainObject, toJson } from "./utils.js";
 import { Router } from "../core/Router/index.js";
 
 export const serverHost = 'https://ya-praktikum.tech';
@@ -57,6 +57,7 @@ export function savePasswordApi(data: PlainObject) {
 
 export function getUserApi() {
     return fetchWithRetry(`${serverHost}/api/v2/auth/user`, {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
@@ -64,6 +65,7 @@ export function getUserApi() {
 
 export function getChatsApi(chatData?: ChatApiData) {
     return fetchWithRetry(`${serverHost}/api/v2/chats`, {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
@@ -76,6 +78,7 @@ export type NewMessagesCountResponse = {
 export function getNewMessagesCount(chatData: ChatApiData) {
     const { chatId } = chatData;
     return fetchWithRetry(`${serverHost}/api/v2/chats/new/${chatId}`, {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
@@ -137,6 +140,7 @@ export function getUsersByLoginApi(data: PlainObject) {
 export function getChatUsersApi(chatData: ChatApiData) {
     const { chatId } = chatData;
     return fetchWithRetry(`${serverHost}/api/v2/chats/${chatId}/users`, {
+        tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
@@ -168,6 +172,7 @@ export function handleError(err: {errorMsg?: string, type?: string}, errorBlock?
             errorMsg = getRussianErrorMsg(type);
         }
         errorBlock && errorBlock.setProps({text: errorMsg, isHidden: false});
+        // TODO: если errorBlock явно не задан, выводить ошибку в компонент ErrorNotification, а пока выводим в консоль
         console.log('Error catch:', errorMsg);
 }
 
@@ -185,11 +190,3 @@ export function parseErrorMsg(response: string): string {
     return resJson.reason ?? resJson.data;
 }
 
-export function toJson(data: string): PlainObject {
-    let json = { data };
-    try {
-        json = JSON.parse(data);
-    } catch(err) {
-    }
-    return json;
-}

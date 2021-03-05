@@ -1,14 +1,9 @@
 import { expect } from 'chai';
-import { JSDOM } from 'jsdom';
 import { compileTemplate } from '../index';
 import { createBlockDocumentElement } from '../../../utils/dom';
 import { Props } from '../../Block';
 
-const dom = new JSDOM('<!DOCTYPE html><html><head></head><body><div id="app"></div></body></html>', {
-    url: 'http://localhost:4000'
-});
-
-global.window = dom.window;
+global.window = window;
 global.window.uuidv4 = require('../../../vendor/uuid_v4.min.js');
 global.window.Eta = require('../../../vendor/eta.min.js');
 

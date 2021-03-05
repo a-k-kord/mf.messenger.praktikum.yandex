@@ -20,10 +20,18 @@ npm run compile:scss
 ```
 
 ```sh
-node server.js
+npm run server
 ```
 
 Go to http://localhost:4000
+
+## Tests
+<a name="install"></a>
+<a name="installstart"></a>
+```sh
+npm run test
+```
+
 
 ## Developers
 <a name="developers"></a>

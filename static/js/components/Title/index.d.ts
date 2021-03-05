@@ -1,4 +1,4 @@
-import { Block, Props } from '../../core/Block/index.js';
+import { Block, Props } from '../../core/Block/index';
 export interface TitleProps extends Props {
     size?: string;
     theme?: string;

@@ -16,8 +16,8 @@ export const isInDom = (node: HTMLElement): boolean => {
 
 export const createBlockDocumentElement = (blockName: string, tagName: string = 'div'): HTMLElement => {
     const el = document.createElement(tagName);
-    el.dataset.blockId = generateId();
-    el.dataset.blockName = blockName;
+    el.setAttribute('data-block-id', generateId());
+    el.setAttribute('data-block-name', blockName);
     el.classList.add('block-wrapper');
     return el;
 }

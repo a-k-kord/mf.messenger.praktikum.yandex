@@ -25,12 +25,12 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
-import { Button } from "../../components/Button/index.js";
-import { Link } from "../../components/Link/index.js";
-import { getUserApi, handleError, loginApi } from "../../utils/api.js";
-import { Router } from "../../core/Router/index.js";
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Button } from '../../components/Button/index.js';
+import { Link } from '../../components/Link/index.js';
+import { getUserApi, handleError, loginApi } from '../../utils/api.js';
+import { Router } from '../../core/Router/index.js';
 var Login = (function (_super) {
     __extends(Login, _super);
     function Login(parentElement, props, children, tagName) {
@@ -39,8 +39,10 @@ var Login = (function (_super) {
         children.button.blockProps.handleMethod = _this.loginUser.bind(_this);
         getUserApi().then(function (data) {
             if (!data.errorMsg) {
-                Router.__instance.go('/chat');
+                Router.getInstance().go('/chat');
             }
+        }).catch(function (err) {
+            handleError({ errorMsg: err.message });
         });
         return _this;
     }
@@ -51,7 +53,7 @@ var Login = (function (_super) {
         loginApi(data).then(function (data) {
             _this.childBlocks.button.setProps({ isDisabled: false });
             if (!data.errorMsg) {
-                Router.__instance.go('/chat');
+                Router.getInstance().go('/chat');
             }
             else {
                 throw new Error(data.errorMsg);

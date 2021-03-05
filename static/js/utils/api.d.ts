@@ -1,5 +1,5 @@
-import { Block } from "../core/Block/index.js";
-import { PlainObject } from "./utils.js";
+import { Block } from '../core/Block/index';
+import { PlainObject } from './utils';
 export declare const serverHost = "https://ya-praktikum.tech";
 declare type ChatApiData = {
     formInputs?: Record<string, string>;
@@ -23,11 +23,10 @@ export declare function addUsersToChatApi(chatData: ChatApiData): Promise<PlainO
 export declare function removeUsersFromChatApi(chatData: ChatApiData): Promise<PlainObject<unknown>>;
 export declare function getUsersByLoginApi(data: PlainObject): Promise<PlainObject<unknown>>;
 export declare function getChatUsersApi(chatData: ChatApiData): any;
-export declare function handleApiResponse<TDataType>(xhr: XMLHttpRequest): TDataType;
+export declare function handleApiResponse(xhr: XMLHttpRequest): PlainObject;
 export declare function handleError(err: {
     errorMsg?: string;
     type?: string;
-}, errorBlock?: Block<object>): void;
+}, errorBlock?: Block<object>): PlainObject;
 export declare function parseErrorMsg(response: string): string;
-export declare function toJson(data: string): PlainObject;
 export {};

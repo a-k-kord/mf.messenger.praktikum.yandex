@@ -1,5 +1,5 @@
-import { Block } from '../../core/Block/index.js';
-import { TitleProps } from '../Title/index.js';
+import { Block } from '../../core/Block/index';
+import { TitleProps } from '../Title/index';
 export interface ButtonProps extends TitleProps {
     type?: string;
     formMethod?: string;
@@ -9,6 +9,6 @@ export interface ButtonProps extends TitleProps {
     image?: string;
 }
 export declare class Button extends Block<ButtonProps> {
-    constructor(parentElement: any, props: any, children: any);
+    constructor(parentElement: any, props: any, children?: any);
     render(): string;
 }

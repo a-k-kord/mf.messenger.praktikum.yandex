@@ -25,7 +25,7 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
-import { Router } from "../../core/Router/index.js";
+import { Router } from '../../core/Router/index.js';
 var Link = (function (_super) {
     __extends(Link, _super);
     function Link(parentElement, props, children) {
@@ -51,6 +51,6 @@ function handleClick(evt) {
         var element = this._parentElement.querySelector('a');
         var pathnameArr = element.href.split('/');
         var pathname = pathnameArr[pathnameArr.length - 1];
-        Router.__instance.go("/" + pathname);
+        Router.getInstance().go("/" + pathname);
     }
 }

@@ -11,3 +11,4 @@ export declare function isArraysEqual(aValArray: [], bValArray: []): boolean;
 export declare function isEqual(a: object, b: object): boolean;
 export declare function cloneDeep<T extends object = object>(obj: T): T;
 export declare function queryString(data: PlainObject | undefined): string;
+export declare function toJson(data: string): PlainObject;

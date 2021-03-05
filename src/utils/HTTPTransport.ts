@@ -1,5 +1,5 @@
-import { PlainObject, queryString } from "./utils.js";
-import { handleApiResponse } from "./api.js";
+import { PlainObject, queryString } from './utils';
+import { handleApiResponse } from './api';
 
 export enum METHODS {
     GET = 'GET',

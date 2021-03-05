@@ -1,5 +1,5 @@
-import { Block } from '../../core/Block/index.js';
-import { TitleProps } from '../Title/index.js';
+import { Block } from '../../core/Block/index';
+import { TitleProps } from '../Title/index';
 export interface LinkProps extends TitleProps {
     linkTo: string;
     type?: string;

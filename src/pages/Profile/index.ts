@@ -1,10 +1,10 @@
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block, Children, Props } from '../../core/Block/index.js';
-import { Link, LinkProps } from "../../components/Link/index.js";
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
-import { Button, ButtonProps } from "../../components/Button/index.js";
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { Block, Children, Props } from '../../core/Block/index';
+import { Link, LinkProps } from  '../../components/Link/index';
+import { Input } from  '../../components/Input/index';
+import { Title } from  '../../components/Title/index';
+import { Button, ButtonProps } from  '../../components/Button/index';
 import {
     getUserApi,
     handleError,
@@ -13,12 +13,12 @@ import {
     savePasswordApi,
     saveProfileApi,
     serverHost
-} from "../../utils/api.js";
-import { Router } from "../../core/Router/index.js";
-import { PlainObject } from "../../utils/utils.js";
-import { Image } from "../../components/Image/index.js";
-import { hide } from "../../utils/dom.js";
-import { FormInputs } from "../../utils/validation.js";
+} from  '../../utils/api';
+import { Router } from  '../../core/Router/index';
+import { PlainObject } from  '../../utils/utils';
+import { Image } from  '../../components/Image/index';
+import { hide } from  '../../utils/dom';
+import { FormInputs } from  '../../utils/validation';
 
 export interface ProfileProps extends Props {
 }
@@ -46,6 +46,8 @@ export class Profile extends Block<ProfileProps> {
             if (!data.errorMsg) {
                 this.mutateProfileDataControls(data);
             }
+        }).catch(err => {
+            handleError({errorMsg: err.message});
         });
     }
 
@@ -64,7 +66,7 @@ export class Profile extends Block<ProfileProps> {
     logoutUser() {
         logoutApi().then((data: PlainObject) => {
             if(!data.errorMsg) {
-                Router.__instance.go(`/login`);
+                Router.getInstance().go(`/login`);
             } else {
                 throw new Error(data.errorMsg as string);
             }
@@ -135,8 +137,10 @@ export class Profile extends Block<ProfileProps> {
             if(!data.errorMsg) {
                 getUserApi().then(({avatar}) => {
                     avatar && this.childBlocks.avatar.setProps({src: `${serverHost}${avatar}`});
+                }).catch(err => {
+                    handleError({errorMsg: err.message});
                 });
-                Router.__instance.go('/profile');
+                Router.getInstance().go('/profile');
             } else {
                 throw new Error(data.errorMsg as string);
             }
@@ -169,10 +173,13 @@ export class Profile extends Block<ProfileProps> {
             if (!data.errorMsg) {
                 this.mutateProfileDataControls(data);
             } else {
-                console.log(data.errorMsg);
+                //TODO: error to ErrorNotification Block
+                // console.log(data.errorMsg);
             }
         }).then(() => {
             super.show();
+        }).catch(err => {
+            handleError({errorMsg: err.message});
         });
     }
 

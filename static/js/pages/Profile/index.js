@@ -25,14 +25,14 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
-import { Link } from "../../components/Link/index.js";
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
-import { Button } from "../../components/Button/index.js";
-import { getUserApi, handleError, logoutApi, saveAvatarApi, savePasswordApi, saveProfileApi, serverHost } from "../../utils/api.js";
-import { Router } from "../../core/Router/index.js";
-import { Image } from "../../components/Image/index.js";
-import { hide } from "../../utils/dom.js";
+import { Link } from '../../components/Link/index.js';
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Button } from '../../components/Button/index.js';
+import { getUserApi, handleError, logoutApi, saveAvatarApi, savePasswordApi, saveProfileApi, serverHost } from '../../utils/api.js';
+import { Router } from '../../core/Router/index.js';
+import { Image } from '../../components/Image/index.js';
+import { hide } from '../../utils/dom.js';
 var Profile = (function (_super) {
     __extends(Profile, _super);
     function Profile(parentElement, props, children, tagName) {
@@ -53,6 +53,8 @@ var Profile = (function (_super) {
             if (!data.errorMsg) {
                 _this.mutateProfileDataControls(data);
             }
+        }).catch(function (err) {
+            handleError({ errorMsg: err.message });
         });
         return _this;
     }
@@ -70,7 +72,7 @@ var Profile = (function (_super) {
     Profile.prototype.logoutUser = function () {
         logoutApi().then(function (data) {
             if (!data.errorMsg) {
-                Router.__instance.go("/login");
+                Router.getInstance().go("/login");
             }
             else {
                 throw new Error(data.errorMsg);
@@ -141,8 +143,10 @@ var Profile = (function (_super) {
                 getUserApi().then(function (_a) {
                     var avatar = _a.avatar;
                     avatar && _this.childBlocks.avatar.setProps({ src: "" + serverHost + avatar });
+                }).catch(function (err) {
+                    handleError({ errorMsg: err.message });
                 });
-                Router.__instance.go('/profile');
+                Router.getInstance().go('/profile');
             }
             else {
                 throw new Error(data.errorMsg);
@@ -177,10 +181,11 @@ var Profile = (function (_super) {
                 _this.mutateProfileDataControls(data);
             }
             else {
-                console.log(data.errorMsg);
             }
         }).then(function () {
             _super.prototype.show.call(_this);
+        }).catch(function (err) {
+            handleError({ errorMsg: err.message });
         });
     };
     Profile.prototype.render = function () {

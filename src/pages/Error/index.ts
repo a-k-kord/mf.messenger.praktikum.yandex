@@ -1,8 +1,8 @@
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block, Children, Props } from '../../core/Block/index.js';
-import { Title } from "../../components/Title/index.js";
-import { Link } from "../../components/Link/index.js";
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { Block, Children, Props } from '../../core/Block/index';
+import { Title } from  '../../components/Title/index';
+import { Link } from  '../../components/Link/index';
 
 export interface ErrorProps extends Props{
 }

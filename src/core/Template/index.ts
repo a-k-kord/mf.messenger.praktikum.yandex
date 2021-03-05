@@ -15,7 +15,6 @@ interface TemplateProps<TProps> {
     slots?: Slots
 }
 
-const Eta = window.Eta;
 export function compileTemplate<TProps>(template: string, props: TemplateProps<TProps>): string {
-    return <string>Eta.render(template, props);
+    return <string>window.Eta.render(template, props);
 }

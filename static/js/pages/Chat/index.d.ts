@@ -1,7 +1,7 @@
-import { Block, Children, Props } from '../../core/Block/index.js';
-import { ButtonProps } from "../../components/Button/index.js";
-import { PlainObject } from "../../utils/utils.js";
-import { FormInputs } from "../../utils/validation.js";
+import { Block, Children, Props } from '../../core/Block/index';
+import { ButtonProps } from '../../components/Button/index';
+import { PlainObject } from '../../utils/utils';
+import { FormInputs } from '../../utils/validation';
 export interface ChatProps extends Props {
     chats?: ChatsData;
     mockData?: object;

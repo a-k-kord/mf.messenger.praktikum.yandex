@@ -15,11 +15,11 @@ export default `
                     </button>
                     <ul class="dropdown__list">
                         <li class="dropdown__item-wrap">
-                            <%~ it.slots.linkShowAddChatPopup.outerHTML %>
+                            <%~ it.slots?.linkShowAddChatPopup.outerHTML %>
                         </li>
                     </ul>
                 </div>
-                <%~ it.slots.linkToProfile.outerHTML %>
+                <%~ it.slots?.linkToProfile.outerHTML %>
             </div>
             <div class="search dialogs__search">
                 <input class="search__input" type="text" placeholder="Поиск">
@@ -28,10 +28,10 @@ export default `
             <div class="scroller-wrap">
                 <div class="scroller">
                     <ul class="chat-list__items">
-                    <% const handleSelectChatItem = it.props.handleSelectChatItem %>
-                        <% if(typeof it.props.chats === 'object') {
-                            for(let [id, {title, unreadCount}] of Object.entries(it.props.chats)) {%>
-                        <li class="chat-item <%= it.props.selectedChatItemId == id ? 'chat-item--selected' : '' %>"  >
+                    <% const handleSelectChatItem = it.props?.handleSelectChatItem %>
+                        <% if(typeof it.props?.chats === 'object') {
+                            for(let [id, {title, unreadCount}] of Object.entries(it.props?.chats)) {%>
+                        <li class="chat-item <%= it.props?.selectedChatItemId == id ? 'chat-item--selected' : '' %>"  >
                             <a class="chat-item__inner" data-chat-item-id="<%= id %>">
                                 <div class="avatar chat-item__avatar">
                                     <div class="avatar__image">
@@ -40,9 +40,9 @@ export default `
                                 </div>
                                 <div class="chat-item__msg-wrap">
                                     <div class="chat-item__name text text--size--small text--weight--bold"><%= title %></div>
-                                    <div class="chat-item__msg text text--size--smaller text--theme--label"><%= it.props.mockData.message %></div>
+                                    <div class="chat-item__msg text text--size--smaller text--theme--label"><%= it.props?.mockData.message %></div>
                                 </div>
-                                <span class="chat-item__date text text--size--tiny text--theme--label"><%= it.props.mockData.messageDate %></span>
+                                <span class="chat-item__date text text--size--tiny text--theme--label"><%= it.props?.mockData.messageDate %></span>
                                 <% if(unreadCount) { %>
                                 <div class="chat-item__badge ">
                                     <div class="chat-item__counter text text--size--smaller text--theme--label box box--center"><%= unreadCount || '' %></div>
@@ -59,7 +59,7 @@ export default `
         </div>
     </div>
     <div class="chat-content dialogs__chat-content">
-        <% if(it.props.selectedChatItemId) { %>
+        <% if(it.props?.selectedChatItemId) { %>
         <div class="chat-content__header">
             <div class="chat-content__avatar-wrap">
                 <div class="avatar chat-content__avatar">
@@ -69,12 +69,12 @@ export default `
                 </div>
             </div>
             <div class="text text--align--left text--size--small text--weight--bold avatar__title">
-                <%= it.props.chats && it.props.selectedChatItemId ? it.props.chats[it.props.selectedChatItemId]?.title : ''%>
+                <%= it.props?.chats && it.props?.selectedChatItemId ? it.props?.chats[it.props?.selectedChatItemId]?.title : ''%>
             </div>
             <div class="text text--size--small text--theme--label">
                 Пользователей: 
             </div>
-            <%~ it.slots.chatUsersCountLabel.outerHTML %>
+            <%~ it.slots?.chatUsersCountLabel.outerHTML %>
             <div class="dropdown">
                 <button class="button dropdown__toggle dropdown__toggle--with-round-background">
                     <svg class="dropdown__icon  dropdown__icon--small" width="100%" height="100%" viewBox="0 0 3 16"
@@ -86,13 +86,13 @@ export default `
                 </button>
                 <ul class="dropdown__list dropdown__list--down-left">
                     <li class="dropdown__item-wrap">
-                        <%~ it.slots.linkShowAddUserPopup.outerHTML %>
+                        <%~ it.slots?.linkShowAddUserPopup.outerHTML %>
                     </li>
                     <li class="dropdown__item-wrap">
-                        <%~ it.slots.linkShowRemoveUserPopup.outerHTML %>
+                        <%~ it.slots?.linkShowRemoveUserPopup.outerHTML %>
                     </li>
                     <li class="dropdown__item-wrap">
-                        <%~ it.slots.linkShowRemoveChatPopup.outerHTML %>
+                        <%~ it.slots?.linkShowRemoveChatPopup.outerHTML %>
                     </li>
                 </ul>
             </div>
@@ -107,9 +107,9 @@ export default `
                 <div class="message history__message-wrap history__message-wrap--align--left">
                     <div class="message__text message__text--left">
                         <div class="text text--size--small">
-                            <%= it.props.mockData.mes1 %>
+                            <%= it.props?.mockData.mes1 %>
                         </div>
-                        <div class="badge text text--theme--label text--size--tiny"><%= it.props.mockData.mesTime %></div>
+                        <div class="badge text text--theme--label text--size--tiny"><%= it.props?.mockData.mesTime %></div>
                     </div>
                 </div>
                 <div class="message history__message-wrap history__message-wrap--align--left">
@@ -117,36 +117,36 @@ export default `
                         <img class="image  box box--round-border--small" src="img/chat-image.png" alt="photo">
                         <div
                                 class="badge text text--theme--light text--size--tiny box box--round-border--big box--background--label">
-                            <%= it.props.mockData.mesTime %></div>
+                            <%= it.props?.mockData.mesTime %></div>
                     </div>
                 </div>
                 <div class="history__message-wrap history__message-wrap--align--right">
                     <div class="message__text message__text--right text text--size--small">
-                        <div class="text text--size--small"><%= it.props.mockData.mes2 %></div>
+                        <div class="text text--size--small"><%= it.props?.mockData.mes2 %></div>
                         <div class="badge">
                             <img class="confirmation" src="img/confirmation_msg_read.svg"
                                  alt="Confirmation about message recieved and read">
-                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props.mockData.mesTime %></div>
+                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props?.mockData.mesTime %></div>
                         </div>
                     </div>
                 </div>
                 <div class="message history__message-wrap history__message-wrap--align--left">
                     <div class="message__text message__text--left">
                         <div class="text text--size--small">
-                        <%= it.props.mockData.mes3 %>
+                        <%= it.props?.mockData.mes3 %>
                         </div>
-                        <div class="badge text text--theme--label text--size--tiny"><%= it.props.mockData.mesTime %></div>
+                        <div class="badge text text--theme--label text--size--tiny"><%= it.props?.mockData.mesTime %></div>
                     </div>
                 </div>
                 <div class="history__message-wrap history__message-wrap--align--right">
                     <div class="message__text message__text--right text text--size--small ">
                         <div class="text text--size--small">
-                        <%= it.props.mockData.mes4 %>
+                        <%= it.props?.mockData.mes4 %>
                         </div>
                         <div class="badge">
                             <img class="confirmation" src="img/confirmation_msg_recieved.svg"
                                  alt="Confirmation about message recieved and read">
-                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props.mockData.mesTime %></div>
+                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props?.mockData.mesTime %></div>
                         </div>
                     </div>
                 </div>
@@ -202,7 +202,7 @@ export default `
             <form class="form form--width--full">
                 <input class="message-input" type="text" placeholder="Сообщение" value="" id="message"
                        name="message">
-                <%~ it.slots.buttonSend.outerHTML %>
+                <%~ it.slots?.buttonSend.outerHTML %>
             </form>
         </div>
         <% } else {%>
@@ -212,41 +212,41 @@ export default `
 </main>
 
 <div  class="popup" style="display:none" id="add-chat-popup">
-    <%~ it.slots.linkCloseAddChatPopup.outerHTML %>
+    <%~ it.slots?.linkCloseAddChatPopup.outerHTML %>
     <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
         <h1 class="form__title text text--align--center">Добавить чат</h1>
         <div class="form__content">
-           <%~ it.slots.addChatTitle.outerHTML %>
+           <%~ it.slots?.addChatTitle.outerHTML %>
         </div>
-        <%~ it.slots.buttonAddChat.outerHTML %>
+        <%~ it.slots?.buttonAddChat.outerHTML %>
     </form>
 </div>
 
 <div  class="popup" style="display:none" id="add-user-popup">
-    <%~ it.slots.linkCloseAddUserPopup.outerHTML %>
+    <%~ it.slots?.linkCloseAddUserPopup.outerHTML %>
     <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
         <h1 class="form__title text text--align--center">Добавить пользователя</h1>
         <div class="form__content">
-           <%~ it.slots.addLogin.outerHTML %>
+           <%~ it.slots?.addLogin.outerHTML %>
         </div>
-        <%~ it.slots.buttonAddUser.outerHTML %>
+        <%~ it.slots?.buttonAddUser.outerHTML %>
     </form>
 </div>
 
 <div  class="popup" style="display:none" id="remove-user-popup">
-    <%~ it.slots.linkCloseRemoveUserPopup.outerHTML %>
+    <%~ it.slots?.linkCloseRemoveUserPopup.outerHTML %>
     <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
         <h1 class="form__title text text--align--center">Удалить пользователя</h1>
         <div class="form__content">
-            <%~ it.slots.removeLogin.outerHTML %>
+            <%~ it.slots?.removeLogin.outerHTML %>
             
         </div>
-        <%~ it.slots.buttonRemoveUser.outerHTML %>
+        <%~ it.slots?.buttonRemoveUser.outerHTML %>
     </form>
 </div>
 
 <div  class="popup" style="display:none" id="remove-chat-popup">
-    <%~ it.slots.linkCloseRemoveChatPopup.outerHTML %>
+    <%~ it.slots?.linkCloseRemoveChatPopup.outerHTML %>
     <form class="form form--columns box box--round-border--small box--has-shadow box--center popup__inner">
         <h1 class="form__title text text--align--center">Удалить чат</h1>
         <div class="form__content">
@@ -255,7 +255,7 @@ export default `
                     удалить данный чат?</label>
             </div>
         </div>
-        <%~ it.slots.buttonRemoveChat.outerHTML %>
+        <%~ it.slots?.buttonRemoveChat.outerHTML %>
     </form>
 </div>
 

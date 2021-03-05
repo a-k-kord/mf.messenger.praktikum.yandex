@@ -8,8 +8,8 @@ export var isInDom = function (node) {
 export var createBlockDocumentElement = function (blockName, tagName) {
     if (tagName === void 0) { tagName = 'div'; }
     var el = document.createElement(tagName);
-    el.dataset.blockId = generateId();
-    el.dataset.blockName = blockName;
+    el.setAttribute('data-block-id', generateId());
+    el.setAttribute('data-block-name', blockName);
     el.classList.add('block-wrapper');
     return el;
 };

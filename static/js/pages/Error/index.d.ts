@@ -1,4 +1,4 @@
-import { Block, Children, Props } from '../../core/Block/index.js';
+import { Block, Children, Props } from '../../core/Block/index';
 export interface ErrorProps extends Props {
 }
 export declare class Error extends Block<ErrorProps> {

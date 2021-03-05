@@ -37,11 +37,11 @@ import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { mockChatData } from '../../mockData/Chat.js';
 import { Block } from '../../core/Block/index.js';
-import { Button } from "../../components/Button/index.js";
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
-import { Link } from "../../components/Link/index.js";
-import { addChatApi, addUsersToChatApi, getChatsApi, getChatUsersApi, getNewMessagesCount, getUserApi, handleError, removeChatApi, removeUsersFromChatApi } from "../../utils/api.js";
+import { Button } from '../../components/Button/index.js';
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Link } from '../../components/Link/index.js';
+import { addChatApi, addUsersToChatApi, getChatsApi, getChatUsersApi, getNewMessagesCount, getUserApi, handleError, removeChatApi, removeUsersFromChatApi } from '../../utils/api.js';
 var Chat = (function (_super) {
     __extends(Chat, _super);
     function Chat(parentElement, props, children, tagName) {
@@ -101,7 +101,6 @@ var Chat = (function (_super) {
                     _this.childBlocks.chatUsersCountLabel.setProps({ text: parseInt(usersCount) + 1 });
                 }
                 else {
-                    console.log(responseData.errorMsg);
                 }
             }
         });
@@ -124,7 +123,6 @@ var Chat = (function (_super) {
                     _this.childBlocks.chatUsersCountLabel.setProps({ text: parseInt(usersCount) - 1 });
                 }
                 else {
-                    console.log(responseData.errorMsg);
                 }
             }
         });
@@ -132,6 +130,8 @@ var Chat = (function (_super) {
             if (!data.errorMsg) {
                 _this.getChatsFromServer();
             }
+        }).catch(function (err) {
+            handleError({ errorMsg: err.message });
         });
         return _this;
     }
@@ -201,9 +201,10 @@ var Chat = (function (_super) {
     Chat.prototype.show = function () {
         var _this = this;
         getUserApi().then(function (data) {
-            console.log(data);
             _this.getChatsFromServer();
             _super.prototype.show.call(_this);
+        }).catch(function (err) {
+            handleError({ errorMsg: err.message });
         });
     };
     Chat.prototype.render = function () {
@@ -217,7 +218,8 @@ var Chat = (function (_super) {
 export { Chat };
 function handleSelectChatItem(evt) {
     var _this = this;
-    var chatId = evt.currentTarget.dataset.chatItemId;
+    var chatId = evt.currentTarget.getAttribute('data-chat-item-id');
+    ;
     this.setProps({ selectedChatItemId: chatId });
     getChatUsersApi({ chatId: chatId }).then(function (data) {
         if (!data.errorMsg) {

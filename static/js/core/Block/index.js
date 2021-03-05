@@ -103,8 +103,9 @@ var Block = (function () {
     };
     ;
     Block.prototype.reconnectBlockWithDom = function (block) {
-        if (block._parentElement.dataset.blockId) {
-            var parentFromDom = document.querySelector("[data-block-id=\"" + block._parentElement.dataset.blockId + "\"]");
+        var parentBlockId = block._parentElement.getAttribute('data-block-id');
+        if (parentBlockId) {
+            var parentFromDom = document.querySelector("[data-block-id=\"" + parentBlockId + "\"]");
             if (parentFromDom && !isInDom(block._parentElement)) {
                 block.detachListenersFromElement(block._parentElement);
                 block._parentElement = parentFromDom;
@@ -130,8 +131,9 @@ var Block = (function () {
         }
     };
     Block.prototype.removeFromDom = function () {
-        if (this._parentElement.dataset.blockId) {
-            var parentFromDom = document.querySelector("[data-block-id=\"" + this._parentElement.dataset.blockId + "\"]");
+        var parentBlockId = this._parentElement.getAttribute('data-block-id');
+        if (parentBlockId) {
+            var parentFromDom = document.querySelector("[data-block-id=\"" + parentBlockId + "\"]");
             if (parentFromDom) {
                 this.detachListenersFromElement(this._parentElement);
                 parentFromDom.parentElement.removeChild(parentFromDom);
@@ -153,7 +155,8 @@ var Block = (function () {
         this.attachListenersToElement(this._parentElement);
         this.reconnectChildrenSlotsWithDom();
         this.reconnectBlockWithDom(this);
-        if (!this._parentElement.dataset.blockId) {
+        var parentBlockId = this._parentElement.getAttribute('data-block-id');
+        if (!parentBlockId) {
             var childBlocksFromDom = document.querySelectorAll("[data-block-id]");
             this.checkAllBlocksTree(this, childBlocksFromDom);
         }
@@ -172,7 +175,9 @@ var Block = (function () {
             });
         }
         nodesFromDom.forEach(function (node) {
-            if (node.dataset.blockId === block._parentElement.dataset.blockId) {
+            var nodeBlockId = node.getAttribute('data-block-id');
+            var parentBlockId = block._parentElement.getAttribute('data-block-id');
+            if (nodeBlockId === parentBlockId) {
                 block.detachListenersFromElement(block._parentElement);
                 block._parentElement = node;
                 block.attachListenersToElement(block._parentElement);

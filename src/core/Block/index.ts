@@ -1,5 +1,5 @@
-import { EventBus, Listeners } from '../EventBus/index.js';
-import { createBlockDocumentElement, hide, isInDom, show } from '../../utils/dom.js';
+import { EventBus, Listeners } from '../EventBus/index';
+import { createBlockDocumentElement, hide, isInDom, show } from '../../utils/dom';
 
 
 enum EVENTS {
@@ -115,9 +115,10 @@ export abstract class Block<TProps extends object> {
     };
 
     reconnectBlockWithDom(block: Block<object>) {
-        if (block._parentElement.dataset.blockId) {
+        const parentBlockId = block._parentElement.getAttribute('data-block-id');
+        if (parentBlockId) {
             // Ищем родителя в DOM
-            const parentFromDom: HTMLElement = document.querySelector(`[data-block-id="${block._parentElement.dataset.blockId}"]`);
+            const parentFromDom: HTMLElement = document.querySelector(`[data-block-id="${parentBlockId}"]`);
             if (parentFromDom && !isInDom(block._parentElement)) {
                 block.detachListenersFromElement(block._parentElement);
                 block._parentElement = parentFromDom;
@@ -134,9 +135,10 @@ export abstract class Block<TProps extends object> {
     }
 
     removeFromDom() {
-        if (this._parentElement.dataset.blockId) {
+        const parentBlockId = this._parentElement.getAttribute('data-block-id');
+        if (parentBlockId) {
             // Ищем родителя в DOM
-            const parentFromDom: HTMLElement = document.querySelector(`[data-block-id="${this._parentElement.dataset.blockId}"]`);
+            const parentFromDom: HTMLElement = document.querySelector(`[data-block-id="${parentBlockId}"]`);
             if (parentFromDom) {
                 this.detachListenersFromElement(this._parentElement);
                 parentFromDom.parentElement.removeChild(parentFromDom);
@@ -162,7 +164,8 @@ export abstract class Block<TProps extends object> {
         this.attachListenersToElement(this._parentElement);
         this.reconnectChildrenSlotsWithDom();
         this.reconnectBlockWithDom(this);
-        if (!this._parentElement.dataset.blockId) {
+        const parentBlockId = this._parentElement.getAttribute('data-block-id');
+        if (!parentBlockId) {
             // Ищем всех  компонент-детей в DOM
             const childBlocksFromDom: NodeListOf<HTMLElement> = document.querySelectorAll(`[data-block-id]`);
             this.checkAllBlocksTree(this, childBlocksFromDom);
@@ -182,7 +185,9 @@ export abstract class Block<TProps extends object> {
             });
         }
         nodesFromDom.forEach((node) => {
-            if (node.dataset.blockId === block._parentElement.dataset.blockId) {
+            const nodeBlockId = node.getAttribute('data-block-id');
+            const parentBlockId = block._parentElement.getAttribute('data-block-id');
+            if (nodeBlockId === parentBlockId) {
                 block.detachListenersFromElement(block._parentElement);
                 block._parentElement = node;
                 block.attachListenersToElement(block._parentElement);

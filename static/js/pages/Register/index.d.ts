@@ -1,5 +1,5 @@
-import { Block, Children, Props } from '../../core/Block/index.js';
-import { FormInputs } from "../../utils/validation.js";
+import { Block, Children, Props } from '../../core/Block/index';
+import { FormInputs } from '../../utils/validation';
 export interface RegisterProps extends Props {
 }
 export declare class Register extends Block<RegisterProps> {

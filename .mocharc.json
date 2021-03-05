@@ -1,5 +1,5 @@
 {
   "extension": ["ts"],
   "spec": "src/**/*.spec.ts",
-  "require": [ "ts-node/register", "jsdom-global/register"]
+  "require": [ "tests/dom-mock.js", "ts-node/register"]
 }

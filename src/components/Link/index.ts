@@ -1,8 +1,8 @@
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block } from '../../core/Block/index.js';
-import { TitleProps } from '../Title/index.js';
-import { Router } from "../../core/Router/index.js";
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { Block } from '../../core/Block/index';
+import { TitleProps } from '../Title/index';
+import { Router } from  '../../core/Router/index';
 
 export interface LinkProps extends TitleProps {
     linkTo: string,
@@ -35,6 +35,6 @@ function handleClick(evt) {
         let element: HTMLElement = this._parentElement.querySelector('a');
         const pathnameArr = (element as HTMLAnchorElement).href.split('/');
         const pathname = pathnameArr[pathnameArr.length - 1];
-        Router.__instance.go(`/${pathname}`);
+        Router.getInstance().go(`/${pathname}`);
     }
 }

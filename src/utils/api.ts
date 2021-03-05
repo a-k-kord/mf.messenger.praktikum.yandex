@@ -1,8 +1,8 @@
-import { fetchWithRetry, HTTPTransport, METHODS } from "./HTTPTransport.js";
-import { Block } from "../core/Block/index.js";
-import { getRussianErrorMsg } from "./serverErrors.js";
-import { PlainObject, toJson } from "./utils.js";
-import { Router } from "../core/Router/index.js";
+import { fetchWithRetry, HTTPTransport, METHODS } from './HTTPTransport';
+import { Block } from '../core/Block/index';
+import { getRussianErrorMsg } from './serverErrors';
+import { PlainObject, toJson } from './utils';
+import { Router } from '../core/Router/index';
 
 export const serverHost = 'https://ya-praktikum.tech';
 
@@ -147,33 +147,33 @@ export function getChatUsersApi(chatData: ChatApiData) {
 }
 
 
-export function handleApiResponse<TDataType>(xhr: XMLHttpRequest): TDataType {
+export function handleApiResponse(xhr: XMLHttpRequest): PlainObject {
     let result;
     const {status, response}: {status: number, response: string} = xhr;
     switch(status) {
         case 200:
-            result = toJson(response);
-            break;
+            return toJson(response);
         case 401:
             if(location.pathname !== '/login' && location.pathname !== '/register') {
-                Router.__instance.go('/login');
+                Router.getInstance().go('/login');
             }
             result = getErrorMsg(response);
             break;
         default://(errors: 400, 500)
             result = getErrorMsg(response);
     }
-    return result;
+    return handleError(result);
 }
 
-export function handleError(err: {errorMsg?: string, type?: string}, errorBlock?: Block<object>) {
+export function handleError(err: {errorMsg?: string, type?: string}, errorBlock?: Block<object>): PlainObject {
         let { errorMsg, type } = err;
         if(type === 'timeout' || type === 'error') {
             errorMsg = getRussianErrorMsg(type);
         }
         errorBlock && errorBlock.setProps({text: errorMsg, isHidden: false});
         // TODO: если errorBlock явно не задан, выводить ошибку в компонент ErrorNotification, а пока выводим в консоль
-        console.log('Error catch:', errorMsg);
+        // console.log('Error catch:', errorMsg);
+        return err;
 }
 
 function getErrorMsg(response) {

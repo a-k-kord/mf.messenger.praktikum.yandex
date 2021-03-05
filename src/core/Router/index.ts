@@ -1,5 +1,5 @@
-import { Block, BlockClass } from "../Block/index.js";
-import { PlainObject } from "../../utils/utils.js";
+import { Block, BlockClass } from '../Block/index';
+import { PlainObject } from '../../utils/utils';
 
 export class Route {
     private _pathname: string;
@@ -46,6 +46,13 @@ export class Route {
 
 export class Router {
     static __instance;
+    static getInstance(rootCssSelector: string = '#app') {
+        if (Router.__instance) {
+            return Router.__instance;
+        } else {
+            return new Router(rootCssSelector);
+        }
+    }
 
     public history: History;
     private routes: Route [];
@@ -98,11 +105,11 @@ export class Router {
     }
 
     back() {
-        this.history.back();
+        this.history.go(-1);
     }
 
     forward() {
-        this.history.forward();
+        this.history.go(1);
     }
 
     getRoute(pathname: string) {

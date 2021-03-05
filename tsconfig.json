@@ -25,5 +25,5 @@
       // "strict": true,
     },
     "include": ["./src/**/*.ts"],
-    "exclude": ["build", "dist", "./src/**/*.js", "node_modules"]
+    "exclude": ["build", "dist", "./src/**/tests/*.spec.ts", "node_modules"]
   }

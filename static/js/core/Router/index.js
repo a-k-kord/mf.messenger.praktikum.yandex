@@ -44,6 +44,15 @@ var Router = (function () {
         this._rootQuery = rootQuery;
         Router.__instance = this;
     }
+    Router.getInstance = function (rootCssSelector) {
+        if (rootCssSelector === void 0) { rootCssSelector = '#app'; }
+        if (Router.__instance) {
+            return Router.__instance;
+        }
+        else {
+            return new Router(rootCssSelector);
+        }
+    };
     Router.prototype.use = function (pathname, blockClass) {
         var route = new Route(pathname, blockClass, { rootQuery: this._rootQuery });
         this.routes.push(route);
@@ -72,10 +81,10 @@ var Router = (function () {
         this._onRoute(pathname);
     };
     Router.prototype.back = function () {
-        this.history.back();
+        this.history.go(-1);
     };
     Router.prototype.forward = function () {
-        this.history.forward();
+        this.history.go(1);
     };
     Router.prototype.getRoute = function (pathname) {
         return this.routes.find(function (route) { return route.match(pathname); });

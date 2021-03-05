@@ -1,8 +1,8 @@
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block } from '../../core/Block/index.js';
-import { TitleProps } from '../Title/index.js';
-import { FormInputs } from "../../utils/validation.js";
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { Block } from '../../core/Block/index';
+import { TitleProps } from '../Title/index';
+import { FormInputs } from '../../utils/validation';
 
 export interface ButtonProps extends TitleProps{
     type?: string,
@@ -15,7 +15,7 @@ export interface ButtonProps extends TitleProps{
 
 export class Button extends Block<ButtonProps> {
 
-    constructor(parentElement, props, children) {
+    constructor(parentElement, props, children?) {
         super(parentElement, props, children)
 
         this.addListener(this.getContent(), 'click', handleSubmit.bind(this), 'button[type="submit"]');

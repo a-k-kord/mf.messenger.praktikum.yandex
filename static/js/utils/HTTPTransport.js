@@ -9,8 +9,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { queryString } from "./utils.js";
-import { handleApiResponse } from "./api.js";
+import { queryString } from './utils.js';
+import { handleApiResponse } from './api.js';
 export var METHODS;
 (function (METHODS) {
     METHODS["GET"] = "GET";

@@ -1,8 +1,8 @@
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block } from '../../core/Block/index.js';
-import { TitleProps } from '../Title/index.js';
-import { validateEmail, validatePasswordConfirm, validatePhone, validateLimitedString } from "../../utils/validation.js";
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { Block } from '../../core/Block/index';
+import { TitleProps } from '../Title/index';
+import { validateEmail, validatePasswordConfirm, validatePhone, validateLimitedString } from  '../../utils/validation';
 
 export interface InputProps extends TitleProps{
     type?: string,

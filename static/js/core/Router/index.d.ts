@@ -1,5 +1,5 @@
-import { BlockClass } from "../Block/index.js";
-import { PlainObject } from "../../utils/utils.js";
+import { BlockClass } from '../Block/index';
+import { PlainObject } from '../../utils/utils';
 export declare class Route {
     private _pathname;
     private _blockClass;
@@ -13,6 +13,7 @@ export declare class Route {
 }
 export declare class Router {
     static __instance: any;
+    static getInstance(rootCssSelector?: string): any;
     history: History;
     private routes;
     private _currentRoute;

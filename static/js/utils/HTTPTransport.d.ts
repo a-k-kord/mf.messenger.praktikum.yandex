@@ -1,4 +1,4 @@
-import { PlainObject } from "./utils.js";
+import { PlainObject } from './utils';
 export declare enum METHODS {
     GET = "GET",
     PUT = "PUT",

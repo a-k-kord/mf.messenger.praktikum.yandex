@@ -1,14 +1,14 @@
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block, Children, Props } from '../../core/Block/index.js';
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
-import { Button, ButtonProps } from "../../components/Button/index.js";
-import { Link } from "../../components/Link/index.js";
-import { getUserApi, handleError, loginApi } from "../../utils/api.js";
-import { Router } from "../../core/Router/index.js";
-import { PlainObject } from "../../utils/utils.js";
-import { FormInputs } from "../../utils/validation.js";
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { Block, Children, Props } from '../../core/Block/index';
+import { Input } from '../../components/Input/index';
+import { Title } from '../../components/Title/index';
+import { Button, ButtonProps } from '../../components/Button/index';
+import { Link } from '../../components/Link/index';
+import { getUserApi, handleError, loginApi } from '../../utils/api';
+import { Router } from '../../core/Router/index';
+import { PlainObject } from '../../utils/utils';
+import { FormInputs } from '../../utils/validation';
 
 export interface LoginProps extends Props{
 }
@@ -21,8 +21,10 @@ export class Login extends Block<LoginProps> {
         (children.button.blockProps as ButtonProps).handleMethod = this.loginUser.bind(this);
         getUserApi().then((data: PlainObject) => {
             if(!data.errorMsg) {
-                Router.__instance.go('/chat');
+                Router.getInstance().go('/chat');
             }
+        }).catch(err => {
+            handleError({errorMsg: err.message});
         });
     }
 
@@ -32,7 +34,7 @@ export class Login extends Block<LoginProps> {
         loginApi(data).then((data: PlainObject) => {
             this.childBlocks.button.setProps({isDisabled: false});
             if(!data.errorMsg) {
-                Router.__instance.go('/chat');
+                Router.getInstance().go('/chat');
             } else {
                 throw new Error(data.errorMsg as string);
             }

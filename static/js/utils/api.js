@@ -14,10 +14,10 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-import { fetchWithRetry, HTTPTransport, METHODS } from "./HTTPTransport.js";
-import { getRussianErrorMsg } from "./serverErrors.js";
-import { toJson } from "./utils.js";
-import { Router } from "../core/Router/index.js";
+import { fetchWithRetry, HTTPTransport, METHODS } from './HTTPTransport';
+import { getRussianErrorMsg } from './serverErrors';
+import { toJson } from './utils';
+import { Router } from '../core/Router/index';
 export var serverHost = 'https://ya-praktikum.tech';
 export function registerApi(data) {
     return (new HTTPTransport()).post(serverHost + "/api/v2/auth/signup", {
@@ -137,18 +137,17 @@ export function handleApiResponse(xhr) {
     var status = xhr.status, response = xhr.response;
     switch (status) {
         case 200:
-            result = toJson(response);
-            break;
+            return toJson(response);
         case 401:
             if (location.pathname !== '/login' && location.pathname !== '/register') {
-                Router.__instance.go('/login');
+                Router.getInstance().go('/login');
             }
             result = getErrorMsg(response);
             break;
         default:
             result = getErrorMsg(response);
     }
-    return result;
+    return handleError(result);
 }
 export function handleError(err, errorBlock) {
     var errorMsg = err.errorMsg, type = err.type;
@@ -156,7 +155,7 @@ export function handleError(err, errorBlock) {
         errorMsg = getRussianErrorMsg(type);
     }
     errorBlock && errorBlock.setProps({ text: errorMsg, isHidden: false });
-    console.log('Error catch:', errorMsg);
+    return err;
 }
 function getErrorMsg(response) {
     return { errorMsg: getRussianErrorMsg(parseErrorMsg(response)) };

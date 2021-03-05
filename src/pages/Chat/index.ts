@@ -1,11 +1,11 @@
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { mockChatData } from '../../mockData/Chat.js';
-import { Block, Children, Props } from '../../core/Block/index.js';
-import { Button, ButtonProps } from "../../components/Button/index.js";
-import { Input } from "../../components/Input/index.js";
-import { Title } from "../../components/Title/index.js";
-import { Link, LinkProps } from "../../components/Link/index.js";
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { mockChatData } from '../../mockData/Chat';
+import { Block, Children, Props } from '../../core/Block/index';
+import { Button, ButtonProps } from '../../components/Button/index';
+import { Input } from '../../components/Input/index';
+import { Title } from '../../components/Title/index';
+import { Link, LinkProps } from '../../components/Link/index';
 import {
     addChatApi,
     addUsersToChatApi,
@@ -17,9 +17,9 @@ import {
     NewMessagesCountResponse,
     removeChatApi,
     removeUsersFromChatApi
-} from "../../utils/api.js";
-import { PlainObject } from "../../utils/utils.js";
-import { FormInputs } from "../../utils/validation.js";
+} from '../../utils/api';
+import { PlainObject } from '../../utils/utils';
+import { FormInputs } from '../../utils/validation';
 
 export interface ChatProps extends Props {
     chats?: ChatsData,
@@ -103,7 +103,8 @@ export class Chat extends Block<ChatProps> {
                     const { text: usersCount } = (this.childBlocks.chatUsersCountLabel as Title).props;
                     this.childBlocks.chatUsersCountLabel.setProps({text: parseInt(usersCount) + 1});
                 } else {
-                    console.log(responseData.errorMsg);
+                    //TODO: error to ErrorNotification Block
+                    // console.log(responseData.errorMsg);
                 }
             }
         });
@@ -126,7 +127,8 @@ export class Chat extends Block<ChatProps> {
                     const { text: usersCount } = (this.childBlocks.chatUsersCountLabel as Title).props;
                     this.childBlocks.chatUsersCountLabel.setProps({text: parseInt(usersCount) - 1});
                 } else {
-                    console.log(responseData.errorMsg);
+                    //TODO: error to ErrorNotification Block
+                    // console.log(responseData.errorMsg);
                 }
             }
         });
@@ -136,6 +138,8 @@ export class Chat extends Block<ChatProps> {
             if(!data.errorMsg) {
                 this.getChatsFromServer();
             }
+        }).catch(err => {
+            handleError({errorMsg: err.message});
         });
     }
 
@@ -191,10 +195,11 @@ export class Chat extends Block<ChatProps> {
     public show() {
         // Получаем авторизованного юзера
         getUserApi().then((data: PlainObject) => {
-            console.log(data)
             // Получаем чаты
             this.getChatsFromServer();
             super.show();
+        }).catch(err => {
+            handleError({errorMsg: err.message});
         });
     }
 
@@ -207,7 +212,7 @@ export class Chat extends Block<ChatProps> {
 }
 
 function handleSelectChatItem(evt: Event) {
-    const chatId = (evt.currentTarget as HTMLElement).dataset.chatItemId;
+    const chatId = (evt.currentTarget as HTMLElement).getAttribute('data-chat-item-id');;
     this.setProps({selectedChatItemId: chatId});
     getChatUsersApi({chatId}).then((data: PlainObject) => {
         if(!data.errorMsg) {

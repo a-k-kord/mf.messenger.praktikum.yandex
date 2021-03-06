@@ -15,7 +15,7 @@
     "server": "npm run add-js-ext && node server.js",
     "check-types": "tsc && npm run add-js-ext",
     "add-js-ext": "node AddJsExt.js",
-    "prepublish": "npm run check-types",
+    "prepare": "npm run check-types",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha"
   },
   "directories": {

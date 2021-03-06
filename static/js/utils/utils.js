@@ -25,9 +25,10 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-var __spread = (this && this.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 export function isPlainObject(value) {
     return (typeof value === "object" &&
@@ -229,7 +230,7 @@ function getParams(data, parentKey) {
         for (var _b = __values(Object.entries(data)), _c = _b.next(); !_c.done; _c = _b.next()) {
             var _d = __read(_c.value, 2), key = _d[0], value = _d[1];
             if (isArrayOrObject(value)) {
-                result.push.apply(result, __spread(getParams(value, getKey(key, parentKey))));
+                result.push.apply(result, __spreadArray([], __read(getParams(value, getKey(key, parentKey)))));
             }
             else {
                 result.push([getKey(key, parentKey), encodeURIComponent(String(value))]);

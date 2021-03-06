@@ -1,0 +1,78 @@
+Это оочень странно. Ведь я проверял чистую установку.
+И сейчас еще раз, удалил node_modules и package-lock.json  и  запустил
+npm i && npm run test
+Вот вывод лога:
+
+mf.messenger.praktikum.yandex git:(main) npm i && npm run test
+npm WARN deprecated request-promise-native@1.0.9: request-promise-native has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
+npm WARN deprecated har-validator@5.1.5: this library is no longer supported
+npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+
+> mf.messenger.praktikum.yandex@1.0.0 prepublish
+> npm run check-types
+
+
+> mf.messenger.praktikum.yandex@1.0.0 check-types
+> tsc && npm run add-js-ext
+
+
+> mf.messenger.praktikum.yandex@1.0.0 add-js-ext
+> node AddJsExt.js
+
+
+added 395 packages, and audited 396 packages in 8s
+
+23 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+> mf.messenger.praktikum.yandex@1.0.0 test
+> env TS_NODE_COMPILER_OPTIONS='{"module": "commonjs" }' mocha
+
+
+
+  Block Button
+    Check creation
+      ✓ Button created
+      ✓ Button rendered in Dom
+
+  Router
+    Check creation
+      ✓ Router created and has window.history object
+    Go to
+      ✓ go to page (503ms)
+      ✓ refresh page (543ms)
+      ✓ go back (503ms)
+    Negative assertion
+      ✓ go to unknown page (525ms)
+      ✓ go to empty url (521ms)
+      ✓ go to null url (523ms)
+
+  Templator
+    Check creation
+      ✓ template created
+      ✓ template rendered in DOM
+      ✓ props as tag attributes rendered
+      ✓ slots as child elements rendered
+      Check creation with bad input
+        ✓ props and slots are empty objects
+        ✓ props and slots are null
+
+  Api calls
+    register user
+      ✓ returns id
+    login user
+      ✓ returns id
+    get auth user
+      ✓ returns id
+    handleApiResponse
+      ✓ response 200: returns response data
+      ✓ response 500: returns errorMsg
+      ✓ response 404: returns errorMsg
+      ✓ response 401: returns errorMsg (51ms)
+      ✓ response 401: redirects to /login (525ms)
+
+
+  23 passing (6s)
+

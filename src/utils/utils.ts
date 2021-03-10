@@ -162,28 +162,25 @@ export function isEqual(a: object, b: object): boolean {
 }
 
 
-export function cloneDeep<T extends object = object>(obj: T) : T {
-    let res: T;
-    if(isArray(obj)) {
-        res = [] as T;
-        for(let entry of obj) {
-            if(isArray(entry)) {
-                (res as []).push(cloneDeep(entry));
-            } else if(isPlainObject(entry)) {
-                (res as []).push(cloneDeep(entry));
+export function cloneDeep<T extends object = object>(obj: T): T {
+    if (isArray(obj)) {
+        return obj.map((entry) => {
+            if (isArray(entry) || isPlainObject(entry)) {
+                return cloneDeep(entry);
             } else {
-                (res as []).push(entry);
+                return entry;
             }
-        }
-    } else if(isPlainObject(obj)){
-        res = {} as T;
-        for(let [key, val] of Object.entries(obj)) {
-            res[key] = isArray(val) || isPlainObject(val) ? cloneDeep(val) : val ;
-        }
+        }) as T;
+    } else if (isPlainObject(obj)) {
+        return Object.entries(obj).reduce(function (acc, [key, val]) {
+            return {
+                ...acc,
+                [key] : isArray(val) || isPlainObject(val) ? cloneDeep(val) : val
+            };
+        }, {})  as T;
     } else {
-        res = obj
+        return obj;
     }
-    return res;
 }
 
 function isArrayOrObject(value: unknown): value is [] | PlainObject {

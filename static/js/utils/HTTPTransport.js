@@ -19,29 +19,30 @@ export var METHODS;
     METHODS["DELETE"] = "DELETE";
 })(METHODS || (METHODS = {}));
 var HTTPTransport = (function () {
-    function HTTPTransport() {
+    function HTTPTransport(baseUrl) {
         var _this = this;
-        this.get = function (url, options) {
+        if (baseUrl === void 0) { baseUrl = ''; }
+        this.get = function (urlPath, options) {
             var data = options.data;
-            url += queryString(data) || '';
-            return _this.request(url, __assign(__assign({}, options), { method: METHODS.GET }));
+            urlPath += queryString(data) || '';
+            return _this.request(urlPath, __assign(__assign({}, options), { method: METHODS.GET }));
         };
-        this.put = function (url, options) {
-            return _this.request(url, __assign(__assign({}, options), { method: METHODS.PUT }));
+        this.put = function (urlPath, options) {
+            return _this.request(urlPath, __assign(__assign({}, options), { method: METHODS.PUT }));
         };
-        this.post = function (url, options) {
-            return _this.request(url, __assign(__assign({}, options), { method: METHODS.POST }));
+        this.post = function (urlPath, options) {
+            return _this.request(urlPath, __assign(__assign({}, options), { method: METHODS.POST }));
         };
-        this.delete = function (url, options) {
-            return _this.request(url, __assign(__assign({}, options), { method: METHODS.DELETE }));
+        this.delete = function (urlPath, options) {
+            return _this.request(urlPath, __assign(__assign({}, options), { method: METHODS.DELETE }));
         };
-        this.request = function (url, options) {
+        this.request = function (urlPath, options) {
             var _a = options.timeout, timeout = _a === void 0 ? 5000 : _a, _b = options.withCredentials, withCredentials = _b === void 0 ? false : _b, _c = options.method, method = _c === void 0 ? METHODS.GET : _c, headers = options.headers, data = options.data;
             return new Promise(function (resolve, reject) {
                 var xhr = new XMLHttpRequest();
                 xhr.timeout = timeout;
                 xhr.withCredentials = withCredentials;
-                xhr.open(method, url);
+                xhr.open(method, "" + _this.baseUrl + urlPath);
                 xhr.onload = function () {
                     resolve(handleApiResponse(xhr));
                 };
@@ -75,18 +76,19 @@ var HTTPTransport = (function () {
                 }
             });
         };
+        this.baseUrl = baseUrl;
     }
     return HTTPTransport;
 }());
 export { HTTPTransport };
-export function fetchWithRetry(url, options) {
+export function fetchWithRetry(baseUrl, urlPath, options) {
     var _a = options.tries, tries = _a === void 0 ? 2 : _a;
     function onError(err) {
         var triesLeft = tries - 1;
         if (!triesLeft) {
             throw err;
         }
-        return fetchWithRetry(url, __assign(__assign({}, options), { tries: triesLeft }));
+        return fetchWithRetry(baseUrl, urlPath, __assign(__assign({}, options), { tries: triesLeft }));
     }
-    return (new HTTPTransport().get(url, options)).catch(onError);
+    return (new HTTPTransport(baseUrl).get(urlPath, options)).catch(onError);
 }

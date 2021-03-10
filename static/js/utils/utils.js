@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __read = (this && this.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -25,10 +36,9 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
 };
 export function isPlainObject(value) {
     return (typeof value === "object" &&
@@ -170,52 +180,26 @@ export function isEqual(a, b) {
     return true;
 }
 export function cloneDeep(obj) {
-    var e_1, _a, e_2, _b;
-    var res;
     if (isArray(obj)) {
-        res = [];
-        try {
-            for (var obj_1 = __values(obj), obj_1_1 = obj_1.next(); !obj_1_1.done; obj_1_1 = obj_1.next()) {
-                var entry = obj_1_1.value;
-                if (isArray(entry)) {
-                    res.push(cloneDeep(entry));
-                }
-                else if (isPlainObject(entry)) {
-                    res.push(cloneDeep(entry));
-                }
-                else {
-                    res.push(entry);
-                }
+        return obj.map(function (entry) {
+            if (isArray(entry) || isPlainObject(entry)) {
+                return cloneDeep(entry);
             }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (obj_1_1 && !obj_1_1.done && (_a = obj_1.return)) _a.call(obj_1);
+            else {
+                return entry;
             }
-            finally { if (e_1) throw e_1.error; }
-        }
+        });
     }
     else if (isPlainObject(obj)) {
-        res = {};
-        try {
-            for (var _c = __values(Object.entries(obj)), _d = _c.next(); !_d.done; _d = _c.next()) {
-                var _e = __read(_d.value, 2), key = _e[0], val = _e[1];
-                res[key] = isArray(val) || isPlainObject(val) ? cloneDeep(val) : val;
-            }
-        }
-        catch (e_2_1) { e_2 = { error: e_2_1 }; }
-        finally {
-            try {
-                if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
-            }
-            finally { if (e_2) throw e_2.error; }
-        }
+        return Object.entries(obj).reduce(function (acc, _a) {
+            var _b;
+            var _c = __read(_a, 2), key = _c[0], val = _c[1];
+            return __assign(__assign({}, acc), (_b = {}, _b[key] = isArray(val) || isPlainObject(val) ? cloneDeep(val) : val, _b));
+        }, {});
     }
     else {
-        res = obj;
+        return obj;
     }
-    return res;
 }
 function isArrayOrObject(value) {
     return isPlainObject(value) || isArray(value);
@@ -224,25 +208,25 @@ function getKey(key, parentKey) {
     return parentKey ? parentKey + "[" + key + "]" : key;
 }
 function getParams(data, parentKey) {
-    var e_3, _a;
+    var e_1, _a;
     var result = [];
     try {
         for (var _b = __values(Object.entries(data)), _c = _b.next(); !_c.done; _c = _b.next()) {
             var _d = __read(_c.value, 2), key = _d[0], value = _d[1];
             if (isArrayOrObject(value)) {
-                result.push.apply(result, __spreadArray([], __read(getParams(value, getKey(key, parentKey)))));
+                result.push.apply(result, __spread(getParams(value, getKey(key, parentKey))));
             }
             else {
                 result.push([getKey(key, parentKey), encodeURIComponent(String(value))]);
             }
         }
     }
-    catch (e_3_1) { e_3 = { error: e_3_1 }; }
+    catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_3) throw e_3.error; }
+        finally { if (e_1) throw e_1.error; }
     }
     return result;
 }

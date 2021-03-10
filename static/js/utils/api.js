@@ -19,52 +19,53 @@ import { getRussianErrorMsg } from './serverErrors.js';
 import { toJson } from './utils.js';
 import { Router } from '../core/Router/index.js';
 export var serverHost = 'https://ya-praktikum.tech';
+var httpTransport = new HTTPTransport(serverHost);
 export function registerApi(data) {
-    return (new HTTPTransport()).post(serverHost + "/api/v2/auth/signup", {
+    return httpTransport.post("/api/v2/auth/signup", {
         method: METHODS.POST,
         withCredentials: true,
         data: data
     });
 }
 export function loginApi(data) {
-    return (new HTTPTransport()).post(serverHost + "/api/v2/auth/signin", {
+    return httpTransport.post("/api/v2/auth/signin", {
         method: METHODS.POST,
         withCredentials: true,
         data: data
     });
 }
 export function logoutApi() {
-    return (new HTTPTransport()).post(serverHost + "/api/v2/auth/logout", {
+    return httpTransport.post("/api/v2/auth/logout", {
         withCredentials: true,
     });
 }
 export function saveAvatarApi(data) {
-    return (new HTTPTransport()).put(serverHost + "/api/v2/user/profile/avatar", {
+    return httpTransport.put("/api/v2/user/profile/avatar", {
         withCredentials: true,
         data: data
     });
 }
 export function saveProfileApi(data) {
-    return (new HTTPTransport()).put(serverHost + "/api/v2/user/profile", {
+    return httpTransport.put("/api/v2/user/profile", {
         withCredentials: true,
         data: data
     });
 }
 export function savePasswordApi(data) {
-    return (new HTTPTransport()).put(serverHost + "/api/v2/user/password", {
+    return httpTransport.put("/api/v2/user/password", {
         withCredentials: true,
         data: data
     });
 }
 export function getUserApi() {
-    return fetchWithRetry(serverHost + "/api/v2/auth/user", {
+    return fetchWithRetry(serverHost, "/api/v2/auth/user", {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,
     });
 }
 export function getChatsApi(chatData) {
-    return fetchWithRetry(serverHost + "/api/v2/chats", {
+    return fetchWithRetry(serverHost, "/api/v2/chats", {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,
@@ -72,7 +73,7 @@ export function getChatsApi(chatData) {
 }
 export function getNewMessagesCount(chatData) {
     var chatId = chatData.chatId;
-    return fetchWithRetry(serverHost + "/api/v2/chats/new/" + chatId, {
+    return fetchWithRetry(serverHost, "/api/v2/chats/new/" + chatId, {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,
@@ -80,14 +81,14 @@ export function getNewMessagesCount(chatData) {
 }
 export function addChatApi(chatData) {
     var data = chatData.formInputs;
-    return (new HTTPTransport()).post(serverHost + "/api/v2/chats", {
+    return httpTransport.post("/api/v2/chats", {
         withCredentials: true,
         data: data
     });
 }
 export function removeChatApi(chatData) {
     var chatId = chatData.chatId;
-    return (new HTTPTransport()).delete(serverHost + "/api/v2/chats", {
+    return httpTransport.delete("/api/v2/chats", {
         withCredentials: true,
         data: { chatId: chatId }
     });
@@ -97,7 +98,7 @@ export function addUsersToChatApi(chatData) {
     return getUsersByLoginApi({ login: login }).then(function (users) {
         if (Array.isArray(users)) {
             var _a = __read(users, 1), userId = _a[0].id;
-            return (new HTTPTransport()).put(serverHost + "/api/v2/chats/users", {
+            return httpTransport.put("/api/v2/chats/users", {
                 withCredentials: true,
                 data: { users: [userId], chatId: chatId }
             });
@@ -110,7 +111,7 @@ export function removeUsersFromChatApi(chatData) {
     return getUsersByLoginApi({ login: login }).then(function (users) {
         if (Array.isArray(users)) {
             var _a = __read(users, 1), userId = _a[0].id;
-            return (new HTTPTransport()).delete(serverHost + "/api/v2/chats/users", {
+            return httpTransport.delete("/api/v2/chats/users", {
                 withCredentials: true,
                 data: { users: [userId], chatId: chatId }
             });
@@ -119,14 +120,14 @@ export function removeUsersFromChatApi(chatData) {
     });
 }
 export function getUsersByLoginApi(data) {
-    return (new HTTPTransport()).post(serverHost + "/api/v2/user/search", {
+    return httpTransport.post("/api/v2/user/search", {
         withCredentials: true,
         data: data
     });
 }
 export function getChatUsersApi(chatData) {
     var chatId = chatData.chatId;
-    return fetchWithRetry(serverHost + "/api/v2/chats/" + chatId + "/users", {
+    return fetchWithRetry(serverHost, "/api/v2/chats/" + chatId + "/users", {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,

@@ -1,6 +1,4 @@
-export type Listeners = {
-    [event: string] : Function[];
-}
+export type Listeners = Record<string, Function[]>
 
 export class EventBus {
     private readonly listeners: Listeners;

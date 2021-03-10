@@ -25,8 +25,8 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-import { EventBus } from '../EventBus/index.js';
-import { createBlockDocumentElement, hide, isInDom, show } from '../../utils/dom.js';
+import { EventBus } from '../EventBus/index';
+import { createBlockDocumentElement, hide, isInDom, show } from '../../utils/dom';
 var EVENTS;
 (function (EVENTS) {
     EVENTS["INIT"] = "init";

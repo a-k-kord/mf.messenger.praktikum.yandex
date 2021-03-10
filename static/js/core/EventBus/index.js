@@ -14,10 +14,9 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
 };
 var EventBus = (function () {
     function EventBus() {
@@ -44,7 +43,7 @@ var EventBus = (function () {
             throw new Error("\u041D\u0435\u0442 \u0441\u043E\u0431\u044B\u0442\u0438\u044F: " + event);
         }
         this.listeners[event].forEach(function (listener) {
-            listener.apply(void 0, __spreadArray([], __read(args)));
+            listener.apply(void 0, __spread(args));
         });
     };
     return EventBus;

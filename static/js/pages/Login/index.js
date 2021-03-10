@@ -22,15 +22,15 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { compileTemplate } from '../../core/Template/index';
-import template from './template';
-import { Block } from '../../core/Block/index';
-import { Input } from '../../components/Input/index';
-import { Title } from '../../components/Title/index';
-import { Button } from '../../components/Button/index';
-import { Link } from '../../components/Link/index';
-import { getUserApi, handleError, loginApi } from '../../utils/api';
-import { Router } from '../../core/Router/index';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block } from '../../core/Block/index.js';
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Button } from '../../components/Button/index.js';
+import { Link } from '../../components/Link/index.js';
+import { getUserApi, handleError, loginApi } from '../../utils/api.js';
+import { Router } from '../../core/Router/index.js';
 var Login = (function (_super) {
     __extends(Login, _super);
     function Login(parentElement, props, children, tagName) {

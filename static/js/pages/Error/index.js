@@ -22,11 +22,11 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { compileTemplate } from '../../core/Template/index';
-import template from './template';
-import { Block } from '../../core/Block/index';
-import { Title } from '../../components/Title/index';
-import { Link } from '../../components/Link/index';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block } from '../../core/Block/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Link } from '../../components/Link/index.js';
 var errors = {
     '404': {
         errNum: 404,

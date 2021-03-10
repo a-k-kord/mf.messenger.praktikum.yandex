@@ -14,10 +14,10 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-import { fetchWithRetry, HTTPTransport, METHODS } from './HTTPTransport';
-import { getRussianErrorMsg } from './serverErrors';
-import { toJson } from './utils';
-import { Router } from '../core/Router/index';
+import { fetchWithRetry, HTTPTransport, METHODS } from './HTTPTransport.js';
+import { getRussianErrorMsg } from './serverErrors.js';
+import { toJson } from './utils.js';
+import { Router } from '../core/Router/index.js';
 export var serverHost = 'https://ya-praktikum.tech';
 var httpTransport = new HTTPTransport(serverHost);
 export function registerApi(data) {

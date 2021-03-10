@@ -22,17 +22,17 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { compileTemplate } from '../../core/Template/index';
-import template from './template';
-import { Block } from '../../core/Block/index';
-import { Link } from '../../components/Link/index';
-import { Input } from '../../components/Input/index';
-import { Title } from '../../components/Title/index';
-import { Button } from '../../components/Button/index';
-import { getUserApi, handleError, logoutApi, saveAvatarApi, savePasswordApi, saveProfileApi, serverHost } from '../../utils/api';
-import { Router } from '../../core/Router/index';
-import { Image } from '../../components/Image/index';
-import { hide } from '../../utils/dom';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block } from '../../core/Block/index.js';
+import { Link } from '../../components/Link/index.js';
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Button } from '../../components/Button/index.js';
+import { getUserApi, handleError, logoutApi, saveAvatarApi, savePasswordApi, saveProfileApi, serverHost } from '../../utils/api.js';
+import { Router } from '../../core/Router/index.js';
+import { Image } from '../../components/Image/index.js';
+import { hide } from '../../utils/dom.js';
 var Profile = (function (_super) {
     __extends(Profile, _super);
     function Profile(parentElement, props, children, tagName) {

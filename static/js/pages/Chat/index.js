@@ -33,15 +33,15 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-import { compileTemplate } from '../../core/Template/index';
-import template from './template';
-import { mockChatData } from '../../mockData/Chat';
-import { Block } from '../../core/Block/index';
-import { Button } from '../../components/Button/index';
-import { Input } from '../../components/Input/index';
-import { Title } from '../../components/Title/index';
-import { Link } from '../../components/Link/index';
-import { addChatApi, addUsersToChatApi, getChatsApi, getChatUsersApi, getNewMessagesCount, getUserApi, handleError, removeChatApi, removeUsersFromChatApi } from '../../utils/api';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { mockChatData } from '../../mockData/Chat.js';
+import { Block } from '../../core/Block/index.js';
+import { Button } from '../../components/Button/index.js';
+import { Input } from '../../components/Input/index.js';
+import { Title } from '../../components/Title/index.js';
+import { Link } from '../../components/Link/index.js';
+import { addChatApi, addUsersToChatApi, getChatsApi, getChatUsersApi, getNewMessagesCount, getUserApi, handleError, removeChatApi, removeUsersFromChatApi } from '../../utils/api.js';
 var Chat = (function (_super) {
     __extends(Chat, _super);
     function Chat(parentElement, props, children, tagName) {

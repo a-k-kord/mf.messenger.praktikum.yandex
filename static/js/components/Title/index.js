@@ -22,9 +22,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { compileTemplate } from '../../core/Template/index';
-import template from './template';
-import { Block } from '../../core/Block/index';
+import { compileTemplate } from '../../core/Template/index.js';
+import template from './template.js';
+import { Block } from '../../core/Block/index.js';
 var Title = (function (_super) {
     __extends(Title, _super);
     function Title() {

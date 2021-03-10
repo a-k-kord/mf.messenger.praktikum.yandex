@@ -1,9 +1,9 @@
-import { Router } from '../core/Router/index';
-import { Login } from './Login/index';
-import { Register } from './Register/index';
-import { Chat } from './Chat/index';
-import { Profile } from './Profile/index';
-import { Error } from './Error/index';
+import { Router } from '../core/Router/index.js';
+import { Login } from './Login/index.js';
+import { Register } from './Register/index.js';
+import { Chat } from './Chat/index.js';
+import { Profile } from './Profile/index.js';
+import { Error } from './Error/index.js';
 var router = new Router("#app");
 router
     .use("/", Login)

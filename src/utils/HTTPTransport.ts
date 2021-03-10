@@ -18,38 +18,44 @@ export type HttpOptions = {
 }
 
 export class HTTPTransport {
-    get = (url: string, options?: HttpOptions) => {
-        let { data } = options;
-        url += queryString(data) || '';
+    private baseUrl: string;
 
-        return this.request(url, {
+    constructor(baseUrl: string = '') {
+        this.baseUrl = baseUrl;
+    }
+
+    get = (urlPath: string, options?: HttpOptions) => {
+        let { data } = options;
+        urlPath += queryString(data) || '';
+
+        return this.request(urlPath, {
             ...options,
             method: METHODS.GET
         });
     };
 
-    put = (url: string, options?: HttpOptions) => {
-        return this.request(url, {
+    put = (urlPath: string, options?: HttpOptions) => {
+        return this.request(urlPath, {
             ...options,
             method: METHODS.PUT
         });
     };
 
-    post = (url: string, options?: HttpOptions) => {
-        return this.request(url, {
+    post = (urlPath: string, options?: HttpOptions) => {
+        return this.request(urlPath, {
             ...options,
             method: METHODS.POST
         });
     };
 
-    delete = (url: string, options?: HttpOptions) => {
-        return this.request(url, {
+    delete = (urlPath: string, options?: HttpOptions) => {
+        return this.request(urlPath, {
             ...options,
             method: METHODS.DELETE
         });
     };
 
-    request = (url: string, options?: HttpOptions): Promise<PlainObject> => {
+    request = (urlPath: string, options?: HttpOptions): Promise<PlainObject> => {
         const {
             timeout = 5000,
             withCredentials = false,
@@ -62,7 +68,7 @@ export class HTTPTransport {
             const xhr = new XMLHttpRequest();
             xhr.timeout = timeout;
             xhr.withCredentials = withCredentials;
-            xhr.open(method, url);
+            xhr.open(method, `${this.baseUrl}${urlPath}`);
 
             xhr.onload = function () {
                 resolve(handleApiResponse(xhr));
@@ -100,7 +106,7 @@ export class HTTPTransport {
     };
 }
 
-export function fetchWithRetry(url: string, options?: HttpOptions) {
+export function fetchWithRetry(baseUrl: string, urlPath: string, options?: HttpOptions) {
     const {
         tries = 2
     } = options;
@@ -111,12 +117,12 @@ export function fetchWithRetry(url: string, options?: HttpOptions) {
             throw err;
         }
 
-        return fetchWithRetry(url, {
+        return fetchWithRetry(baseUrl, urlPath, {
             ...options,
             tries: triesLeft
         });
     }
 
-    return (new HTTPTransport().get(url, options)).catch(onError); // fetch
+    return (new HTTPTransport(baseUrl).get(urlPath, options)).catch(onError); // fetch
 }
 

@@ -6,8 +6,6 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -24,9 +22,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { compileTemplate } from '../../core/Template/index.js';
-import template from './template.js';
-import { Block } from '../../core/Block/index.js';
+import { compileTemplate } from '../../core/Template/index';
+import template from './template';
+import { Block } from '../../core/Block/index';
 var Image = (function (_super) {
     __extends(Image, _super);
     function Image() {

@@ -14,10 +14,12 @@ export declare type HttpOptions = {
     tries?: number;
 };
 export declare class HTTPTransport {
-    get: (url: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
-    put: (url: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
-    post: (url: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
-    delete: (url: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
-    request: (url: string, options?: HttpOptions) => Promise<PlainObject>;
+    private baseUrl;
+    constructor(baseUrl?: string);
+    get: (urlPath: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
+    put: (urlPath: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
+    post: (urlPath: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
+    delete: (urlPath: string, options?: HttpOptions) => Promise<PlainObject<unknown>>;
+    request: (urlPath: string, options?: HttpOptions) => Promise<PlainObject>;
 }
-export declare function fetchWithRetry(url: string, options?: HttpOptions): any;
+export declare function fetchWithRetry(baseUrl: string, urlPath: string, options?: HttpOptions): any;

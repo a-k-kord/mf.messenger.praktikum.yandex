@@ -5,7 +5,7 @@ import { PlainObject, toJson } from './utils';
 import { Router } from '../core/Router/index';
 
 export const serverHost = 'https://ya-praktikum.tech';
-
+const httpTransport = new HTTPTransport(serverHost);
 
 type ChatApiData = {
     formInputs?: Record<string, string>,
@@ -13,7 +13,7 @@ type ChatApiData = {
 }
 
 export function registerApi(data: PlainObject) {
-    return (new HTTPTransport()).post(`${serverHost}/api/v2/auth/signup`, {
+    return httpTransport.post(`/api/v2/auth/signup`, {
         method: METHODS.POST,
         withCredentials: true,
         data
@@ -21,7 +21,7 @@ export function registerApi(data: PlainObject) {
 }
 
 export function loginApi(data: PlainObject) {
-    return (new HTTPTransport()).post(`${serverHost}/api/v2/auth/signin`, {
+    return httpTransport.post(`/api/v2/auth/signin`, {
         method: METHODS.POST,
         withCredentials: true,
         data
@@ -29,34 +29,34 @@ export function loginApi(data: PlainObject) {
 }
 
 export function logoutApi() {
-    return (new HTTPTransport()).post(`${serverHost}/api/v2/auth/logout`, {
+    return httpTransport.post(`/api/v2/auth/logout`, {
         withCredentials: true,
     });
 }
 
 export function saveAvatarApi(data) {
-    return (new HTTPTransport()).put(`${serverHost}/api/v2/user/profile/avatar`, {
+    return httpTransport.put(`/api/v2/user/profile/avatar`, {
         withCredentials: true,
         data
     });
 }
 
 export function saveProfileApi(data: PlainObject) {
-    return (new HTTPTransport()).put(`${serverHost}/api/v2/user/profile`, {
+    return httpTransport.put(`/api/v2/user/profile`, {
         withCredentials: true,
         data
     });
 }
 
 export function savePasswordApi(data: PlainObject) {
-    return (new HTTPTransport()).put(`${serverHost}/api/v2/user/password`, {
+    return httpTransport.put(`/api/v2/user/password`, {
         withCredentials: true,
         data
     });
 }
 
 export function getUserApi() {
-    return fetchWithRetry(`${serverHost}/api/v2/auth/user`, {
+    return fetchWithRetry(serverHost, `/api/v2/auth/user`, {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,
@@ -64,7 +64,7 @@ export function getUserApi() {
 }
 
 export function getChatsApi(chatData?: ChatApiData) {
-    return fetchWithRetry(`${serverHost}/api/v2/chats`, {
+    return fetchWithRetry(serverHost, `/api/v2/chats`, {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,
@@ -77,7 +77,7 @@ export type NewMessagesCountResponse = {
 
 export function getNewMessagesCount(chatData: ChatApiData) {
     const { chatId } = chatData;
-    return fetchWithRetry(`${serverHost}/api/v2/chats/new/${chatId}`, {
+    return fetchWithRetry(serverHost, `/api/v2/chats/new/${chatId}`, {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,
@@ -86,7 +86,7 @@ export function getNewMessagesCount(chatData: ChatApiData) {
 
 export function addChatApi(chatData: ChatApiData) {
     const { formInputs: data } = chatData;
-    return (new HTTPTransport()).post(`${serverHost}/api/v2/chats`, {
+    return httpTransport.post(`/api/v2/chats`, {
         withCredentials: true,
         data
     });
@@ -94,7 +94,7 @@ export function addChatApi(chatData: ChatApiData) {
 
 export function removeChatApi(chatData: ChatApiData) {
     const { chatId } = chatData;
-    return (new HTTPTransport()).delete(`${serverHost}/api/v2/chats`, {
+    return httpTransport.delete(`/api/v2/chats`, {
         withCredentials: true,
         data: { chatId }
     });
@@ -106,7 +106,7 @@ export function addUsersToChatApi(chatData: ChatApiData) {
         // TODO: выводить список юзеров с возможностью выбора
         if(Array.isArray(users)) {
             const [{id: userId}] = users as PlainObject[];
-            return (new HTTPTransport()).put(`${serverHost}/api/v2/chats/users`, {
+            return httpTransport.put(`/api/v2/chats/users`, {
                 withCredentials: true,
                 data: {users:[userId], chatId}
             });
@@ -121,7 +121,7 @@ export function removeUsersFromChatApi(chatData: ChatApiData) {
         // TODO: выводить список юзеров с возможностью выбора
         if(Array.isArray(users)) {
             const [{id: userId}] = users as PlainObject[];
-            return (new HTTPTransport()).delete(`${serverHost}/api/v2/chats/users`, {
+            return httpTransport.delete(`/api/v2/chats/users`, {
                 withCredentials: true,
                 data: {users:[userId], chatId}
             });
@@ -131,7 +131,7 @@ export function removeUsersFromChatApi(chatData: ChatApiData) {
 }
 
 export function getUsersByLoginApi(data: PlainObject) {
-    return (new HTTPTransport()).post(`${serverHost}/api/v2/user/search`, {
+    return httpTransport.post(`/api/v2/user/search`, {
         withCredentials: true,
         data
     });
@@ -139,7 +139,7 @@ export function getUsersByLoginApi(data: PlainObject) {
 
 export function getChatUsersApi(chatData: ChatApiData) {
     const { chatId } = chatData;
-    return fetchWithRetry(`${serverHost}/api/v2/chats/${chatId}/users`, {
+    return fetchWithRetry(serverHost, `/api/v2/chats/${chatId}/users`, {
         tries: 2,
         method: METHODS.GET,
         withCredentials: true,

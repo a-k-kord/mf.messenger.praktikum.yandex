@@ -209,7 +209,7 @@ export default `
                 </ul>
             </div>
 
-            <form class="form form--width--full" onsubmit="return false;" autocomplete="off">
+            <form class="form form--width--full" onsubmit="this.children[1]?.children[0]?.dispatchEvent(new Event('click')); return false;" autocomplete="off">
                 <%~ it.slots?.messageToSend.outerHTML %>
                 <%~ it.slots?.buttonSend.outerHTML %>
             </form>

@@ -86,6 +86,7 @@ var Chat = (function (_super) {
             },
             callbackWithResponse: function (responseData) {
                 _this.togglePopup(false, addChatSelector);
+                _this.getChatsFromServer();
             },
         });
         var removeChatSelector = '#remove-chat-popup';
@@ -103,6 +104,7 @@ var Chat = (function (_super) {
             callbackWithResponse: function (responseData) {
                 _this.togglePopup(false, removeChatSelector);
                 _this.setProps({ selectedChatItemId: undefined });
+                _this.getChatsFromServer();
             },
         });
         var addUserSelector = '#add-user-popup';
@@ -246,9 +248,7 @@ var Chat = (function (_super) {
                 }
             }
             _this.setProps({
-                chats: {
-                    chats: chats,
-                },
+                chats: chats,
             });
             if (Router.getInstance().currentRoute.pathname === Chat.pathname) {
                 _super.prototype.show.call(_this);
@@ -343,6 +343,7 @@ var Chat = (function (_super) {
                 chats: __assign(__assign({}, chats), (_a = {}, _a[chatId] = __assign(__assign({}, chats[chatId]), { lastMessage: msgArr.length ? msgArr[0] : chats[chatId].lastMessage, messages: msgArr }), _a)),
             });
         }
+        document.getElementById('message').focus();
     };
     Chat.prototype.render = function () {
         return compileTemplate(template, {
@@ -528,6 +529,7 @@ function handleSelectChatItem(evt) {
                 }
             }
         });
+        document.getElementById('message').focus();
     }
 }
 var defaultChildren = {

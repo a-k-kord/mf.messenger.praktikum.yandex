@@ -42,25 +42,30 @@ function validateForm(event: Event): FormInputs {
     let isValid = true;
     const obj: Record<string, string> = {};
     const form = (<HTMLInputElement>event.target).closest('form');
-    const inputs = Array.from(form.querySelectorAll('[data-block-name]:not([style*="none"]) *')).filter((item) => item.tagName === 'INPUT');
+    const inputs: HTMLInputElement[] = Array.from(form.querySelectorAll('[data-block-name]:not([style*="none"]) *'))
+            .filter((item) => item.tagName === 'INPUT') as HTMLInputElement[];
     const errorInputs: HTMLInputElement[] = [];
-    inputs.forEach((input: HTMLInputElement) => {
-        const inputWrapper: HTMLElement = input.closest('.block-wrapper');
-        if (!inputWrapper.style.display || inputWrapper.style.display !== 'none') {
-            const customEvent = new Event('blur', {
-                bubbles: true,
-                cancelable: true,
-            });
+    if (inputs.length === 1 && inputs[0].value.trim() === '') {
+        isValid = false;
+    } else {
+        inputs.forEach((input: HTMLInputElement) => {
+            const inputWrapper: HTMLElement = input.closest('.block-wrapper');
+            if (!inputWrapper.style.display || inputWrapper.style.display !== 'none') {
+                const customEvent = new Event('blur', {
+                    bubbles: true,
+                    cancelable: true,
+                });
 
-            input.dispatchEvent(customEvent);
-            obj[input.name] = input.value;
-            const errorBlock: HTMLElement = inputWrapper.querySelector('[data-block-name="error"]');
-            if (errorBlock && errorBlock.style.display !== 'none') {
-                isValid = false;
-                errorInputs.push(input);
+                input.dispatchEvent(customEvent);
+                obj[input.name] = input.value;
+                const errorBlock: HTMLElement = inputWrapper.querySelector('[data-block-name="error"]');
+                if (errorBlock && errorBlock.style.display !== 'none') {
+                    isValid = false;
+                    errorInputs.push(input);
+                }
             }
-        }
-    });
+        });
+    }
     return {
         data: obj,
         form,

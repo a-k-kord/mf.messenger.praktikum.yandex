@@ -54,24 +54,30 @@ function validateForm(event) {
     var isValid = true;
     var obj = {};
     var form = event.target.closest('form');
-    var inputs = Array.from(form.querySelectorAll('[data-block-name]:not([style*="none"]) *')).filter(function (item) { return item.tagName === 'INPUT'; });
+    var inputs = Array.from(form.querySelectorAll('[data-block-name]:not([style*="none"]) *'))
+        .filter(function (item) { return item.tagName === 'INPUT'; });
     var errorInputs = [];
-    inputs.forEach(function (input) {
-        var inputWrapper = input.closest('.block-wrapper');
-        if (!inputWrapper.style.display || inputWrapper.style.display !== 'none') {
-            var customEvent = new Event('blur', {
-                bubbles: true,
-                cancelable: true,
-            });
-            input.dispatchEvent(customEvent);
-            obj[input.name] = input.value;
-            var errorBlock = inputWrapper.querySelector('[data-block-name="error"]');
-            if (errorBlock && errorBlock.style.display !== 'none') {
-                isValid = false;
-                errorInputs.push(input);
+    if (inputs.length === 1 && inputs[0].value.trim() === '') {
+        isValid = false;
+    }
+    else {
+        inputs.forEach(function (input) {
+            var inputWrapper = input.closest('.block-wrapper');
+            if (!inputWrapper.style.display || inputWrapper.style.display !== 'none') {
+                var customEvent = new Event('blur', {
+                    bubbles: true,
+                    cancelable: true,
+                });
+                input.dispatchEvent(customEvent);
+                obj[input.name] = input.value;
+                var errorBlock = inputWrapper.querySelector('[data-block-name="error"]');
+                if (errorBlock && errorBlock.style.display !== 'none') {
+                    isValid = false;
+                    errorInputs.push(input);
+                }
             }
-        }
-    });
+        });
+    }
     return {
         data: obj,
         form: form,

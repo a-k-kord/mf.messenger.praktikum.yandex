@@ -161,7 +161,6 @@ export function handleError(err, errorBlock) {
     var type = err.type, errorMsg = err.errorMsg;
     var msgText = type === 'timeout' || type === 'error' ? getRussianErrorMsg(type) : errorMsg;
     errorBlock === null || errorBlock === void 0 ? void 0 : errorBlock.setProps({ text: msgText, isHidden: false });
-    console.log('Error catch:', msgText);
     return err;
 }
 function getErrorMsg(response) {

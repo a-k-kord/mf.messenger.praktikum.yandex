@@ -102,7 +102,7 @@ export class Chat extends Block<ChatProps> {
             },
             callbackWithResponse: (responseData: PlainObject) => {
                 this.togglePopup(false, addChatSelector);
-                // this.getChatsFromServer();
+                this.getChatsFromServer();
             },
         });
 
@@ -121,7 +121,7 @@ export class Chat extends Block<ChatProps> {
             callbackWithResponse: (responseData: PlainObject) => {
                 this.togglePopup(false, removeChatSelector);
                 this.setProps({ selectedChatItemId: undefined });
-                // this.getChatsFromServer();
+                this.getChatsFromServer();
             },
         });
 
@@ -276,9 +276,7 @@ export class Chat extends Block<ChatProps> {
                     }
                 }
                 this.setProps({
-                    chats: {
-                        chats,
-                    },
+                    chats,
                 });
                 if (Router.getInstance().currentRoute.pathname === Chat.pathname) {
                     super.show();
@@ -417,6 +415,7 @@ export class Chat extends Block<ChatProps> {
                 },
             });
         }
+        document.getElementById('message').focus();
     }
 
     render(): string {
@@ -603,6 +602,7 @@ function handleSelectChatItem(evt: Event) {
                     }
                 }
             });
+        document.getElementById('message').focus();
     }
 }
 

@@ -242,7 +242,6 @@ export function toJson(data) {
         json = JSON.parse(data);
     }
     catch (err) {
-        console.log(err.message);
     }
     return json;
 }

@@ -1,0 +1,105 @@
+.dropdown {
+    display: inline-block;
+    position: relative;
+
+    &__toggle {
+        background-color: #0000;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 25px;
+        position: relative;
+        width: 25px;
+
+        &--big {
+            height: 32px;
+            width: 32px;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:hover + .dropdown__list {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        &--with-round-background {
+            &:hover {
+                background-color: $color-grey-light;
+            }
+        }
+    }
+
+    &__list {
+        background-color: $color-white;
+        border-radius: 12px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+        display: none;
+        min-width: 160px;
+        opacity: 0;
+        padding: 8px;
+        // TODO: transition: all 0.2s ;
+        position: absolute;
+        visibility: hidden;
+        width: 21rem;
+        z-index: 0;
+
+        &:hover {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        &--down-left {
+            right: 0;
+        }
+
+        &--up-right {
+            bottom: 27px;
+        }
+    }
+
+    &__item {
+        align-items: center;
+        color: $color-black;
+        display: flex;
+        opacity: 1;
+        text-decoration: none;
+        visibility: visible;
+        z-index: 1;
+
+        &:hover {
+            background-color: $color-white-darker;
+        }
+    }
+
+    &__icon {
+        border-radius: 50%;
+        color: #1e1e1e;
+
+        &--small {
+            padding: 4px;
+        }
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+    &__image {
+        height: 22px;
+        margin: 8px;
+        padding: 3px;
+        width: 22px;
+
+        &--size--medium {
+            height: 30px;
+            width: 30px;
+        }
+    }
+}

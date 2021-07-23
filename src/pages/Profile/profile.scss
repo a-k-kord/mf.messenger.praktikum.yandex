@@ -1,0 +1,43 @@
+.profile {
+    display: flex;
+
+    &__nav-back {
+        background-color: $color-white-darker;
+        height: 100vh;
+        position: relative;
+        width: 64px;
+
+        &:hover {
+            background-color: darken($color-white-darker, 2%);
+        }
+    }
+
+    &__nav-back-link {
+        height: 100vh;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        margin: 6rem auto;
+        width: 51rem;
+    }
+
+    &__error-msg {
+        bottom: -22px;
+        position: absolute;
+        right: 0;
+    }
+
+    &__avatar {
+        height: 13rem;
+        margin: 0 auto;
+        position: relative;
+        width: 13rem;
+    }
+
+    &__title {
+        margin-top: 2.1rem;
+    }
+}
+

@@ -9,45 +9,52 @@ import { getUserApi, handleError, loginApi } from '../../utils/api';
 import { Router } from '../../core/Router/index';
 import { PlainObject } from '../../utils/utils';
 import { FormInputs } from '../../utils/validation';
+import { Chat } from '../Chat/index';
 
 export interface LoginProps extends Props{
 }
 
 export class Login extends Block<LoginProps> {
+    static pathname = '/login';
 
-    constructor(parentElement: HTMLElement, props: LoginProps, children: Children = defaultChildren, tagName?: string) {
+    constructor(
+        parentElement: HTMLElement,
+        props: LoginProps,
+        children: Children = defaultChildren,
+        tagName?: string,
+    ) {
         super(parentElement, props, children, tagName);
 
         (children.button.blockProps as ButtonProps).handleMethod = this.loginUser.bind(this);
         getUserApi().then((data: PlainObject) => {
-            if(!data.errorMsg) {
-                Router.getInstance().go('/chat');
+            if (!data.errorMsg) {
+                Router.getInstance().go(Chat.pathname);
             }
-        }).catch(err => {
-            handleError({errorMsg: err.message});
+        }).catch((err) => {
+            handleError({ errorMsg: err.message });
         });
     }
 
     loginUser(inputs: FormInputs) {
-        const {data} = inputs;
-        this.childBlocks.button.setProps({isDisabled: true});
-        loginApi(data).then((data: PlainObject) => {
-            this.childBlocks.button.setProps({isDisabled: false});
-            if(!data.errorMsg) {
-                Router.getInstance().go('/chat');
+        const { data } = inputs;
+        this.childBlocks.button.setProps({ isDisabled: true });
+        loginApi(data).then((dataObj: PlainObject) => {
+            this.childBlocks.button.setProps({ isDisabled: false });
+            if (!dataObj.errorMsg) {
+                Router.getInstance().go(Chat.pathname);
             } else {
-                throw new Error(data.errorMsg as string);
+                throw new Error(dataObj.errorMsg as string);
             }
-        }).catch(err => {
-            this.childBlocks.button.setProps({isDisabled: false});
-            handleError({errorMsg: err.message}, this.childBlocks.login.childBlocks.error);
+        }).catch((err) => {
+            this.childBlocks.button.setProps({ isDisabled: false });
+            handleError({ errorMsg: err.message }, this.childBlocks.login.childBlocks.error);
         });
     }
 
     render(): string {
         return compileTemplate<LoginProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
+            props: { ...this.props },
+            slots: { ...this.slots },
         });
     }
 }
@@ -74,7 +81,7 @@ const defaultChildren = {
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
                     attrs: 'for="login"',
-                }
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -84,9 +91,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     password: {
         blockConstructor: Input,
@@ -110,7 +117,7 @@ const defaultChildren = {
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
                     attrs: 'for="password"',
-                }
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -120,9 +127,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     button: {
         blockConstructor: Button,
@@ -137,7 +144,7 @@ const defaultChildren = {
             weight: 'bold',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__button',
-        }
+        },
     },
     link: {
         blockConstructor: Link,
@@ -148,6 +155,6 @@ const defaultChildren = {
             size: 'small',
             theme: 'primary',
             wrapperStyles: 'form__link',
-        }
-    }
+        },
+    },
 };

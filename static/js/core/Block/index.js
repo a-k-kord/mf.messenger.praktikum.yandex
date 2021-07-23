@@ -26,7 +26,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 import { EventBus } from '../EventBus/index.js';
-import { createBlockDocumentElement, hide, isInDom, show } from '../../utils/dom.js';
+import { createBlockDocumentElement, hide, isInDom, preventEvent, show, } from '../../utils/dom.js';
 var EVENTS;
 (function (EVENTS) {
     EVENTS["INIT"] = "init";
@@ -38,11 +38,11 @@ var Block = (function () {
     function Block(parentElement, props, children, tagName) {
         var e_1, _a;
         this.eventBus = new EventBus();
-        this._parentElement = parentElement;
-        this.props = this._makePropsProxy(props);
+        this.parentElement = parentElement;
+        this.props = this.makePropsProxy(props);
         this.slots = {};
         this.childBlocks = {};
-        this._domListeners = {};
+        this.domListeners = {};
         if (children) {
             try {
                 for (var _b = __values(Object.entries(children)), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -59,10 +59,10 @@ var Block = (function () {
                 finally { if (e_1) throw e_1.error; }
             }
         }
-        this._registerEvents(this.eventBus);
+        this.registerEvents(this.eventBus);
         this.eventBus.emit(EVENTS.INIT);
     }
-    Block.prototype._registerEvents = function (eventBus) {
+    Block.prototype.registerEvents = function (eventBus) {
         eventBus.on(EVENTS.INIT, this.init.bind(this));
         eventBus.on(EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -101,15 +101,14 @@ var Block = (function () {
         }
         Object.assign(this.props, nextProps);
     };
-    ;
     Block.prototype.reconnectBlockWithDom = function (block) {
-        var parentBlockId = block._parentElement.getAttribute('data-block-id');
+        var parentBlockId = block.parentElement.getAttribute('data-block-id');
         if (parentBlockId) {
             var parentFromDom = document.querySelector("[data-block-id=\"" + parentBlockId + "\"]");
-            if (parentFromDom && !isInDom(block._parentElement)) {
-                block.detachListenersFromElement(block._parentElement);
-                block._parentElement = parentFromDom;
-                block.attachListenersToElement(block._parentElement);
+            if (parentFromDom && !isInDom(block.parentElement)) {
+                block.detachListenersFromElement(block.parentElement);
+                block.parentElement = parentFromDom;
+                block.attachListenersToElement(block.parentElement);
             }
         }
     };
@@ -119,7 +118,7 @@ var Block = (function () {
             for (var _b = __values(Object.entries(this.childBlocks)), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var _d = __read(_c.value, 2), blockName = _d[0], blockObj = _d[1];
                 this.reconnectBlockWithDom(blockObj);
-                this.slots[blockName] = blockObj._parentElement;
+                this.slots[blockName] = blockObj.parentElement;
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -131,11 +130,11 @@ var Block = (function () {
         }
     };
     Block.prototype.removeFromDom = function () {
-        var parentBlockId = this._parentElement.getAttribute('data-block-id');
+        var parentBlockId = this.parentElement.getAttribute('data-block-id');
         if (parentBlockId) {
             var parentFromDom = document.querySelector("[data-block-id=\"" + parentBlockId + "\"]");
             if (parentFromDom) {
-                this.detachListenersFromElement(this._parentElement);
+                this.detachListenersFromElement(this.parentElement);
                 parentFromDom.parentElement.removeChild(parentFromDom);
             }
         }
@@ -150,14 +149,16 @@ var Block = (function () {
     Block.prototype._render = function () {
         this.reconnectBlockWithDom(this);
         this.reconnectChildrenSlotsWithDom();
-        this.detachListenersFromElement(this._parentElement);
-        this._parentElement.innerHTML = this.render();
-        this.attachListenersToElement(this._parentElement);
+        this.detachListenersFromElement(this.parentElement);
+        this.beforeRender();
+        this.parentElement.innerHTML = this.render();
+        this.afterRender();
+        this.attachListenersToElement(this.parentElement);
         this.reconnectChildrenSlotsWithDom();
         this.reconnectBlockWithDom(this);
-        var parentBlockId = this._parentElement.getAttribute('data-block-id');
+        var parentBlockId = this.parentElement.getAttribute('data-block-id');
         if (!parentBlockId) {
-            var childBlocksFromDom = document.querySelectorAll("[data-block-id]");
+            var childBlocksFromDom = document.querySelectorAll('[data-block-id]');
             this.checkAllBlocksTree(this, childBlocksFromDom);
         }
         if (this.props.isHidden === true) {
@@ -176,18 +177,22 @@ var Block = (function () {
         }
         nodesFromDom.forEach(function (node) {
             var nodeBlockId = node.getAttribute('data-block-id');
-            var parentBlockId = block._parentElement.getAttribute('data-block-id');
+            var parentBlockId = block.parentElement.getAttribute('data-block-id');
             if (nodeBlockId === parentBlockId) {
-                block.detachListenersFromElement(block._parentElement);
-                block._parentElement = node;
-                block.attachListenersToElement(block._parentElement);
+                block.detachListenersFromElement(block.parentElement);
+                block.parentElement = node;
+                block.attachListenersToElement(block.parentElement);
             }
         });
     };
-    Block.prototype.getContent = function () {
-        return this._parentElement;
+    Block.prototype.beforeRender = function () {
     };
-    Block.prototype._makePropsProxy = function (props) {
+    Block.prototype.afterRender = function () {
+    };
+    Block.prototype.getContent = function () {
+        return this.parentElement;
+    };
+    Block.prototype.makePropsProxy = function (props) {
         var self = this;
         var proxyProps = new Proxy(props, {
             set: function (target, prop, val) {
@@ -200,8 +205,8 @@ var Block = (function () {
                 return true;
             },
             deleteProperty: function () {
-                throw new Error("Нет доступа");
-            }
+                throw new Error('Нет доступа');
+            },
         });
         return proxyProps;
     };
@@ -209,16 +214,16 @@ var Block = (function () {
         this.setProps({ isHidden: false });
     };
     Block.prototype.makeHtmlElementVisible = function () {
-        show(this._parentElement);
+        show(this.parentElement);
     };
     Block.prototype.hide = function () {
         this.setProps({ isHidden: true });
     };
     Block.prototype.makeHtmlElementHidden = function () {
-        hide(this._parentElement);
+        hide(this.parentElement);
     };
     Block.prototype.removeListener = function (parent, event, callback) {
-        this._domListeners[event] = this._domListeners[event].filter(function (listener) {
+        this.domListeners[event] = this.domListeners[event].filter(function (listener) {
             if (listener !== callback) {
                 parent.removeEventListener(event, callback);
                 return true;
@@ -226,38 +231,49 @@ var Block = (function () {
             return false;
         });
     };
-    Block.prototype.addListener = function (parent, event, callback, cssSelector) {
-        var fn = function (eventName) {
-            if (eventName.target.matches(cssSelector)
-                || (cssSelector === 'a' && eventName.target.parentElement.matches(cssSelector))
-                || (cssSelector === 'a' && eventName.target.parentElement.parentElement.matches(cssSelector))) {
-                callback(eventName);
+    Block.prototype.removeAllListenersByEvent = function (el, event) {
+        this.domListeners[event].map(function (listener) { return el.removeEventListener(event, listener); });
+        this.domListeners[event] = [];
+    };
+    Block.prototype.addListener = function (parent, eventName, callback, cssSelector) {
+        var fn = function (event) {
+            if (event.currentTarget.matches(cssSelector)
+                || (cssSelector === 'a' && event.currentTarget.parentElement.matches(cssSelector))
+                || (cssSelector === 'a' && event.currentTarget.parentElement.parentElement.matches(cssSelector))) {
+                preventEvent(event);
+                callback(event);
             }
         };
-        parent.addEventListener(event, fn);
-        if (!this._domListeners[event]) {
-            this._domListeners[event] = [];
+        parent.addEventListener(eventName, fn);
+        if (!this.domListeners[eventName]) {
+            this.domListeners[eventName] = [];
         }
-        this._domListeners[event].push(fn);
+        this.domListeners[eventName].push(fn);
         return this;
     };
     Block.prototype.detachListenersFromElement = function (parent) {
         var _this = this;
-        var el = parent.querySelector('input,button,a');
-        Object.keys(this._domListeners).map(function (event) {
-            _this._domListeners[event].map(function (callback) {
-                el.removeEventListener(event, callback);
+        if (parent.className === 'block-wrapper') {
+            var el_1 = parent.querySelector('input,button,a');
+            Object.keys(this.domListeners)
+                .map(function (event) {
+                _this.domListeners[event].map(function (callback) {
+                    el_1.removeEventListener(event, callback);
+                });
             });
-        });
+        }
     };
     Block.prototype.attachListenersToElement = function (parent) {
         var _this = this;
-        var el = parent.querySelector('input,button,a');
-        Object.keys(this._domListeners).map(function (event) {
-            _this._domListeners[event].map(function (callback) {
-                el.addEventListener(event, callback);
+        if (parent.className === 'block-wrapper') {
+            var el_2 = parent.querySelector('input,button,a');
+            Object.keys(this.domListeners)
+                .map(function (event) {
+                _this.domListeners[event].map(function (callback) {
+                    el_2.addEventListener(event, callback);
+                });
             });
-        });
+        }
     };
     return Block;
 }());

@@ -10,12 +10,10 @@ export interface TitleProps extends Props{
 }
 
 export class Title extends Block<TitleProps> {
-
     render(): string {
         return compileTemplate<TitleProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
+            props: { ...this.props },
+            slots: { ...this.slots },
         });
     }
-
 }

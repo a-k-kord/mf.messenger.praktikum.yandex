@@ -1,4 +1,5 @@
 export type PlainObject<T = unknown> = {
+    // eslint-disable-next-line no-unused-vars
     [key in string]: T;
 };
 export type PlainObjectOrUnknown = PlainObject | unknown;
@@ -6,10 +7,10 @@ export type PlainObjectOrUnknown = PlainObject | unknown;
 
 export function isPlainObject(value: unknown): value is PlainObject {
     return (
-        typeof value === "object" &&
-        value !== null &&
-        value.constructor === Object &&  //не функция или массив
-        Object.prototype.toString.call(value) === "[object Object]"  // не встроенный объект(типа Date)
+        typeof value === 'object'
+        && value !== null
+        && value.constructor === Object // не функция или массив
+        && Object.prototype.toString.call(value) === '[object Object]' // не встроенный объект(типа Date)
     );
 }
 
@@ -20,10 +21,10 @@ export function isArray(value: unknown): value is [] {
 export function merge(lhs: PlainObject, rhs: PlainObject): PlainObject {
     const result: PlainObject = {};
     if (!isPlainObject(rhs) && isPlainObject(lhs)) {
-        return Object.assign({}, lhs);
+        return { ...lhs };
     }
     if (!isPlainObject(lhs) && isPlainObject(rhs)) {
-        return Object.assign({}, rhs);
+        return { ...rhs };
     }
 
     Object.entries(rhs).forEach(([key, value]) => {
@@ -33,7 +34,7 @@ export function merge(lhs: PlainObject, rhs: PlainObject): PlainObject {
         }
         if (!isPlainObject(lhsValue)) {
             if (isPlainObject(value)) {
-                result[key] = Object.assign({}, value);
+                result[key] = { ...value };
             } else {
                 result[key] = value;
             }
@@ -44,7 +45,7 @@ export function merge(lhs: PlainObject, rhs: PlainObject): PlainObject {
         const resultEl: PlainObjectOrUnknown = result[key];
         if (resultEl === undefined) {
             if (isPlainObject(value)) {
-                result[key] = Object.assign({}, value);
+                result[key] = { ...value };
             } else {
                 result[key] = value;
             }
@@ -54,17 +55,20 @@ export function merge(lhs: PlainObject, rhs: PlainObject): PlainObject {
     return result;
 }
 
-export function set(object: PlainObject | unknown, path: string, value: unknown): PlainObject | unknown {
-    if(typeof path !== 'string' || !path) {
-        throw new Error('path must be string')
+export function set(
+    object: PlainObject | unknown,
+    path: string, value: unknown,
+): PlainObject | unknown {
+    if (typeof path !== 'string' || !path) {
+        throw new Error('path must be string');
     }
-    if(!isPlainObject(object)) {
+    if (!isPlainObject(object)) {
         return object;
     }
     let firstKey;
     const pathObj = path.split('.').reduceRight((acc, key) => {
         firstKey = key;
-        return {[key]: acc}
+        return { [key]: acc };
     }, value);
 
     const mergedObj = merge(object, pathObj as PlainObject);
@@ -77,14 +81,14 @@ export function trim(string: string, chars?: string): string {
         return string.trim();
     }
 
-    const reg = new RegExp(`[${chars}]`, "gi");
-    return string.replace(reg, "");
+    const reg = new RegExp(`[${chars}]`, 'gi');
+    return string.replace(reg, '');
 }
 
 export function isArraysEqual(aValArray: [], bValArray: []): boolean {
     // если длины массивов не равны, то сразу false
     if (aValArray.length === bValArray.length) {
-        for (let j = 0; j < aValArray.length; j++) {
+        for (let j = 0; j < aValArray.length; j += 1) {
             // если оба значения объекты, то рекурсия на объектах
             if (isPlainObject(aValArray[j]) && isPlainObject(bValArray[j])) {
                 const res = isEqual(aValArray[j], bValArray[j]);
@@ -97,17 +101,17 @@ export function isArraysEqual(aValArray: [], bValArray: []): boolean {
                 if (!res) {
                     return false;
                 }
-                //если оба значения примитивы и не равны
+                // если оба значения примитивы и не равны
             } else if (
-                typeof aValArray[j] !== "object" &&
-                typeof bValArray[j] !== "object"
+                typeof aValArray[j] !== 'object'
+                && typeof bValArray[j] !== 'object'
             ) {
-                if(aValArray[j] !== bValArray[j]) {
+                if (aValArray[j] !== bValArray[j]) {
                     return false;
                 }
-                //в противном случае типы разные
+                // в противном случае типы разные
             } else {
-                return false
+                return false;
             }
         }
     } else {
@@ -116,13 +120,13 @@ export function isArraysEqual(aValArray: [], bValArray: []): boolean {
     return true;
 }
 
-//функция принимает на вход объекты, которые содержат в себе примитивы, объекты и массивы.
+// функция принимает на вход объекты, которые содержат в себе примитивы, объекты и массивы.
 export function isEqual(a: object, b: object): boolean {
     const aEntries = Object.entries(a);
     const bEntries = Object.entries(b);
     // если длины массивов не равны, то сразу false
     if (aEntries.length === bEntries.length) {
-        for (let i = 0; i < aEntries.length; i++) {
+        for (let i = 0; i < aEntries.length; i += 1) {
             if (aEntries[i][0] === bEntries[i][0]) {
                 // если оба значения объекты, то рекурсия
                 if (isPlainObject(aEntries[i][1]) && isPlainObject(bEntries[i][1])) {
@@ -131,23 +135,23 @@ export function isEqual(a: object, b: object): boolean {
                         return false;
                     }
                     // если оба значения массивы
-                } else if ( isArray(aEntries[i][1]) && isArray(bEntries[i][1]) ) {
+                } else if (isArray(aEntries[i][1]) && isArray(bEntries[i][1])) {
                     // сравниваем массивы
                     const res = isArraysEqual(aEntries[i][1] as [], bEntries[i][1] as []);
                     if (!res) {
                         return false;
                     }
-                    //если оба значения примитивы и не равны
+                    // если оба значения примитивы и не равны
                 } else if (
-                    typeof aEntries[i][1] !== "object" &&
-                    typeof bEntries[i][1] !== "object"
+                    typeof aEntries[i][1] !== 'object'
+                    && typeof bEntries[i][1] !== 'object'
                 ) {
-                    if(aEntries[i][1] !== bEntries[i][1]) {
+                    if (aEntries[i][1] !== bEntries[i][1]) {
                         return false;
                     }
-                    //в противном случае типы разные
+                    // в противном случае типы разные
                 } else {
-                    return false
+                    return false;
                 }
             } else {
                 // ключи не равны
@@ -161,26 +165,21 @@ export function isEqual(a: object, b: object): boolean {
     return true;
 }
 
-
 export function cloneDeep<T extends object = object>(obj: T): T {
     if (isArray(obj)) {
         return obj.map((entry) => {
             if (isArray(entry) || isPlainObject(entry)) {
                 return cloneDeep(entry);
-            } else {
-                return entry;
             }
+                return entry;
         }) as T;
-    } else if (isPlainObject(obj)) {
-        return Object.entries(obj).reduce(function (acc, [key, val]) {
-            return {
+    } if (isPlainObject(obj)) {
+        return Object.entries(obj).reduce((acc, [key, val]) => ({
                 ...acc,
-                [key] : isArray(val) || isPlainObject(val) ? cloneDeep(val) : val
-            };
-        }, {})  as T;
-    } else {
-        return obj;
+                [key]: isArray(val) || isPlainObject(val) ? cloneDeep(val) : val,
+            }), {}) as T;
     }
+        return obj;
 }
 
 function isArrayOrObject(value: unknown): value is [] | PlainObject {
@@ -194,7 +193,8 @@ function getKey(key: string, parentKey?: string) {
 function getParams(data: PlainObject | [], parentKey?: string): [string, string][] {
     const result: [string, string][] = [];
 
-    for(const [key, value] of Object.entries(data)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, value] of Object.entries(data)) {
         if (isArrayOrObject(value)) {
             result.push(...getParams(value, getKey(key, parentKey)));
         } else {
@@ -206,20 +206,21 @@ function getParams(data: PlainObject | [], parentKey?: string): [string, string]
 }
 
 export function queryString(data: PlainObject | undefined): string {
-    if(!data) {
+    if (!data) {
         return '';
-    } else if (!isPlainObject(data)) {
+    } if (!isPlainObject(data)) {
         throw new Error('input must be an object');
     }
 
-    return getParams(data).map(arr => arr.join('=')).join('&');
+    return getParams(data).map((arr) => arr.join('=')).join('&');
 }
 
 export function toJson(data: string): PlainObject {
     let json = { data };
     try {
         json = JSON.parse(data);
-    } catch(err) {
+    } catch (err) {
+        // console.log(err.message);
     }
     return json;
 }

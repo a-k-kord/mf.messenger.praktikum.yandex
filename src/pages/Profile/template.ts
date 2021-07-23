@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default `
 <main class="profile">
   <aside class="profile__nav-back">
@@ -53,4 +54,4 @@ export default `
     <%~ it.slots?.avatarUploadError.outerHTML %>
   </form>
 </div>
-`
+`;

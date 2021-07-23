@@ -6,6 +6,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -28,13 +30,13 @@ import { Block } from '../../core/Block/index.js';
 import { Title } from '../../components/Title/index.js';
 import { Link } from '../../components/Link/index.js';
 var errors = {
-    '404': {
+    404: {
         errNum: 404,
-        errMessage: 'Не туда попали'
+        errMessage: 'Не туда попали',
     },
-    '500': {
+    500: {
         errNum: 500,
-        errMessage: 'Мы уже фиксим'
+        errMessage: 'Мы уже фиксим',
     },
 };
 var Error = (function (_super) {
@@ -44,7 +46,7 @@ var Error = (function (_super) {
         var _a = errors[404], errNum = _a.errNum, errMessage = _a.errMessage;
         var pathMatch = document.location.pathname.match(/\/error\/(\d+)$/);
         if (pathMatch) {
-            errNum = parseInt(pathMatch[1]);
+            errNum = parseInt(pathMatch[1], 10);
             errMessage = errors[errNum];
         }
         children = children || {
@@ -54,14 +56,14 @@ var Error = (function (_super) {
                     stylesBefore: 'error__number',
                     text: errNum,
                     size: 'big',
-                }
+                },
             },
             errMessage: {
                 blockConstructor: Title,
                 blockProps: {
                     stylesBefore: 'error__msg',
                     text: errMessage,
-                }
+                },
             },
             linkBack: {
                 blockConstructor: Link,
@@ -70,9 +72,9 @@ var Error = (function (_super) {
                     linkTo: 'chat',
                     text: 'Назад к чатам',
                     size: 'small',
-                    theme: 'primary'
-                }
-            }
+                    theme: 'primary',
+                },
+            },
         };
         _this = _super.call(this, parentElement, props, children, tagName) || this;
         return _this;
@@ -80,7 +82,7 @@ var Error = (function (_super) {
     Error.prototype.render = function () {
         return compileTemplate(template, {
             props: __assign({}, this.props),
-            slots: __assign({}, this.slots)
+            slots: __assign({}, this.slots),
         });
     };
     return Error;

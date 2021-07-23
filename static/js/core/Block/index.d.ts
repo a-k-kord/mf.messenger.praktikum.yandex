@@ -20,8 +20,8 @@ export interface ChildBlocks {
     [blockName: string]: Block<object>;
 }
 export declare abstract class Block<TProps extends object> {
-    private readonly _domListeners;
-    private _parentElement;
+    private readonly domListeners;
+    private parentElement;
     private readonly eventBus;
     props: TProps;
     childBlocks: ChildBlocks;
@@ -29,7 +29,7 @@ export declare abstract class Block<TProps extends object> {
         [blockName: string]: HTMLElement;
     };
     constructor(parentElement: HTMLElement, props: TProps, children?: Children, tagName?: string);
-    private _registerEvents;
+    private registerEvents;
     init(): void;
     private _componentDidMount;
     componentDidMount(): void;
@@ -43,15 +43,18 @@ export declare abstract class Block<TProps extends object> {
     forceRender(): void;
     private _render;
     checkAllBlocksTree(block: Block<Props>, nodesFromDom: NodeListOf<HTMLElement>): void;
+    beforeRender(): void;
     abstract render(): string;
+    afterRender(): void;
     getContent(): HTMLElement;
-    private _makePropsProxy;
+    private makePropsProxy;
     show(): void;
     private makeHtmlElementVisible;
     hide(): void;
     private makeHtmlElementHidden;
     removeListener(parent: HTMLElement, event: keyof HTMLElementEventMap, callback: (any: any) => any): void;
-    addListener(parent: HTMLElement, event: keyof HTMLElementEventMap, callback: (any: any) => any, cssSelector: any): this;
+    removeAllListenersByEvent(el: HTMLElement, event: keyof HTMLElementEventMap): void;
+    addListener(parent: HTMLElement, eventName: keyof HTMLElementEventMap, callback: (any: any) => any, cssSelector: string): this;
     detachListenersFromElement(parent: HTMLElement): void;
     attachListenersToElement(parent: HTMLElement): void;
 }

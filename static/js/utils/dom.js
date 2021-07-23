@@ -1,10 +1,6 @@
 import '../vendor/uuid_v4.min.js';
-export var generateId = function () {
-    return window.uuidv4();
-};
-export var isInDom = function (node) {
-    return !!node.closest('body');
-};
+export var generateId = function () { return window.uuidv4(); };
+export var isInDom = function (node) { return !!node.closest('body'); };
 export var createBlockDocumentElement = function (blockName, tagName) {
     if (tagName === void 0) { tagName = 'div'; }
     var el = document.createElement(tagName);
@@ -20,7 +16,9 @@ export var applyStyles = function (nodes, styles) {
         var value = styles[key];
         if (typeof value !== 'undefined') {
             targetNodes.forEach(function (node) {
-                node && node.style && (node.style[key] = value);
+                if (node && node.style) {
+                    node.style[key] = value;
+                }
             });
         }
     });

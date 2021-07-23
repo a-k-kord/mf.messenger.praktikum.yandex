@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default `
 <% if(it.props?.wrapperStyles) { %>
 <div class="<%= it.props?.wrapperStyles %>">
@@ -30,4 +31,4 @@ type="<%= it.props?.type %>"
 <% if(it.props?.wrapperStyles) { %>
 </div>
 <% } %>
-`
+`;

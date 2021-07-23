@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default `
 
 <main class="dialogs">
@@ -30,7 +31,7 @@ export default `
                     <ul class="chat-list__items">
                     <% const handleSelectChatItem = it.props?.handleSelectChatItem %>
                         <% if(typeof it.props?.chats === 'object') {
-                            for(let [id, {title, unreadCount}] of Object.entries(it.props?.chats)) {%>
+                            for(let [id, {title, unreadCount, lastMessage}] of Object.entries(it.props?.chats)) {%>
                         <li class="chat-item <%= it.props?.selectedChatItemId == id ? 'chat-item--selected' : '' %>"  >
                             <a class="chat-item__inner" data-chat-item-id="<%= id %>">
                                 <div class="avatar chat-item__avatar">
@@ -40,9 +41,11 @@ export default `
                                 </div>
                                 <div class="chat-item__msg-wrap">
                                     <div class="chat-item__name text text--size--small text--weight--bold"><%= title %></div>
-                                    <div class="chat-item__msg text text--size--smaller text--theme--label"><%= it.props?.mockData.message %></div>
+                                    <div class="chat-item__msg text text--size--smaller text--theme--label"><%= lastMessage ? lastMessage.content : '' %></div>
                                 </div>
-                                <span class="chat-item__date text text--size--tiny text--theme--label"><%= it.props?.mockData.messageDate %></span>
+                                <span class="chat-item__date text text--size--tiny text--theme--label">
+                                <%= lastMessage ? (new Date(lastMessage.time)).toLocaleDateString('ru', {day: 'numeric',month: 'long',year: 'numeric',}).replace(' г.', '') : '' %>
+                                </span>
                                 <% if(unreadCount) { %>
                                 <div class="chat-item__badge ">
                                     <div class="chat-item__counter text text--size--smaller text--theme--label box box--center"><%= unreadCount || '' %></div>
@@ -52,7 +55,7 @@ export default `
                         </li>
                         <% }
                         } %>
-                        
+
                     </ul>
                 </div>
             </div>
@@ -72,7 +75,7 @@ export default `
                 <%= it.props?.chats && it.props?.selectedChatItemId ? it.props?.chats[it.props?.selectedChatItemId]?.title : ''%>
             </div>
             <div class="text text--size--small text--theme--label">
-                Пользователей: 
+                Пользователей:
             </div>
             <%~ it.slots?.chatUsersCountLabel.outerHTML %>
             <div class="dropdown">
@@ -99,59 +102,66 @@ export default `
         </div>
         <div class="history chat-content__history ">
             <div class="history__inner scroller">
-                <div class="history__message-wrap">
-                    <div
-                            class="history__date-split text text--align--center text--size--smaller text--theme--label">
-                        19 июня</div>
-                </div>
-                <div class="message history__message-wrap history__message-wrap--align--left">
-                    <div class="message__text message__text--left">
-                        <div class="text text--size--small">
-                            <%= it.props?.mockData.mes1 %>
-                        </div>
-                        <div class="badge text text--theme--label text--size--tiny"><%= it.props?.mockData.mesTime %></div>
-                    </div>
-                </div>
-                <div class="message history__message-wrap history__message-wrap--align--left">
-                    <div class="message__photo">
-                        <img class="image  box box--round-border--small" src="img/chat-image.png" alt="photo">
-                        <div
-                                class="badge text text--theme--light text--size--tiny box box--round-border--big box--background--label">
-                            <%= it.props?.mockData.mesTime %></div>
-                    </div>
-                </div>
-                <div class="history__message-wrap history__message-wrap--align--right">
+                <%
+                const messages = it.props?.chats[it.props?.selectedChatItemId]?.messages ?? [];
+                let currentDay = '';
+                for(const message of messages) {
+                %> 
+                <% 
+                if(message.user_id === it.props?.myUserId) {
+                %>
+                <div class="message history__message-wrap history__message-wrap--align--right">
                     <div class="message__text message__text--right text text--size--small">
-                        <div class="text text--size--small"><%= it.props?.mockData.mes2 %></div>
+                        <div class="text text--size--small"><%= message.content %></div>
                         <div class="badge">
-                            <img class="confirmation" src="img/confirmation_msg_read.svg"
+                        <% if(message.id) {
+                            const badgeType = message.is_read ? 'read' : 'recieved';  
+                        %>
+                            <img class="confirmation" src="img/confirmation_msg_<%= badgeType %>.svg"
                                  alt="Confirmation about message recieved and read">
-                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props?.mockData.mesTime %></div>
+                        <% } %>
+                            <div class="timestamp text text--size--tiny text--theme--primary">
+                                <%= (new Date(message.time)).toLocaleString('ru', {hour: 'numeric',minute: 'numeric'}) %>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <% } else { %>
                 <div class="message history__message-wrap history__message-wrap--align--left">
                     <div class="message__text message__text--left">
                         <div class="text text--size--small">
-                        <%= it.props?.mockData.mes3 %>
+                            <%= message.content %>
                         </div>
-                        <div class="badge text text--theme--label text--size--tiny"><%= it.props?.mockData.mesTime %></div>
-                    </div>
-                </div>
-                <div class="history__message-wrap history__message-wrap--align--right">
-                    <div class="message__text message__text--right text text--size--small ">
-                        <div class="text text--size--small">
-                        <%= it.props?.mockData.mes4 %>
-                        </div>
-                        <div class="badge">
-                            <img class="confirmation" src="img/confirmation_msg_recieved.svg"
-                                 alt="Confirmation about message recieved and read">
-                            <div class="timestamp text text--size--tiny text--theme--primary"><%= it.props?.mockData.mesTime %></div>
+                        <div class="badge text text--theme--label text--size--tiny">
+                            <%= (new Date(message.time)).toLocaleString('ru', {hour: 'numeric',minute: 'numeric'}) %>
                         </div>
                     </div>
                 </div>
+                <% } %>
+                 <% 
+                    const date = new Date(message.time);
+                    const now = new Date();
+                    const isToday = date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+                    const dateStr = isToday ? 'Сегодня' : date.toLocaleDateString('ru', {day: 'numeric',month: 'long'});
+                    currentDay = currentDay ? currentDay : dateStr;
+                    if(message.time && currentDay !== dateStr || message === messages[messages.length - 1]) {
+                %>   
+                    <div class="history__message-wrap">
+                        <div class="history__date-split text text--align--center text--size--smaller text--theme--label">
+                            <%= currentDay%>
+                        </div>
+                    </div>
+                <%
+                    currentDay = dateStr; 
+                } 
+                if(message === messages[messages.length - 1]) {
+                %>
+                    <div class="load-more-messages"> &nbsp; </div>
+                <% } %>
+                <% } %>
             </div>
         </div>
+        
         <div class="chat-content__footer">
             <div class="dropdown">
                 <button class="button dropdown__toggle">
@@ -199,9 +209,8 @@ export default `
                 </ul>
             </div>
 
-            <form class="form form--width--full">
-                <input class="message-input" type="text" placeholder="Сообщение" value="" id="message"
-                       name="message">
+            <form class="form form--width--full" onsubmit="return false;" autocomplete="off">
+                <%~ it.slots?.messageToSend.outerHTML %>
                 <%~ it.slots?.buttonSend.outerHTML %>
             </form>
         </div>
@@ -239,7 +248,7 @@ export default `
         <h1 class="form__title text text--align--center">Удалить пользователя</h1>
         <div class="form__content">
             <%~ it.slots?.removeLogin.outerHTML %>
-            
+
         </div>
         <%~ it.slots?.buttonRemoveUser.outerHTML %>
     </form>
@@ -259,4 +268,4 @@ export default `
     </form>
 </div>
 
-`
+`;

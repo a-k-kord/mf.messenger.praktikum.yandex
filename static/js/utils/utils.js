@@ -36,15 +36,16 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-var __spread = (this && this.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 export function isPlainObject(value) {
-    return (typeof value === "object" &&
-        value !== null &&
-        value.constructor === Object &&
-        Object.prototype.toString.call(value) === "[object Object]");
+    return (typeof value === 'object'
+        && value !== null
+        && value.constructor === Object
+        && Object.prototype.toString.call(value) === '[object Object]');
 }
 export function isArray(value) {
     return Array.isArray(value);
@@ -52,10 +53,10 @@ export function isArray(value) {
 export function merge(lhs, rhs) {
     var result = {};
     if (!isPlainObject(rhs) && isPlainObject(lhs)) {
-        return Object.assign({}, lhs);
+        return __assign({}, lhs);
     }
     if (!isPlainObject(lhs) && isPlainObject(rhs)) {
-        return Object.assign({}, rhs);
+        return __assign({}, rhs);
     }
     Object.entries(rhs).forEach(function (_a) {
         var _b = __read(_a, 2), key = _b[0], value = _b[1];
@@ -65,7 +66,7 @@ export function merge(lhs, rhs) {
         }
         if (!isPlainObject(lhsValue)) {
             if (isPlainObject(value)) {
-                result[key] = Object.assign({}, value);
+                result[key] = __assign({}, value);
             }
             else {
                 result[key] = value;
@@ -77,7 +78,7 @@ export function merge(lhs, rhs) {
         var resultEl = result[key];
         if (resultEl === undefined) {
             if (isPlainObject(value)) {
-                result[key] = Object.assign({}, value);
+                result[key] = __assign({}, value);
             }
             else {
                 result[key] = value;
@@ -107,12 +108,12 @@ export function trim(string, chars) {
     if (string && !chars) {
         return string.trim();
     }
-    var reg = new RegExp("[" + chars + "]", "gi");
-    return string.replace(reg, "");
+    var reg = new RegExp("[" + chars + "]", 'gi');
+    return string.replace(reg, '');
 }
 export function isArraysEqual(aValArray, bValArray) {
     if (aValArray.length === bValArray.length) {
-        for (var j = 0; j < aValArray.length; j++) {
+        for (var j = 0; j < aValArray.length; j += 1) {
             if (isPlainObject(aValArray[j]) && isPlainObject(bValArray[j])) {
                 var res = isEqual(aValArray[j], bValArray[j]);
                 if (!res) {
@@ -125,8 +126,8 @@ export function isArraysEqual(aValArray, bValArray) {
                     return false;
                 }
             }
-            else if (typeof aValArray[j] !== "object" &&
-                typeof bValArray[j] !== "object") {
+            else if (typeof aValArray[j] !== 'object'
+                && typeof bValArray[j] !== 'object') {
                 if (aValArray[j] !== bValArray[j]) {
                     return false;
                 }
@@ -145,7 +146,7 @@ export function isEqual(a, b) {
     var aEntries = Object.entries(a);
     var bEntries = Object.entries(b);
     if (aEntries.length === bEntries.length) {
-        for (var i = 0; i < aEntries.length; i++) {
+        for (var i = 0; i < aEntries.length; i += 1) {
             if (aEntries[i][0] === bEntries[i][0]) {
                 if (isPlainObject(aEntries[i][1]) && isPlainObject(bEntries[i][1])) {
                     var res = isEqual(aEntries[i][1], bEntries[i][1]);
@@ -159,8 +160,8 @@ export function isEqual(a, b) {
                         return false;
                     }
                 }
-                else if (typeof aEntries[i][1] !== "object" &&
-                    typeof bEntries[i][1] !== "object") {
+                else if (typeof aEntries[i][1] !== 'object'
+                    && typeof bEntries[i][1] !== 'object') {
                     if (aEntries[i][1] !== bEntries[i][1]) {
                         return false;
                     }
@@ -185,21 +186,17 @@ export function cloneDeep(obj) {
             if (isArray(entry) || isPlainObject(entry)) {
                 return cloneDeep(entry);
             }
-            else {
-                return entry;
-            }
+            return entry;
         });
     }
-    else if (isPlainObject(obj)) {
+    if (isPlainObject(obj)) {
         return Object.entries(obj).reduce(function (acc, _a) {
             var _b;
             var _c = __read(_a, 2), key = _c[0], val = _c[1];
-            return __assign(__assign({}, acc), (_b = {}, _b[key] = isArray(val) || isPlainObject(val) ? cloneDeep(val) : val, _b));
+            return (__assign(__assign({}, acc), (_b = {}, _b[key] = isArray(val) || isPlainObject(val) ? cloneDeep(val) : val, _b)));
         }, {});
     }
-    else {
-        return obj;
-    }
+    return obj;
 }
 function isArrayOrObject(value) {
     return isPlainObject(value) || isArray(value);
@@ -214,7 +211,7 @@ function getParams(data, parentKey) {
         for (var _b = __values(Object.entries(data)), _c = _b.next(); !_c.done; _c = _b.next()) {
             var _d = __read(_c.value, 2), key = _d[0], value = _d[1];
             if (isArrayOrObject(value)) {
-                result.push.apply(result, __spread(getParams(value, getKey(key, parentKey))));
+                result.push.apply(result, __spreadArray([], __read(getParams(value, getKey(key, parentKey)))));
             }
             else {
                 result.push([getKey(key, parentKey), encodeURIComponent(String(value))]);
@@ -234,7 +231,7 @@ export function queryString(data) {
     if (!data) {
         return '';
     }
-    else if (!isPlainObject(data)) {
+    if (!isPlainObject(data)) {
         throw new Error('input must be an object');
     }
     return getParams(data).map(function (arr) { return arr.join('='); }).join('&');
@@ -245,6 +242,7 @@ export function toJson(data) {
         json = JSON.parse(data);
     }
     catch (err) {
+        console.log(err.message);
     }
     return json;
 }

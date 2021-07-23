@@ -2,7 +2,9 @@ import { compileTemplate } from '../../core/Template/index';
 import template from './template';
 import { Block } from '../../core/Block/index';
 import { TitleProps } from '../Title/index';
-import { validateEmail, validatePasswordConfirm, validatePhone, validateLimitedString } from  '../../utils/validation';
+import {
+ validateEmail, validatePasswordConfirm, validatePhone, validateLimitedString,
+} from '../../utils/validation';
 
 export interface InputProps extends TitleProps{
     type?: string,
@@ -15,51 +17,47 @@ export interface InputProps extends TitleProps{
     validationType?: string,
 }
 
-
 export const ValidationMethods: {[key: string]: Function} = {
     limitedString: validateLimitedString,
     email: validateEmail,
     passwordConfirm: validatePasswordConfirm,
-    phone: validatePhone
+    phone: validatePhone,
 };
 
 export class Input extends Block<InputProps> {
-
     constructor(parentElement, props, children) {
-        super(parentElement, props, children)
+        super(parentElement, props, children);
 
-        if(props.validationType) {
+        if (props.validationType) {
             this.addListener(this.getContent(), 'blur', ValidationMethods[props.validationType].bind(this), 'input');
             this.addListener(this.getContent(), 'focus', ValidationMethods[props.validationType].bind(this), 'input');
         }
-        if(props.type === 'file') {
+        if (props.type === 'file') {
             this.addListener(this.getContent(), 'change', setUploadedFileName.bind(this), 'input[type="file"]');
         }
     }
 
     render(): string {
         return compileTemplate<InputProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
+            props: { ...this.props },
+            slots: { ...this.slots },
         });
     }
-
 }
-
 
 function setUploadedFileName(event) {
     const input: HTMLInputElement = event.target;
-    const filename = input.value.split('\\').pop()
-    const labelEl: HTMLElement = document.querySelector('.uploaded__file-name')
-    const errorEl: HTMLElement = document.querySelector('.uploaded__error')
+    const filename = input.value.split('\\').pop();
+    const labelEl: HTMLElement = document.querySelector('.uploaded__file-name');
+    const errorEl: HTMLElement = document.querySelector('.uploaded__error');
     if (filename) {
-        labelEl.textContent = filename
-        labelEl.hidden = false
-        input.parentElement.style.display = 'none'
-        errorEl.hidden = true
+        labelEl.textContent = filename;
+        labelEl.hidden = false;
+        input.parentElement.style.display = 'none';
+        errorEl.hidden = true;
     } else {
-        labelEl.hidden = true
-        errorEl.hidden = false
-        input.parentElement.style.display = 'block'
+        labelEl.hidden = true;
+        errorEl.hidden = false;
+        input.parentElement.style.display = 'block';
     }
 }

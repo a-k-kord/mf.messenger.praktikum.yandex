@@ -1,0 +1,38 @@
+@mixin scrollbars(
+    $size,
+    $foreground-color,
+    $background-color: mix($foreground-color, white, 50%)
+) {
+    // For Google Chrome
+    &::-webkit-scrollbar {
+        height: $size;
+        width: $size;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $foreground-color;
+        position: absolute;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $background-color;
+    }
+}
+
+.scroller {
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+
+    &:hover {
+        @include scrollbars(0, $color-primary, #00000000);
+        overflow-y: scroll;
+        width: 100%;
+    }
+}
+
+.scroller-wrap {
+    height: 100%;
+    position: relative;
+}

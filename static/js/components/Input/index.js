@@ -6,6 +6,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -25,12 +27,12 @@ var __assign = (this && this.__assign) || function () {
 import { compileTemplate } from '../../core/Template/index.js';
 import template from './template.js';
 import { Block } from '../../core/Block/index.js';
-import { validateEmail, validatePasswordConfirm, validatePhone, validateLimitedString } from '../../utils/validation.js';
+import { validateEmail, validatePasswordConfirm, validatePhone, validateLimitedString, } from '../../utils/validation.js';
 export var ValidationMethods = {
     limitedString: validateLimitedString,
     email: validateEmail,
     passwordConfirm: validatePasswordConfirm,
-    phone: validatePhone
+    phone: validatePhone,
 };
 var Input = (function (_super) {
     __extends(Input, _super);
@@ -48,7 +50,7 @@ var Input = (function (_super) {
     Input.prototype.render = function () {
         return compileTemplate(template, {
             props: __assign({}, this.props),
-            slots: __assign({}, this.slots)
+            slots: __assign({}, this.slots),
         });
     };
     return Input;

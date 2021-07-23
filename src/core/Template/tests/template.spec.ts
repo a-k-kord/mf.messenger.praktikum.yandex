@@ -3,7 +3,7 @@ import { compileTemplate } from '../index';
 import { createBlockDocumentElement } from '../../../utils/dom';
 import { Props } from '../../Block';
 
-global.window = window;
+// global.window = window;
 global.window.uuidv4 = require('../../../vendor/uuid_v4.min.js');
 global.window.Eta = require('../../../vendor/eta.min.js');
 

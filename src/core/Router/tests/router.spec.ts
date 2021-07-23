@@ -7,6 +7,7 @@ import { Register } from '../../../pages/Register';
 import { Chat } from '../../../pages/Chat';
 import { Profile } from '../../../pages/Profile';
 import { Error } from '../../../pages/Error';
+import { mockUser, mockChats } from '../../../mockData/Chat';
 
 const expect = chai.expect;
 
@@ -19,7 +20,16 @@ describe('Router', function () {
     before(function () {
         this.server = sinon.createFakeServer();
         this.server.respondWith('POST', /.*\/auth\/signup/, function (xhr) {
-            xhr.respond(200, {'Content-Type': 'application/json'}, '{id: 0}');
+            xhr.respond(200, {'Content-Type': 'application/json'}, '{"id": 0}');
+        });
+        this.server.respondWith('GET', /.*\/auth\/user/, function (xhr) {
+            xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockUser));
+        });
+        this.server.respondWith('GET', /.*\/chats/, function (xhr) {
+            xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockChats));
+        });
+        this.server.respondWith('GET', /.*\/chats\/new\/\d+/, function (xhr) {
+            xhr.respond(200, {'Content-Type': 'application/json'}, '{"unread_count": 12}');
         });
         this.server.configure({respondImmediately: true});
     })

@@ -1,0 +1,26 @@
+.avatar {
+    &__image {
+        clip-path: circle(50% at 50% 50%);
+        height: 100%;
+        position: relative;
+    }
+
+    &__upload {
+        height: 100%;
+        opacity: 0;
+        padding: 40% 10%;
+        position: absolute;
+        text-align: center;
+        // TODO: transition: all 0.2s ;
+        width: 100%;
+    }
+
+    &:hover &__upload {
+        background-color: rgba($color: #000, $alpha: 0.5);
+        height: 100%;
+        opacity: 1;
+        position: absolute;
+    }
+
+
+}

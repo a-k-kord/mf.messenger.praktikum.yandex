@@ -6,6 +6,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36,7 +38,7 @@ var Link = (function (_super) {
     Link.prototype.render = function () {
         return compileTemplate(template, {
             props: __assign({}, this.props),
-            slots: __assign({}, this.slots)
+            slots: __assign({}, this.slots),
         });
     };
     return Link;
@@ -48,7 +50,7 @@ function handleClick(evt) {
         this.props.handleMethod();
     }
     else {
-        var element = this._parentElement.querySelector('a');
+        var element = this.parentElement.querySelector('a');
         var pathnameArr = element.href.split('/');
         var pathname = pathnameArr[pathnameArr.length - 1];
         Router.getInstance().go("/" + pathname);

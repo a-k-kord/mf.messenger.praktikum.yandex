@@ -1,30 +1,29 @@
 import { compileTemplate } from '../../core/Template/index';
 import template from './template';
 import { Block, Children, Props } from '../../core/Block/index';
-import { Title } from  '../../components/Title/index';
-import { Link } from  '../../components/Link/index';
+import { Title } from '../../components/Title/index';
+import { Link } from '../../components/Link/index';
 
 export interface ErrorProps extends Props{
 }
 
 const errors = {
-    '404': {
+    404: {
         errNum: 404,
-        errMessage: 'Не туда попали'
+        errMessage: 'Не туда попали',
     },
-    '500' : {
+    500: {
         errNum: 500,
-        errMessage: 'Мы уже фиксим'
+        errMessage: 'Мы уже фиксим',
     },
-}
+};
 
 export class Error extends Block<ErrorProps> {
-
     constructor(parentElement: HTMLElement, props: ErrorProps, children?: Children, tagName?: string) {
-        let {errNum, errMessage} = errors[404];
+        let { errNum, errMessage } = errors[404];
         const pathMatch = document.location.pathname.match(/\/error\/(\d+)$/);
-        if(pathMatch) {
-            errNum = parseInt(pathMatch[1]);
+        if (pathMatch) {
+            errNum = parseInt(pathMatch[1], 10);
             errMessage = errors[errNum];
         }
         children = children || {
@@ -34,14 +33,14 @@ export class Error extends Block<ErrorProps> {
                     stylesBefore: 'error__number',
                     text: errNum,
                     size: 'big',
-                }
+                },
             },
             errMessage: {
                 blockConstructor: Title,
                 blockProps: {
                     stylesBefore: 'error__msg',
                     text: errMessage,
-                }
+                },
             },
             linkBack: {
                 blockConstructor: Link,
@@ -50,17 +49,17 @@ export class Error extends Block<ErrorProps> {
                     linkTo: 'chat',
                     text: 'Назад к чатам',
                     size: 'small',
-                    theme: 'primary'
-                }
-            }
+                    theme: 'primary',
+                },
+            },
         };
         super(parentElement, props, children, tagName);
     }
 
     render(): string {
         return compileTemplate<ErrorProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
+            props: { ...this.props },
+            slots: { ...this.slots },
         });
     }
 }

@@ -1,16 +1,15 @@
 .button {
-    color: $color-white;
     border: none;
+    color: $color-white;
     cursor: pointer;
 
     &__text {
-        font-size: 1.3rem;
-        font-weight: 700;
-        width: 280px;
-        height: 37px;
-
         background: $color-primary;
         border-radius: 8px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        height: 37px;
+        width: 280px;
     }
 
     &:focus {

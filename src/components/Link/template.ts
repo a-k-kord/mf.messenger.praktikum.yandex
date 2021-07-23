@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default `
 <% if(it.props?.wrapperStyles) { %>
 <div class="<%= it.props?.wrapperStyles %>">
@@ -22,4 +23,4 @@ href="<%= it.props?.linkTo %>"
 <% if(it.props?.wrapperStyles) { %>
 </div>
 <% } %>
-`
+`;

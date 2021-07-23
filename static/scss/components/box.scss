@@ -6,30 +6,29 @@
 }
 
 .box {
-
     &--center {
+        left: 50%;
         position: absolute;
         top: 50%;
-        left: 50%;
         transform: translate(-50%, -50%);
     }
 
     &--all-parent-space {
         display: block;
-        width: 100%;
         height: 100%;
+        width: 100%;
     }
 
     &--all-viewport-space-fixed {
-        position: fixed;
-        width: 100vw;
         height: 100vh;
-        top: 0;
         left: 0;
+        position: fixed;
+        top: 0;
+        width: 100vw;
     }
 
     &--has-shadow {
-        box-shadow: 0 0 6px rgba($color-black, .14);
+        box-shadow: 0 0 6px rgba($color-black, 0.14);
     }
 
     &--round-border--small {
@@ -93,8 +92,8 @@
     }
 
     &--margin-y--60 {
-        margin-top: 6rem;
         margin-bottom: 6rem;
+        margin-top: 6rem;
     }
 
     &--margin--auto {

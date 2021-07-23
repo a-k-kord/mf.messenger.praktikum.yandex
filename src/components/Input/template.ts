@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default `
 <% if(it.props?.wrapperStyles) { %>
 <div class="<%= it.props?.wrapperStyles %>">
@@ -49,7 +50,7 @@ placeholder="<%= it.props?.placeholder %>"
 <% if(it.props?.wrapperStyles) { %>
 </div>
 <% } %>
-`
+`;
 
-//TODO сделать label и error вложенными компонентами.
+// TODO сделать label и error вложенными компонентами.
 //

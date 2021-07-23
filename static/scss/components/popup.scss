@@ -1,42 +1,42 @@
 .popup {
+    background-color: rgba($color-black, 0.8);
     height: 100vh;
-    width: 100%;
+    left: 0;
     position: fixed;
     top: 0;
-    left: 0;
-    background-color: rgba($color-black, .8);
+    width: 100%;
     z-index: 9999;
 
     &__inner {
         background-color: $color-white;
-        box-shadow: 0 2rem 4rem rgba($color-black, .2);
+        box-shadow: 0 2rem 4rem rgba($color-black, 0.2);
     }
 
     //Open states
-    &:target { 
+    &:target {
+        display: block;
         opacity: 1;
         visibility: visible;
-        display: block;
     }
 
     &:target &__inner {
+        display: block;
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
-        display: block;
     }
 
     &__close {
         &:link,
         &:visited {
             color: $color-grey;
-            position: absolute;
-            top: 2.5rem;
-            right: 2.5rem;
-            font-size: 3rem;
-            text-decoration: none;
             display: inline-block;
+            font-size: 3rem;
             // TODO: transition: all 0.2s ;
             line-height: 1;
+            position: absolute;
+            right: 2.5rem;
+            text-decoration: none;
+            top: 2.5rem;
         }
 
         &:hover {

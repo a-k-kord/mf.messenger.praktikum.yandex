@@ -6,6 +6,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -31,6 +33,7 @@ import { Button } from '../../components/Button/index.js';
 import { Link } from '../../components/Link/index.js';
 import { getUserApi, handleError, loginApi } from '../../utils/api.js';
 import { Router } from '../../core/Router/index.js';
+import { Chat } from '../Chat/index.js';
 var Login = (function (_super) {
     __extends(Login, _super);
     function Login(parentElement, props, children, tagName) {
@@ -39,7 +42,7 @@ var Login = (function (_super) {
         children.button.blockProps.handleMethod = _this.loginUser.bind(_this);
         getUserApi().then(function (data) {
             if (!data.errorMsg) {
-                Router.getInstance().go('/chat');
+                Router.getInstance().go(Chat.pathname);
             }
         }).catch(function (err) {
             handleError({ errorMsg: err.message });
@@ -50,13 +53,13 @@ var Login = (function (_super) {
         var _this = this;
         var data = inputs.data;
         this.childBlocks.button.setProps({ isDisabled: true });
-        loginApi(data).then(function (data) {
+        loginApi(data).then(function (dataObj) {
             _this.childBlocks.button.setProps({ isDisabled: false });
-            if (!data.errorMsg) {
-                Router.getInstance().go('/chat');
+            if (!dataObj.errorMsg) {
+                Router.getInstance().go(Chat.pathname);
             }
             else {
-                throw new Error(data.errorMsg);
+                throw new Error(dataObj.errorMsg);
             }
         }).catch(function (err) {
             _this.childBlocks.button.setProps({ isDisabled: false });
@@ -66,9 +69,10 @@ var Login = (function (_super) {
     Login.prototype.render = function () {
         return compileTemplate(template, {
             props: __assign({}, this.props),
-            slots: __assign({}, this.slots)
+            slots: __assign({}, this.slots),
         });
     };
+    Login.pathname = '/login';
     return Login;
 }(Block));
 export { Login };
@@ -94,7 +98,7 @@ var defaultChildren = {
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
                     attrs: 'for="login"',
-                }
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -104,9 +108,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     password: {
         blockConstructor: Input,
@@ -130,7 +134,7 @@ var defaultChildren = {
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
                     attrs: 'for="password"',
-                }
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -140,9 +144,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     button: {
         blockConstructor: Button,
@@ -157,7 +161,7 @@ var defaultChildren = {
             weight: 'bold',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'form__button',
-        }
+        },
     },
     link: {
         blockConstructor: Link,
@@ -168,6 +172,6 @@ var defaultChildren = {
             size: 'small',
             theme: 'primary',
             wrapperStyles: 'form__link',
-        }
-    }
+        },
+    },
 };

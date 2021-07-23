@@ -1,18 +1,18 @@
-@import "abstracts/variables";
-@import "base/base";
+@import 'abstracts/variables';
+@import 'base/base';
 
-@import "components/form";
-@import "src/components/Link/link";
-@import "src/components/Image/image";
-@import "components/avatar";
-@import "src/components/Button/button";
-@import "components/box";
-@import "src/components/Title/text";
-@import "components/scroller";
-@import "components/dropdown";
-@import "components/popup";
+@import 'components/form';
+@import 'src/components/Link/link';
+@import 'src/components/Image/image';
+@import 'components/avatar';
+@import 'src/components/Button/button';
+@import 'components/box';
+@import 'src/components/Title/text';
+@import 'components/scroller';
+@import 'components/dropdown';
+@import 'components/popup';
 
 
-@import "src/pages/Error/error";
-@import "src/pages/Profile/profile";
-@import "src/pages/Chat/chat";
+@import 'src/pages/Error/error';
+@import 'src/pages/Profile/profile';
+@import 'src/pages/Chat/chat';

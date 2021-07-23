@@ -1,0 +1,8 @@
+.history
+bak
+node_modules
+dist
+static
+tests
+/src/vendor
+**/*.min.js

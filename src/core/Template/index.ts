@@ -2,7 +2,7 @@ import '../../vendor/eta.min.js';
 
 declare global {
     interface Window {
-        Eta: {render: (string, object) => {}  };
+        Eta: {render: (string, object) => {} };
     }
 }
 

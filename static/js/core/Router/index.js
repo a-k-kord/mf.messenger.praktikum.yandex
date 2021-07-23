@@ -1,84 +1,82 @@
 var Route = (function () {
     function Route(pathname, view, props) {
-        this._pathname = pathname;
-        this._blockClass = view;
-        this._block = null;
-        this._props = props;
+        this.pathname = pathname;
+        this.blockClass = view;
+        this.block = null;
+        this.props = props;
     }
     Route.prototype.navigate = function (pathname) {
         if (this.match(pathname)) {
-            this._pathname = pathname;
+            this.pathname = pathname;
             this.render();
         }
     };
     Route.prototype.leave = function () {
-        if (this._block) {
-            this._block.hide();
+        if (this.block) {
+            this.block.hide();
         }
     };
     Route.prototype.match = function (pathname) {
-        return pathname === this._pathname;
+        return pathname === this.pathname;
     };
     Route.prototype.render = function () {
-        if (!this._block) {
-            var rootQuery = this._props.rootQuery;
+        if (!this.block) {
+            var rootQuery = this.props.rootQuery;
             var root = document.querySelector(rootQuery);
-            this._block = new this._blockClass(root, {});
-            this._block.show();
+            this.block = new this.blockClass(root, {});
+            this.block.show();
             return;
         }
-        this._block.forceRender();
-        this._block.show();
+        this.block.forceRender();
+        this.block.show();
     };
     return Route;
 }());
 export { Route };
 var Router = (function () {
     function Router(rootQuery) {
-        if (Router.__instance) {
-            return Router.__instance;
+        if (Router.instance) {
+            return Router.instance;
         }
         this.routes = [];
         this.history = window.history;
-        this._currentRoute = null;
-        this._rootQuery = rootQuery;
-        Router.__instance = this;
+        this.currentRoute = null;
+        this.rootQuery = rootQuery;
+        Router.instance = this;
     }
     Router.getInstance = function (rootCssSelector) {
         if (rootCssSelector === void 0) { rootCssSelector = '#app'; }
-        if (Router.__instance) {
-            return Router.__instance;
+        if (Router.instance) {
+            return Router.instance;
         }
-        else {
-            return new Router(rootCssSelector);
-        }
+        return new Router(rootCssSelector);
     };
     Router.prototype.use = function (pathname, blockClass) {
-        var route = new Route(pathname, blockClass, { rootQuery: this._rootQuery });
+        var route = new Route(pathname, blockClass, { rootQuery: this.rootQuery });
         this.routes.push(route);
         return this;
     };
     Router.prototype.start = function () {
         var _this = this;
         window.onpopstate = function (event) {
-            _this._onRoute(document.location.pathname);
+            _this.onRoute(document.location.pathname);
         };
-        this._onRoute(document.location.pathname);
+        this.onRoute(document.location.pathname);
     };
-    Router.prototype._onRoute = function (pathname) {
+    Router.prototype.onRoute = function (pathname) {
         var route = this.getRoute(pathname);
         if (!route) {
             route = this.getRoute('/error/404');
         }
-        if (this._currentRoute) {
-            this._currentRoute.leave();
+        if (this.currentRoute) {
+            this.currentRoute.leave();
         }
-        this._currentRoute = route;
+        this.currentRoute = route;
         route.render();
     };
     Router.prototype.go = function (pathname) {
         this.history.pushState({}, '', pathname);
-        this._onRoute(pathname);
+        this.onRoute(pathname);
     };
     Router.prototype.back = function () {
         this.history.go(-1);

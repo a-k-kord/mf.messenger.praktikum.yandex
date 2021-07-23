@@ -6,6 +6,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -31,6 +33,7 @@ import { Button } from '../../components/Button/index.js';
 import { Link } from '../../components/Link/index.js';
 import { getUserApi, handleError, registerApi } from '../../utils/api.js';
 import { Router } from '../../core/Router/index.js';
+import { Chat } from '../Chat/index.js';
 var Register = (function (_super) {
     __extends(Register, _super);
     function Register(parentElement, props, children, tagName) {
@@ -39,7 +42,7 @@ var Register = (function (_super) {
         children.button.blockProps.handleMethod = _this.registerUser.bind(_this);
         getUserApi().then(function (data) {
             if (!data.errorMsg) {
-                Router.getInstance().go('/chat');
+                Router.getInstance().go(Chat.pathname);
             }
         }).catch(function (err) {
             handleError({ errorMsg: err.message });
@@ -50,13 +53,13 @@ var Register = (function (_super) {
         var _this = this;
         var data = inputs.data;
         this.childBlocks.button.setProps({ isDisabled: true });
-        registerApi(data).then(function (data) {
+        registerApi(data).then(function (dataObj) {
             _this.childBlocks.button.setProps({ isDisabled: false });
-            if (!data.errorMsg) {
-                Router.getInstance().go('/chat');
+            if (!dataObj.errorMsg) {
+                Router.getInstance().go(Chat.pathname);
             }
             else {
-                throw new Error(data.errorMsg);
+                throw new Error(dataObj.errorMsg);
             }
         }).catch(function (err) {
             _this.childBlocks.button.setProps({ isDisabled: false });
@@ -66,9 +69,10 @@ var Register = (function (_super) {
     Register.prototype.render = function () {
         return compileTemplate(template, {
             props: __assign({}, this.props),
-            slots: __assign({}, this.slots)
+            slots: __assign({}, this.slots),
         });
     };
+    Register.pathname = '/register';
     return Register;
 }(Block));
 export { Register };
@@ -93,8 +97,8 @@ var defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="email"'
-                }
+                    attrs: 'for="email"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -104,9 +108,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     login: {
         blockConstructor: Input,
@@ -128,8 +132,8 @@ var defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="login"'
-                }
+                    attrs: 'for="login"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -139,9 +143,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     firstName: {
         blockConstructor: Input,
@@ -163,8 +167,8 @@ var defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="first_name"'
-                }
+                    attrs: 'for="first_name"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -174,9 +178,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     secondName: {
         blockConstructor: Input,
@@ -198,8 +202,8 @@ var defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="second_name"'
-                }
+                    attrs: 'for="second_name"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -209,9 +213,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     phone: {
         blockConstructor: Input,
@@ -233,8 +237,8 @@ var defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="phone"'
-                }
+                    attrs: 'for="phone"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -244,9 +248,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     password: {
         blockConstructor: Input,
@@ -269,8 +273,8 @@ var defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="password"'
-                }
+                    attrs: 'for="password"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -280,9 +284,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     passwordConfirm: {
         blockConstructor: Input,
@@ -305,8 +309,8 @@ var defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="password_confirm"'
-                }
+                    attrs: 'for="password_confirm"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -316,9 +320,9 @@ var defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     button: {
         blockConstructor: Button,
@@ -332,7 +336,7 @@ var defaultChildren = {
             theme: 'light',
             weight: 'bold',
             wrapperStyles: 'form__button',
-        }
+        },
     },
     link: {
         blockConstructor: Link,
@@ -343,6 +347,6 @@ var defaultChildren = {
             size: 'small',
             theme: 'primary',
             wrapperStyles: 'form__link',
-        }
-    }
+        },
+    },
 };

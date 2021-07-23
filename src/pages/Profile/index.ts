@@ -1,10 +1,10 @@
 import { compileTemplate } from '../../core/Template/index';
 import template from './template';
 import { Block, Children, Props } from '../../core/Block/index';
-import { Link, LinkProps } from  '../../components/Link/index';
-import { Input } from  '../../components/Input/index';
-import { Title } from  '../../components/Title/index';
-import { Button, ButtonProps } from  '../../components/Button/index';
+import { Link, LinkProps } from '../../components/Link/index';
+import { Input } from '../../components/Input/index';
+import { Title } from '../../components/Title/index';
+import { Button, ButtonProps } from '../../components/Button/index';
 import {
     getUserApi,
     handleError,
@@ -12,20 +12,27 @@ import {
     saveAvatarApi,
     savePasswordApi,
     saveProfileApi,
-    serverHost
-} from  '../../utils/api';
-import { Router } from  '../../core/Router/index';
-import { PlainObject } from  '../../utils/utils';
-import { Image } from  '../../components/Image/index';
-import { hide } from  '../../utils/dom';
-import { FormInputs } from  '../../utils/validation';
+} from '../../utils/api';
+import { Router } from '../../core/Router/index';
+import { PlainObject } from '../../utils/utils';
+import { Image } from '../../components/Image/index';
+import { hide } from '../../utils/dom';
+import { FormInputs } from '../../utils/validation';
+import { SERVER_HOST } from '../../utils/consts';
+import { Login } from '../Login/index';
 
 export interface ProfileProps extends Props {
 }
 
 export class Profile extends Block<ProfileProps> {
+    static pathname = '/profile';
 
-    constructor(parentElement: HTMLElement, props: ProfileProps, children: Children = defaultChildren, tagName?: string) {
+    constructor(
+        parentElement: HTMLElement,
+        props: ProfileProps,
+        children: Children = defaultChildren,
+        tagName?: string,
+    ) {
         super(parentElement, props, children, tagName);
         (children.linkLogout.blockProps as LinkProps).handleMethod = this.logoutUser.bind(this);
 
@@ -46,32 +53,34 @@ export class Profile extends Block<ProfileProps> {
             if (!data.errorMsg) {
                 this.mutateProfileDataControls(data);
             }
-        }).catch(err => {
-            handleError({errorMsg: err.message});
+        }).catch((err) => {
+            handleError({ errorMsg: err.message });
         });
     }
 
     mutateProfileDataControls(data) {
-        const {email, login, first_name, second_name, display_name, phone, avatar} = data;
-        (display_name || first_name || second_name) && this.childBlocks.userNameLabel.setProps({text: display_name || `${first_name} ${second_name}`});
-        first_name && this.childBlocks.firstName.setProps({text: first_name});
-        second_name && this.childBlocks.secondName.setProps({text: second_name});
-        display_name && this.childBlocks.displayName.setProps({text: display_name});
-        email && this.childBlocks.email.setProps({text: email});
-        login && this.childBlocks.login.setProps({text: login});
-        phone && this.childBlocks.phone.setProps({text: phone});
-        avatar && this.childBlocks.avatar.setProps({src: `${serverHost}${avatar}`});
+        const {
+             email, login, first_name, second_name, display_name, phone, avatar,
+        } = data;
+        (display_name || first_name || second_name) && this.childBlocks.userNameLabel.setProps({ text: display_name || `${first_name} ${second_name}` });
+        first_name && this.childBlocks.firstName.setProps({ text: first_name });
+        second_name && this.childBlocks.secondName.setProps({ text: second_name });
+        display_name && this.childBlocks.displayName.setProps({ text: display_name });
+        email && this.childBlocks.email.setProps({ text: email });
+        login && this.childBlocks.login.setProps({ text: login });
+        phone && this.childBlocks.phone.setProps({ text: phone });
+        avatar && this.childBlocks.avatar.setProps({ src: `${SERVER_HOST}/api/v2/resources${avatar}` });
     }
 
     logoutUser() {
         logoutApi().then((data: PlainObject) => {
-            if(!data.errorMsg) {
-                Router.getInstance().go(`/login`);
+            if (!data.errorMsg) {
+                Router.getInstance().go(Login.pathname);
             } else {
                 throw new Error(data.errorMsg as string);
             }
-        }).catch(err => {
-            handleError({errorMsg: err.message});
+        }).catch((err) => {
+            handleError({ errorMsg: err.message });
         });
     }
 
@@ -79,91 +88,99 @@ export class Profile extends Block<ProfileProps> {
         const errors = form.querySelectorAll('[data-block-name="error"]');
         errors.forEach((error: HTMLElement) => {
             hide(error);
-        })
+        });
     }
 
     toggleProfileEditableForm(isEditable: boolean) {
         this.hideErrors(this.childBlocks.login.getContent().closest('form'));
         [this.childBlocks.userNameLabel, this.childBlocks.firstName, this.childBlocks.secondName,
-            this.childBlocks.displayName, this.childBlocks.email, this.childBlocks.login, this.childBlocks.phone].map(block => {
-            block.setProps({isReadonly: !isEditable});
+            this.childBlocks.displayName, this.childBlocks.email, this.childBlocks.login, this.childBlocks.phone].map((block) => {
+            block.setProps({ isReadonly: !isEditable });
         });
-        [this.childBlocks.linkProfileEdit, this.childBlocks.linkChangePassword, this.childBlocks.linkLogout].map(block => {
-            block.setProps({isHidden: isEditable});
+        [this.childBlocks.linkProfileEdit, this.childBlocks.linkChangePassword, this.childBlocks.linkLogout].map((block) => {
+            block.setProps({ isHidden: isEditable });
         });
-        this.childBlocks.buttonSave.setProps({isHidden: !isEditable});
-        this.childBlocks.linkCancelSave.setProps({isHidden: !isEditable});
+        this.childBlocks.buttonSave.setProps({ isHidden: !isEditable });
+        this.childBlocks.linkCancelSave.setProps({ isHidden: !isEditable });
     }
 
     togglePasswordEditableForm(isEditable: boolean) {
         this.hideErrors(this.childBlocks.login.getContent().closest('form'));
         [this.childBlocks.firstName, this.childBlocks.secondName,
-            this.childBlocks.displayName, this.childBlocks.email, this.childBlocks.login, this.childBlocks.phone].map(block => {
-            block.setProps({isHidden: isEditable});
+            this.childBlocks.displayName, this.childBlocks.email, this.childBlocks.login, this.childBlocks.phone].map((block) => {
+            block.setProps({ isHidden: isEditable });
         });
-        [this.childBlocks.oldPassword, this.childBlocks.password, this.childBlocks.passwordConfirm].map(block => {
-            block.setProps({isHidden: !isEditable});
+        [this.childBlocks.oldPassword, this.childBlocks.password, this.childBlocks.passwordConfirm].map((block) => {
+            block.setProps({ isHidden: !isEditable });
         });
-        [this.childBlocks.linkProfileEdit, this.childBlocks.linkChangePassword, this.childBlocks.linkLogout].map(block => {
-            block.setProps({isHidden: isEditable});
+        [this.childBlocks.linkProfileEdit, this.childBlocks.linkChangePassword, this.childBlocks.linkLogout].map((block) => {
+            block.setProps({ isHidden: isEditable });
         });
-        this.childBlocks.buttonSavePassword.setProps({isHidden: !isEditable});
-        this.childBlocks.linkCancelSavePassword.setProps({isHidden: !isEditable});
+        this.childBlocks.buttonSavePassword.setProps({ isHidden: !isEditable });
+        this.childBlocks.linkCancelSavePassword.setProps({ isHidden: !isEditable });
     }
 
     saveNewPassword(inputs: FormInputs) {
-        const {data: {oldPassword, password}} = inputs;
-        this.childBlocks.buttonSavePassword.setProps({isDisabled: true});
-        savePasswordApi({oldPassword, newPassword: password})
+        const { data: { oldPassword, password } } = inputs;
+        this.childBlocks.buttonSavePassword.setProps({ isDisabled: true });
+        savePasswordApi({ oldPassword, newPassword: password })
             .then((data: PlainObject) => {
-                this.childBlocks.buttonSavePassword.setProps({isDisabled: false});
+                this.childBlocks.buttonSavePassword.setProps({ isDisabled: false });
                 if (!data.errorMsg) {
                     this.togglePasswordEditableForm(false);
                 } else {
                     throw new Error(data.errorMsg as string);
                 }
             })
-            .catch(err => {
-                this.childBlocks.buttonSavePassword.setProps({isDisabled: false});
-                handleError({errorMsg: err.message});
+            .catch((err) => {
+                this.childBlocks.buttonSavePassword.setProps({ isDisabled: false });
+                handleError({ errorMsg: err.message });
             });
     }
 
     saveAvatar(inputs: FormInputs) {
-        const {form} = inputs;
-        this.childBlocks.buttonChangeAvatar.setProps({isDisabled: true});
+        const { form } = inputs;
+        this.childBlocks.buttonChangeAvatar.setProps({ isDisabled: true });
         saveAvatarApi(new FormData(form)).then((data: PlainObject) => {
-            this.childBlocks.buttonChangeAvatar.setProps({isDisabled: false});
-            if(!data.errorMsg) {
-                getUserApi().then(({avatar}) => {
-                    avatar && this.childBlocks.avatar.setProps({src: `${serverHost}${avatar}`});
-                }).catch(err => {
-                    handleError({errorMsg: err.message});
+            this.childBlocks.buttonChangeAvatar.setProps({ isDisabled: false });
+            if (!data.errorMsg) {
+                getUserApi().then(({ avatar }) => {
+                    avatar && this.childBlocks.avatar.setProps({ src: `${SERVER_HOST}/api/v2/resources${avatar}` });
+                }).catch((err) => {
+                    handleError({ errorMsg: err.message });
                 });
-                Router.getInstance().go('/profile');
+                Router.getInstance().go(Profile.pathname);
             } else {
                 throw new Error(data.errorMsg as string);
             }
-        }).catch(err => {
-            this.childBlocks.buttonChangeAvatar.setProps({isDisabled: false});
-            handleError({errorMsg: err.message});
+        }).catch((err) => {
+            this.childBlocks.buttonChangeAvatar.setProps({ isDisabled: false });
+            handleError({ errorMsg: err.message });
         });
     }
 
     saveProfile(inputs: FormInputs) {
-        const {data: {login, email, first_name, second_name, display_name, phone}} = inputs;
-        this.childBlocks.buttonSave.setProps({isDisabled: true});
-        saveProfileApi({login, email, first_name, second_name, display_name, phone}).then((data: PlainObject) => {
-            this.childBlocks.buttonSave.setProps({isDisabled: false});
+        const {
+ data: {
+ login, email, first_name, second_name, display_name, phone,
+},
+} = inputs;
+        this.childBlocks.buttonSave.setProps({ isDisabled: true });
+        saveProfileApi({
+ login, email, first_name, second_name, display_name, phone,
+}).then((data: PlainObject) => {
+            this.childBlocks.buttonSave.setProps({ isDisabled: false });
             if (!data.errorMsg) {
-                this.mutateProfileDataControls({email, login, first_name, second_name, display_name, phone});
+                this.mutateProfileDataControls({
+ email, login, first_name, second_name, display_name, phone,
+});
                 this.toggleProfileEditableForm(false);
             } else {
                 throw new Error(data.errorMsg as string);
             }
-        }).catch(err => {
-            this.childBlocks.buttonSave.setProps({isDisabled: false});
-            handleError({errorMsg: err.message});
+        }).catch((err) => {
+            this.childBlocks.buttonSave.setProps({ isDisabled: false });
+            handleError({ errorMsg: err.message });
         });
     }
 
@@ -173,24 +190,23 @@ export class Profile extends Block<ProfileProps> {
             if (!data.errorMsg) {
                 this.mutateProfileDataControls(data);
             } else {
-                //TODO: error to ErrorNotification Block
+                // TODO: error to ErrorNotification Block
                 // console.log(data.errorMsg);
             }
         }).then(() => {
             super.show();
-        }).catch(err => {
-            handleError({errorMsg: err.message});
+        }).catch((err) => {
+            handleError({ errorMsg: err.message });
         });
     }
 
     render(): string {
         return compileTemplate<ProfileProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
+            props: { ...this.props },
+            slots: { ...this.slots },
         });
     }
 }
-
 
 const defaultChildren = {
     avatar: {
@@ -198,7 +214,7 @@ const defaultChildren = {
         blockProps: {
             src: 'img/avatar_placeholder.svg',
             alt: 'Avatar',
-        }
+        },
     },
     avatarUpload: {
         blockConstructor: Input,
@@ -208,8 +224,8 @@ const defaultChildren = {
             text: '',
             type: 'file',
             accept: 'image/*',
-            isHidden: true
-        }
+            isHidden: true,
+        },
     },
     avatarUploadError: {
         blockConstructor: Title,
@@ -218,7 +234,7 @@ const defaultChildren = {
             size: 'small',
             theme: 'danger',
             stylesAfter: 'form__error-msg--hidden',
-        }
+        },
     },
     buttonChangeAvatar: {
         blockConstructor: Button,
@@ -232,8 +248,8 @@ const defaultChildren = {
             theme: 'light',
             weight: 'bold',
             stylesAfter: 'button button__text',
-            wrapperStyles: 'form__button'
-        }
+            wrapperStyles: 'form__button',
+        },
     },
     userNameLabel: {
         blockConstructor: Title,
@@ -242,7 +258,7 @@ const defaultChildren = {
             align: 'center',
             weight: 'bold',
             stylesAfter: 'profile__title',
-        }
+        },
     },
     linkBack: {
         blockConstructor: Link,
@@ -250,8 +266,8 @@ const defaultChildren = {
             type: 'routeLink',
             linkTo: 'chat',
             image: '<img class="link__image box box--center" src="img/arrow-back-btn.svg" alt="Go back">',
-            stylesAfter: 'profile__nav-back-link'
-        }
+            stylesAfter: 'profile__nav-back-link',
+        },
     },
 
     linkCloseChangeAvatarPopup: {
@@ -259,10 +275,9 @@ const defaultChildren = {
         blockProps: {
             linkTo: '#',
             hasText: false,
-            stylesAfter: 'box box--all-viewport-space-fixed'
-        }
+            stylesAfter: 'box box--all-viewport-space-fixed',
+        },
     },
-
 
     linkAvatarUpload: {
         blockConstructor: Link,
@@ -271,8 +286,8 @@ const defaultChildren = {
             text: 'Поменять аватар',
             size: 'small',
             theme: 'light',
-            stylesAfter: 'box box--center avatar__upload'
-        }
+            stylesAfter: 'box box--center avatar__upload',
+        },
     },
     email: {
         blockConstructor: Input,
@@ -299,8 +314,8 @@ const defaultChildren = {
                     size: 'small',
                     stylesAfter: 'form__label',
                     tagName: 'label',
-                    attrs: 'for="email"'
-                }
+                    attrs: 'for="email"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -310,9 +325,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
+                },
             },
-        }
+        },
     },
     login: {
         blockConstructor: Input,
@@ -339,8 +354,8 @@ const defaultChildren = {
                     size: 'small',
                     stylesAfter: 'form__label',
                     tagName: 'label',
-                    attrs: 'for="login"'
-                }
+                    attrs: 'for="login"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -350,9 +365,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     firstName: {
         blockConstructor: Input,
@@ -379,8 +394,8 @@ const defaultChildren = {
                     size: 'small',
                     stylesAfter: 'form__label',
                     tagName: 'label',
-                    attrs: 'for="first_name"'
-                }
+                    attrs: 'for="first_name"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -390,9 +405,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     secondName: {
         blockConstructor: Input,
@@ -419,8 +434,8 @@ const defaultChildren = {
                     size: 'small',
                     stylesAfter: 'form__label',
                     tagName: 'label',
-                    attrs: 'for="second_name"'
-                }
+                    attrs: 'for="second_name"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -430,9 +445,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     displayName: {
         blockConstructor: Input,
@@ -458,8 +473,8 @@ const defaultChildren = {
                     size: 'small',
                     stylesAfter: 'form__label',
                     tagName: 'label',
-                    attrs: 'for="display_name"'
-                }
+                    attrs: 'for="display_name"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -469,9 +484,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     phone: {
         blockConstructor: Input,
@@ -498,8 +513,8 @@ const defaultChildren = {
                     size: 'small',
                     stylesAfter: 'form__label',
                     tagName: 'label',
-                    attrs: 'for="phone"'
-                }
+                    attrs: 'for="phone"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -509,9 +524,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
 
     oldPassword: {
@@ -538,8 +553,8 @@ const defaultChildren = {
                     text: 'Старый пароль',
                     size: 'small',
                     stylesAfter: 'form__label box--width--250',
-                    attrs: 'for="oldPassword"'
-                }
+                    attrs: 'for="oldPassword"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -549,9 +564,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     password: {
         blockConstructor: Input,
@@ -577,8 +592,8 @@ const defaultChildren = {
                     text: 'Новый пароль',
                     size: 'small',
                     stylesAfter: 'form__label box--width--250',
-                    attrs: 'for="password"'
-                }
+                    attrs: 'for="password"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -588,9 +603,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     passwordConfirm: {
         blockConstructor: Input,
@@ -616,8 +631,8 @@ const defaultChildren = {
                     text: 'Повторите новый пароль',
                     size: 'small',
                     stylesAfter: 'form__label box--width--250',
-                    attrs: 'for="passwordConfirm"'
-                }
+                    attrs: 'for="passwordConfirm"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -627,9 +642,9 @@ const defaultChildren = {
                     theme: 'danger',
                     isHidden: true,
                     stylesAfter: 'form__error-msg profile__error-msg',
-                }
-            }
-        }
+                },
+            },
+        },
     },
 
     linkProfileEdit: {
@@ -641,7 +656,7 @@ const defaultChildren = {
             size: 'small',
             theme: 'primary',
             wrapperStyles: 'form__item box box--underlined',
-        }
+        },
     },
     linkChangePassword: {
         blockConstructor: Link,
@@ -652,7 +667,7 @@ const defaultChildren = {
             size: 'small',
             theme: 'primary',
             wrapperStyles: 'form__item box box--underlined',
-        }
+        },
     },
     linkLogout: {
         blockConstructor: Link,
@@ -665,7 +680,7 @@ const defaultChildren = {
             size: 'small',
             theme: 'danger',
             wrapperStyles: 'form__item',
-        }
+        },
     },
     buttonSave: {
         blockConstructor: Button,
@@ -680,8 +695,8 @@ const defaultChildren = {
             weight: 'bold',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'box box--as--flex-center',
-            isHidden: true
-        }
+            isHidden: true,
+        },
     },
     linkCancelSave: {
         blockConstructor: Link,
@@ -693,7 +708,7 @@ const defaultChildren = {
             theme: 'primary',
             wrapperStyles: 'form__link',
             isHidden: true,
-        }
+        },
     },
     buttonSavePassword: {
         blockConstructor: Button,
@@ -708,8 +723,8 @@ const defaultChildren = {
             weight: 'bold',
             stylesAfter: 'form__input box box--underlined-primary',
             wrapperStyles: 'box box--as--flex-center',
-            isHidden: true
-        }
+            isHidden: true,
+        },
     },
     linkCancelSavePassword: {
         blockConstructor: Link,
@@ -721,6 +736,6 @@ const defaultChildren = {
             theme: 'primary',
             wrapperStyles: 'form__link',
             isHidden: true,
-        }
+        },
     },
-}
+};

@@ -1,6 +1,7 @@
 import { PlainObject, queryString } from './utils';
 import { handleApiResponse } from './api';
 
+// eslint-disable-next-line no-shadow
 export enum METHODS {
     GET = 'GET',
     PUT = 'PUT',
@@ -25,35 +26,29 @@ export class HTTPTransport {
     }
 
     get = (urlPath: string, options?: HttpOptions) => {
-        let { data } = options;
-        urlPath += queryString(data) || '';
+        const { data } = options;
+        const fullUrlPath = `${urlPath}${queryString(data) || ''}`;
 
-        return this.request(urlPath, {
+        return this.request(fullUrlPath, {
             ...options,
-            method: METHODS.GET
+            method: METHODS.GET,
         });
     };
 
-    put = (urlPath: string, options?: HttpOptions) => {
-        return this.request(urlPath, {
+    put = (urlPath: string, options?: HttpOptions) => this.request(urlPath, {
             ...options,
-            method: METHODS.PUT
+            method: METHODS.PUT,
         });
-    };
 
-    post = (urlPath: string, options?: HttpOptions) => {
-        return this.request(urlPath, {
+    post = (urlPath: string, options?: HttpOptions) => this.request(urlPath, {
             ...options,
-            method: METHODS.POST
+            method: METHODS.POST,
         });
-    };
 
-    delete = (urlPath: string, options?: HttpOptions) => {
-        return this.request(urlPath, {
+    delete = (urlPath: string, options?: HttpOptions) => this.request(urlPath, {
             ...options,
-            method: METHODS.DELETE
+            method: METHODS.DELETE,
         });
-    };
 
     request = (urlPath: string, options?: HttpOptions): Promise<PlainObject> => {
         const {
@@ -61,7 +56,7 @@ export class HTTPTransport {
             withCredentials = false,
             method = METHODS.GET,
             headers,
-            data
+            data,
         } = options;
 
         return new Promise((resolve, reject) => {
@@ -80,35 +75,35 @@ export class HTTPTransport {
 
             if (data) {
                 if (typeof data === 'string') {
-                    xhr.setRequestHeader('Content-type', 'text/html')
-                } else if(!(data instanceof FormData)) {
-                    xhr.setRequestHeader('Content-type', 'application/json')
+                    xhr.setRequestHeader('Content-type', 'text/html');
+                } else if (!(data instanceof FormData)) {
+                    xhr.setRequestHeader('Content-type', 'application/json');
                 }
             }
-            xhr.setRequestHeader('accept', 'application/json')
+            xhr.setRequestHeader('accept', 'application/json');
 
-            if (typeof headers === "object") {
-                for (let headerName in headers) {
-                    xhr.setRequestHeader(headerName, headers[headerName]);
+            if (typeof headers === 'object') {
+                for (const headerName in headers) {
+                    if (headers.hasOwnProperty(headerName)) {
+                        xhr.setRequestHeader(headerName, headers[headerName]);
+                    }
                 }
             }
 
             if (method === METHODS.GET || !data) {
                 xhr.send();
-            } else {
-                if(data instanceof FormData) {
+            } else if (data instanceof FormData) {
                     xhr.send(data);
                 } else {
                     xhr.send(JSON.stringify(data));
                 }
-            }
         });
     };
 }
 
 export function fetchWithRetry(baseUrl: string, urlPath: string, options?: HttpOptions) {
     const {
-        tries = 2
+        tries = 2,
     } = options;
 
     function onError(err: Error) {
@@ -119,10 +114,9 @@ export function fetchWithRetry(baseUrl: string, urlPath: string, options?: HttpO
 
         return fetchWithRetry(baseUrl, urlPath, {
             ...options,
-            tries: triesLeft
+            tries: triesLeft,
         });
     }
 
     return (new HTTPTransport(baseUrl).get(urlPath, options)).catch(onError); // fetch
 }
-

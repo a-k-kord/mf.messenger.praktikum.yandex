@@ -8,12 +8,10 @@ export interface ImageProps extends Props{
 }
 
 export class Image extends Block<ImageProps> {
-
     render(): string {
         return compileTemplate<ImageProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
+            props: { ...this.props },
+            slots: { ...this.slots },
         });
     }
-
 }

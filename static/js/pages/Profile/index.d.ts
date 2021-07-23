@@ -3,6 +3,7 @@ import { FormInputs } from '../../utils/validation';
 export interface ProfileProps extends Props {
 }
 export declare class Profile extends Block<ProfileProps> {
+    static pathname: string;
     constructor(parentElement: HTMLElement, props: ProfileProps, children?: Children, tagName?: string);
     mutateProfileDataControls(data: any): void;
     logoutUser(): void;

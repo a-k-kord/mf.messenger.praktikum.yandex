@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default `
 <img   
 class="<%= it.props?.stylesBefore ? it.props?.stylesBefore : '' %> 
@@ -13,4 +14,4 @@ src="<%= it.props?.src %>"
 alt="<%= it.props?.alt %>" 
 <% } %>
 >
-`
+`;

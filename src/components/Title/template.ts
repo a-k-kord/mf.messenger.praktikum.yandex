@@ -1,4 +1,5 @@
 // props: tagName, size, theme, weight, align, stylesBefore, stylesAfter
+// eslint-disable-next-line import/no-default-export
 export default `
 <<%= it.props?.tagName ? it.props?.tagName : 'div' %>   
 class="<%= it.props?.stylesBefore ? it.props?.stylesBefore : '' %> 
@@ -12,4 +13,4 @@ class="<%= it.props?.stylesBefore ? it.props?.stylesBefore : '' %>
 >
 <%= it.props?.text %>
 </<%= it.props?.tagName ? it.props?.tagName : 'div' %>>
-`
+`;

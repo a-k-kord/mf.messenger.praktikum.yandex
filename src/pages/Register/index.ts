@@ -1,53 +1,60 @@
 import { compileTemplate } from '../../core/Template/index';
 import template from './template';
 import { Block, Children, Props } from '../../core/Block/index';
-import { Input } from  '../../components/Input/index';
-import { Title } from  '../../components/Title/index';
-import { Button, ButtonProps } from  '../../components/Button/index';
-import { Link } from  '../../components/Link/index';
-import { getUserApi, handleError, registerApi } from  '../../utils/api';
-import { Router } from  '../../core/Router/index';
-import { PlainObject } from  '../../utils/utils';
-import { FormInputs } from  '../../utils/validation';
+import { Input } from '../../components/Input/index';
+import { Title } from '../../components/Title/index';
+import { Button, ButtonProps } from '../../components/Button/index';
+import { Link } from '../../components/Link/index';
+import { getUserApi, handleError, registerApi } from '../../utils/api';
+import { Router } from '../../core/Router/index';
+import { PlainObject } from '../../utils/utils';
+import { FormInputs } from '../../utils/validation';
+import { Chat } from '../Chat/index';
 
 export interface RegisterProps extends Props {
 }
 
 export class Register extends Block<RegisterProps> {
+    static pathname = '/register';
 
-    constructor(parentElement: HTMLElement, props: RegisterProps, children: Children = defaultChildren, tagName?: string) {
+    constructor(
+        parentElement: HTMLElement,
+        props: RegisterProps,
+        children: Children = defaultChildren,
+        tagName?: string,
+    ) {
         super(parentElement, props, children, tagName);
 
         (children.button.blockProps as ButtonProps).handleMethod = this.registerUser.bind(this);
         getUserApi().then((data: PlainObject) => {
-            if(!data.errorMsg) {
-                Router.getInstance().go('/chat');
+            if (!data.errorMsg) {
+                Router.getInstance().go(Chat.pathname);
             }
-        }).catch(err => {
-            handleError({errorMsg: err.message});
+        }).catch((err) => {
+            handleError({ errorMsg: err.message });
         });
     }
 
     registerUser(inputs: FormInputs) {
-        const {data} = inputs;
-        this.childBlocks.button.setProps({isDisabled: true});
-        registerApi(data).then((data: PlainObject) => {
-            this.childBlocks.button.setProps({isDisabled: false});
-            if(!data.errorMsg) {
-                Router.getInstance().go('/chat');
+        const { data } = inputs;
+        this.childBlocks.button.setProps({ isDisabled: true });
+        registerApi(data).then((dataObj: PlainObject) => {
+            this.childBlocks.button.setProps({ isDisabled: false });
+            if (!dataObj.errorMsg) {
+                Router.getInstance().go(Chat.pathname);
             } else {
-                throw new Error(data.errorMsg as string);
+                throw new Error(dataObj.errorMsg as string);
             }
-        }).catch(err => {
-            this.childBlocks.button.setProps({isDisabled: false});
-            handleError({errorMsg: err.message}, this.childBlocks.email.childBlocks.error);
+        }).catch((err) => {
+            this.childBlocks.button.setProps({ isDisabled: false });
+            handleError({ errorMsg: err.message }, this.childBlocks.email.childBlocks.error);
         });
     }
 
     render(): string {
         return compileTemplate<RegisterProps>(template, {
-            props: {...this.props},
-            slots: {...this.slots}
+            props: { ...this.props },
+            slots: { ...this.slots },
         });
     }
 }
@@ -73,8 +80,8 @@ const defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="email"'
-                }
+                    attrs: 'for="email"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -84,9 +91,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     login: {
         blockConstructor: Input,
@@ -108,8 +115,8 @@ const defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="login"'
-                }
+                    attrs: 'for="login"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -119,9 +126,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     firstName: {
         blockConstructor: Input,
@@ -143,8 +150,8 @@ const defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="first_name"'
-                }
+                    attrs: 'for="first_name"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -154,9 +161,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     secondName: {
         blockConstructor: Input,
@@ -178,8 +185,8 @@ const defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="second_name"'
-                }
+                    attrs: 'for="second_name"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -189,9 +196,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     phone: {
         blockConstructor: Input,
@@ -213,8 +220,8 @@ const defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="phone"'
-                }
+                    attrs: 'for="phone"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -224,9 +231,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     password: {
         blockConstructor: Input,
@@ -249,8 +256,8 @@ const defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="password"'
-                }
+                    attrs: 'for="password"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -260,9 +267,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     passwordConfirm: {
         blockConstructor: Input,
@@ -285,8 +292,8 @@ const defaultChildren = {
                     size: 'tiny',
                     theme: 'label',
                     stylesAfter: 'form__label form__label--with-anim-up',
-                    attrs: 'for="password_confirm"'
-                }
+                    attrs: 'for="password_confirm"',
+                },
             },
             error: {
                 blockConstructor: Title,
@@ -296,9 +303,9 @@ const defaultChildren = {
                     theme: 'danger',
                     stylesAfter: 'form__error-msg',
                     isHidden: true,
-                }
-            }
-        }
+                },
+            },
+        },
     },
     button: {
         blockConstructor: Button,
@@ -312,7 +319,7 @@ const defaultChildren = {
             theme: 'light',
             weight: 'bold',
             wrapperStyles: 'form__button',
-        }
+        },
     },
     link: {
         blockConstructor: Link,
@@ -323,6 +330,6 @@ const defaultChildren = {
             size: 'small',
             theme: 'primary',
             wrapperStyles: 'form__link',
-        }
-    }
+        },
+    },
 };

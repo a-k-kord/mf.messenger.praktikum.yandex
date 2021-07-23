@@ -1,16 +1,15 @@
 import { Router } from '../../core/Router';
-
-const chaiAsPromised = require('chai-as-promised');
-
 import * as chai from 'chai';
-import { getUserApi, handleApiResponse, handleError, loginApi, registerApi, serverHost } from '../api';
-import { fetchWithRetry, METHODS } from '../HTTPTransport';
+import { getUserApi, handleApiResponse, loginApi, registerApi } from '../api';
 import sinon from 'sinon';
 import { Login } from '../../pages/Login';
+import { Profile } from '../../pages/Profile';
+import { mockChats, mockUser } from '../../mockData/Chat';
 import { Register } from '../../pages/Register';
 import { Chat } from '../../pages/Chat';
-import { Profile } from '../../pages/Profile';
 import { Error } from '../../pages/Error';
+
+const chaiAsPromised = require('chai-as-promised');
 
 declare global {
     interface Window {
@@ -30,18 +29,44 @@ describe('Api calls', function () {
     before(function () {
         this.server = sinon.createFakeServer();
         this.server.respondWith(/.*\/auth\/.+/, function (xhr) {
-            xhr.respond(200, {'Content-Type': 'application/json'}, '{id: 0}');
+            xhr.respond(200, {'Content-Type': 'application/json'}, '{"id": 0}');
+        });
+        // this.server.respondWith('GET', /.*\/auth\/user/, function (xhr) {
+        //     xhr.respond(200, {'Content-Type': 'application/json'}, '{"id": 0}');
+        // });
+        this.server.respondWith('GET', /.*\/chats/, function (xhr) {
+            xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockChats));
+        });
+        this.server.respondWith('GET', /.*\/chats\/new\/\d+/, function (xhr) {
+            xhr.respond(200, {'Content-Type': 'application/json'}, '{"unread_count": 12}');
         });
         this.server.respondWith('GET', /.*\/fail\/to\/get/, [500, {}, 'error']);
         this.server.configure({respondImmediately: true});
 
+        // this.router = new Router("#app");
+        // this.router
+        //     .use("/", Login)
+        //     .use("/login", Login)
+        //     .use("/profile", Profile)
+        //     .start();
+        // this.router.go('/profile');
+    })
+
+    beforeEach(function () {
         this.router = new Router("#app");
         this.router
             .use("/", Login)
             .use("/login", Login)
+            .use("/register", Register)
+            .use("/chat", Chat)
             .use("/profile", Profile)
+            .use("/error/404", Error)
+            .use("/error/500", Error)
             .start();
+
+        this.router.go('/register');
         this.router.go('/profile');
+        this.router.go('/chat');
     })
 
     after(function () {
@@ -51,19 +76,19 @@ describe('Api calls', function () {
 
     describe('register user', function () {
         it('returns id', function (done) {
-            expect(registerApi({})).to.eventually.deep.equals({data: '{id: 0}'}).notify(done);
+            expect(registerApi({})).to.eventually.deep.equals({id: 0}).notify(done);
         });
     });
 
     describe('login user', function () {
         it('returns id', function (done) {
-            expect(loginApi({})).to.eventually.deep.equals({data: '{id: 0}'}).notify(done);
+            expect(loginApi({})).to.eventually.deep.equals({id: 0}).notify(done);
         });
     });
 
     describe('get auth user', function () {
         it('returns id', function (done) {
-            expect(getUserApi()).to.eventually.deep.equals({data: '{id: 0}'}).notify(done);
+            expect(getUserApi()).to.eventually.deep.equals({id: 0}).notify(done);
         });
     });
 

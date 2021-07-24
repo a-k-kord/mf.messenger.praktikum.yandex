@@ -11,23 +11,16 @@ const express = require('express');
 
 const app = express();
 
-const PORT = 4000;
+const hostname = '0.0.0.0'; // сервер запустим на всех интерфейсах
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static(`${__dirname}/static`));
+app.use(express.static(`${__dirname}/dist`));
 
-const handler = (req, res) => {
-    res.sendFile(`${__dirname}/static/index.html`);
-};
+app.get('/*', (req, res) => {
+    res.sendFile(`${__dirname}/dist/index.html`);
+});
 
-app.get('/*', handler);
-   // .get('/login*', handler)
-   // .get('/register*', handler)
-   // .get('/chat*', handler)
-   // .get('/error*', handler)
-   // .get('/profile*', handler)
-   //  .get('/*', handler);
-
-app.listen(PORT, () => {
+app.listen(PORT, hostname, () => {
     // eslint-disable-next-line no-console
-    console.log(`Example app listening in port ${PORT}! ${__dirname}`);
+    console.log(`Chatter app listening on port ${PORT}! (in folder ${__dirname})`);
 });

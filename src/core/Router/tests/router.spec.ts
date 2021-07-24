@@ -11,10 +11,8 @@ import { mockUser, mockChats } from '../../../mockData/Chat';
 
 const expect = chai.expect;
 
-global.window = window;
-global.window.uuidv4 = require('../../../vendor/uuid_v4.min.js');
-global.window.Eta = require('../../../vendor/eta.min.js');
-
+global.window.uuidv4 = require('uuid').v4;
+global.window.Eta = require('eta');
 
 describe('Router', function () {
     before(function () {

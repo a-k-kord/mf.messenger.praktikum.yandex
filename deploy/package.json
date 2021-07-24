@@ -1,0 +1,18 @@
+{
+    "name": "mf.messenger.praktikum.yandex",
+    "version": "1.0.0",
+    "description": "Приложение Чат.",
+    "main": "server.js",
+    "engine": {
+        "node": "~15.2.1"
+    },
+    "author": "Andrey Korotayev",
+    "license": "ISC",
+    "homepage": "https://github.com/a-k-kord/mf.messenger.praktikum.yandex#readme",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "express": "4.17.1"
+    }
+}

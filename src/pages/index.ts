@@ -4,6 +4,7 @@ import { Register } from './Register/index';
 import { Chat } from './Chat/index';
 import { Profile } from './Profile/index';
 import { Error } from './Error/index';
+import '../../static/scss/main.scss';
 
 const router = new Router('#app');
 

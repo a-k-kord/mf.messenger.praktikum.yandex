@@ -220,7 +220,11 @@ export function toJson(data: string): PlainObject {
     try {
         json = JSON.parse(data);
     } catch (err) {
-        // console.log(err.message);
+        logger(err.message);
     }
     return json;
+}
+
+export function logger(...args) {
+    // console.log(...args);
 }

@@ -11,8 +11,8 @@
         "eslint": "eslint .",
         "stylelint": "stylelint **/*.scss",
         "lint:all": "npm run stylelint && npm run eslint",
-        "server": "npm run start && node server.js",
-        "start": "webpack",
+        "start": "webpack && node server.js",
+        "build": "webpack",
         "validate": "npm-run-all test lint:all",
         "precommit": "npm run validate",
         "prepush": "npm run validate"

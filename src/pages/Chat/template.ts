@@ -110,7 +110,7 @@ export default `
                 <% 
                 if(message.user_id === it.props?.myUserId) {
                 %>
-                <div class="message history__message-wrap history__message-wrap--align--right">
+                <div data-msg-id="<%= message.id %>" class="message history__message-wrap history__message-wrap--align--right">
                     <div class="message__text message__text--right text text--size--small">
                         <div class="text text--size--small"><%= message.content %></div>
                         <div class="badge">

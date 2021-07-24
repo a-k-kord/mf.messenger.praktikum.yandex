@@ -2,7 +2,7 @@
   {
     "compilerOptions": {
       "lib": ["es2015", "es2016", "es2017", "es2019.string", "dom"],
-      "outDir": "./static/js",
+      "outDir": "./dist/types",
 //      "rootDir": ".",
 //      "noEmit": true,
       "skipLibCheck": true,

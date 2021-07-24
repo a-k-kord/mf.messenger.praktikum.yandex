@@ -1,5 +1,3 @@
-import '../vendor/uuid_v4.min.js';
-
 declare global {
     // eslint-disable-next-line no-unused-vars
     interface Window {

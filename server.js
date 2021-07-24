@@ -12,7 +12,7 @@ const express = require('express');
 const app = express();
 
 const hostname = '0.0.0.0'; // сервер запустим на всех интерфейсах
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static(`${__dirname}/dist`));
 

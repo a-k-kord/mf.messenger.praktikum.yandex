@@ -20,9 +20,8 @@ declare global {
 const expect = chai.expect;
 chai.use(chaiAsPromised);
 
-global.window = window;
-global.window.uuidv4 = require('../../vendor/uuid_v4.min.js');
-global.window.Eta = require('../../vendor/eta.min.js');
+global.window.uuidv4 = require('uuid').v4;
+global.window.Eta = require('eta');
 
 describe('Api calls', function () {
 

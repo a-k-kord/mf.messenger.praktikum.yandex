@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 import { Button } from '../index';
 
-// global.window = window;
-global.window.uuidv4 = require('../../../vendor/uuid_v4.min.js');
-global.window.Eta = require('../../../vendor/eta.min.js');
-
+global.window.uuidv4 = require('uuid').v4;
+global.window.Eta = require('eta');
 
 describe('Block Button', function () {
     describe('Check creation', function () {

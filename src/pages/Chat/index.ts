@@ -1,6 +1,5 @@
 import { compileTemplate } from '../../core/Template/index';
 import template from './template';
-import { mockChatData } from '../../mockData/Chat';
 import { Block, Children, Props } from '../../core/Block/index';
 import { Button, ButtonProps } from '../../components/Button/index';
 import { Input } from '../../components/Input/index';
@@ -17,7 +16,7 @@ import {
     removeChatApi,
     removeUsersFromChatApi,
 } from '../../utils/api';
-import { PlainObject } from '../../utils/utils';
+import { logger, PlainObject } from '../../utils/utils';
 import { FormInputs } from '../../utils/validation';
 import { Router } from '../../core/Router/index';
 import { SERVER_HOST } from '../../utils/consts';
@@ -83,6 +82,8 @@ export class Chat extends Block<ChatProps> {
 
     private infiniteLoaderDivObserver: IntersectionObserver;
 
+    private infiniteLoaderIsNeedScrollBack: boolean = false;
+
     constructor(parentElement: HTMLElement, props: ChatProps, children: Children = defaultChildren, tagName?: string) {
         super(parentElement, props, children, tagName);
 
@@ -144,7 +145,7 @@ export class Chat extends Block<ChatProps> {
                     this.childBlocks.chatUsersCountLabel.setProps({ text: parseInt(usersCount, 10) + 1 });
                 } else {
                     // TODO: error to ErrorNotification Block
-                    // console.log(responseData.errorMsg);
+                    logger(responseData.errorMsg);
                 }
             },
         });
@@ -168,7 +169,7 @@ export class Chat extends Block<ChatProps> {
                     this.childBlocks.chatUsersCountLabel.setProps({ text: parseInt(usersCount, 10) - 1 });
                 } else {
                     // TODO: error to ErrorNotification Block
-                    // console.log(responseData.errorMsg);
+                    logger(responseData.errorMsg);
                 }
             },
         });
@@ -203,7 +204,6 @@ export class Chat extends Block<ChatProps> {
 
     sendMessage(inputs: FormInputs) {
         const { data: { message } } = inputs;
-        console.log(inputs);
         this.socket.send(JSON.stringify({
             content: message,
             type: 'message',
@@ -327,39 +327,15 @@ export class Chat extends Block<ChatProps> {
             });
     }
 
-    publishMessage(newMsgObj: ChatMessageInfo) {
-        const {
-            chats,
-            selectedChatItemId,
-        } = this.props;
-        const chatId = `${selectedChatItemId}`;
-        const messages = chats[chatId].messages
-            ? chats[chatId].messages.map((msg) => {
-                if (!msg.id && newMsgObj.content === msg.content && (new Date(newMsgObj.time)).getTime() === (new Date(msg.time)).getTime()) {
-                    return newMsgObj;
-                }
-                return msg;
-            })
-            : [];
-
-        this.setProps({
-            chats: {
-                ...chats,
-                [chatId]: {
-                    ...chats[chatId],
-                    lastMessage: newMsgObj,
-                    messages: [newMsgObj, ...messages],
-                },
-            },
-        });
-    }
-
     publishMessages(msgArr: ChatMessageInfo[]) {
         const {
             chats,
             selectedChatItemId,
         } = this.props;
         const chatId = `${selectedChatItemId}`;
+        // сохраним место текущей прокрутки
+        // Если isNeedScrollBack === true , то после публикации сообщений мы вернем скроллер на сообщение topSeenMsg
+        const topSeenMsg = chats[chatId].messages?.length && chats[chatId].messages[chats[chatId].messages?.length - 1];
         const mergedMessagesMap = {};
         let newLocalMessages = [];
         if (chats[chatId].messages && chats[chatId].messages.length) {
@@ -416,6 +392,11 @@ export class Chat extends Block<ChatProps> {
             });
         }
         document.getElementById('message').focus();
+        if (this.infiniteLoaderIsNeedScrollBack && topSeenMsg) {
+            this.infiniteLoaderIsNeedScrollBack = false;
+            const scroller = document.querySelector(`[data-msg-id="${topSeenMsg.id}"]`);
+            scroller.scrollIntoView();
+        }
     }
 
     render(): string {
@@ -438,13 +419,14 @@ export class Chat extends Block<ChatProps> {
         if (this.infiniteLoader) {
             if (this.infiniteLoaderDivObserver) {
                 this.infiniteLoaderDivObserver.unobserve(this.infiniteLoader);
-                console.log('Observer shutdown');
+                logger('Observer shutdown');
             }
             this.infiniteLoaderDivObserver = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         if (entry.intersectionRatio > 0) {
-                            console.log('Msg lazy loader is viewable. Loading...');
+                            logger('Msg lazy loader is viewable. Loading...');
+                            this.infiniteLoaderIsNeedScrollBack = true;
                             const { id: userId } = this.user;
                             const { selectedChatItemId: chatId } = this.props;
                             const offset = this.props.chats[chatId].messages?.length;
@@ -453,12 +435,12 @@ export class Chat extends Block<ChatProps> {
                             }
                         }
                     } else {
-                        console.log('Msg lazy loader is not viewable');
+                        logger('Msg lazy loader is not viewable');
                     }
                 });
             });
             this.infiniteLoaderDivObserver.observe(this.infiniteLoader);
-            console.log('Observer inited');
+            logger('Observer inited');
         }
     }
 }
@@ -470,16 +452,16 @@ function getOldMessages(userId, chatId, offset = 0) {
             type: 'get old',
         }));
     } else {
-        console.log('Failed to get old messages. Socket is not ready.', '\nWaiting for socket...');
+        logger('Failed to get old messages. Socket is not ready.', '\nWaiting for socket...');
         const waiterId = setInterval(() => {
-            console.log('Waiting for socket...');
+            logger('Waiting for socket...');
             const { socket: currentSocket } = this;
             if (currentSocket) {
                 if (!isSocketBelongsToChat.call(this, chatId)) {
                     currentSocket.close(1000);
                 }
                 if (currentSocket.readyState === 1) {
-                    console.log('Socket is open again.', 'Getting old messages...');
+                    logger('Socket is open again.', 'Getting old messages...');
                     currentSocket.send(JSON.stringify({
                         content: `${offset}`,
                         type: 'get old',
@@ -502,7 +484,7 @@ function openSocket(userId, chatId, token) {
     this.socket = new WebSocket(`${SERVER_HOST.replace('https', 'wss')}/ws/chats/${userId}/${chatId}/${token}`);
 
     this.socket.addEventListener('open', () => {
-        console.log(`Соединение установлено. Чат: ${chatId}`);
+        logger(`Соединение установлено. Чат: ${chatId}`);
         clearInterval(pingerId);
         pingerId = setInterval(() => {
             if (!this.socket) {
@@ -521,12 +503,12 @@ function openSocket(userId, chatId, token) {
         clearInterval(pingerId);
         this.socket = null;
         if (event.wasClean) {
-            console.log('Соединение закрыто чисто');
-            console.log(`Код: ${event.code} | Причина: ${event.reason} | Чат: ${chatId}`);
+            logger('Соединение закрыто чисто');
+            logger(`Код: ${event.code} | Причина: ${event.reason} | Чат: ${chatId}`);
         } else {
-            console.log('Обрыв соединения');
-            console.log(`Код: ${event.code} | Причина: ${event.reason} | Чат: ${chatId}`);
-            console.log(`Восстанавливаем wss соединение с чатом: ${chatId}`);
+            logger('Обрыв соединения');
+            logger(`Код: ${event.code} | Причина: ${event.reason} | Чат: ${chatId}`);
+            logger(`Восстанавливаем wss соединение с чатом: ${chatId}`);
             const newSocket = new WebSocket(`${SERVER_HOST.replace('https', 'wss')}/ws/chats/${userId}/${chatId}/${token}`);
             if (newSocket) {
                 this.socket = newSocket;
@@ -537,7 +519,7 @@ function openSocket(userId, chatId, token) {
     });
 
     this.socket.addEventListener('message', (event) => {
-        console.log(`${chatId}: `, 'Получены данные', event.data);
+        logger(`${chatId}: `, 'Получены данные', event.data);
         try {
             const msgObj: ChatMessageInfo | ChatMessageInfo[] = JSON.parse(event.data);
             if ('type' in msgObj && msgObj.type === 'message') {
@@ -551,7 +533,7 @@ function openSocket(userId, chatId, token) {
     });
 
     this.socket.addEventListener('error', (error) => {
-        console.log('Ошибка', error); // .message
+        logger('Ошибка', error); // .message
         handleError({ errorMsg: `Ошибка wss соединения с чатом ${chatId}: ${error}` });
     });
 }

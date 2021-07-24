@@ -22,5 +22,5 @@ app.get('/*', (req, res) => {
 
 app.listen(PORT, hostname, () => {
     // eslint-disable-next-line no-console
-    console.log(`Example app listening in port ${PORT}! (in folder ${__dirname})`);
+    console.log(`Chatter app listening on port ${PORT}! (in folder ${__dirname})`);
 });

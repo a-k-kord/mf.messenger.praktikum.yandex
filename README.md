@@ -1,9 +1,13 @@
 ## Chat WebApp "Chatter"
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c411f49f-311a-494c-9e62-d5956d191ebf/deploy-status)](https://app.netlify.com/sites/chat-akkord/deploys)
+
+Sprint_4 PR: https://github.com/a-k-kord/mf.messenger.praktikum.yandex/pull/2
 
 Chat webapp written with technologies: Javascript, Typescript, SCSS, HTML, [Eta template engine](https://eta.js.org/), Mocha, Chai, Sinon, JSDOM, ESlint, Stylelint, WebSockets, Husky, Docker for Yandex Praktikum Course.
 
-Deployed on Heroku.
-#### [Open the Chatter](https://chat-ter.herokuapp.com)
+Deployed on Netlify and Heroku.
+#### [Open the Chatter in Netlify](https://chat-akkord.netlify.app)
+#### [Open the Chatter in Heroku](https://chat-ter.herokuapp.com)
 
 ## Design
 Design is mostly made by Yandex Praktikum team.

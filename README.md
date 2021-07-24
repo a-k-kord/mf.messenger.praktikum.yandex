@@ -1,8 +1,13 @@
 ## Chat WebApp "Chatter"
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c411f49f-311a-494c-9e62-d5956d191ebf/deploy-status)](https://app.netlify.com/sites/chat-akkord/deploys)
 
-Chat webapp written in Javascript, Typescript, SCSS, HTML, [Eta template engine](https://eta.js.org/), Mocha, Chai, Sinon, JSDOM, ESlint, Stylelint, WebSockets for Yandex Praktikum Course.
-#### [Open the Chatter](https://chat-akkord.netlify.app)
+Sprint_4 PR: https://github.com/a-k-kord/mf.messenger.praktikum.yandex/pull/4
+
+Chat webapp written with technologies: Javascript, Typescript, SCSS, HTML, [Eta template engine](https://eta.js.org/), Mocha, Chai, Sinon, JSDOM, ESlint, Stylelint, WebSockets, Husky, Docker for Yandex Praktikum Course.
+
+Deployed on Netlify and Heroku.
+#### [Open the Chatter in Netlify](https://chat-akkord.netlify.app)
+#### [Open the Chatter in Heroku](https://chat-ter.herokuapp.com)
 
 ## Design
 Design is mostly made by Yandex Praktikum team.
@@ -16,14 +21,10 @@ npm install
 ```
 
 ```sh
-npm run compile:scss
+npm run start
 ```
 
-```sh
-npm run server
-```
-
-Go to http://localhost:4000
+Then go to http://localhost:3000
 
 ## Tests
 <a name="install"></a>
@@ -32,6 +33,12 @@ Go to http://localhost:4000
 npm run test
 ```
 
+## Linter
+<a name="install"></a>
+<a name="installstart"></a>
+```sh
+npm run lint:all
+```
 
 ## Developers
 <a name="developers"></a>

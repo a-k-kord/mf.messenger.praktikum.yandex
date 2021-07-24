@@ -33,6 +33,7 @@
         "url": "https://github.com/a-k-kord/mf.messenger.praktikum.yandex/issues"
     },
     "homepage": "https://github.com/a-k-kord/mf.messenger.praktikum.yandex#readme",
+    "dependencies": {},
     "devDependencies": {
         "@types/chai": "4.2.21",
         "@types/chai-as-promised": "7.1.4",

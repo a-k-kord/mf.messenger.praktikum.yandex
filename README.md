@@ -1,7 +1,7 @@
 ## Chat WebApp "Chatter"
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c411f49f-311a-494c-9e62-d5956d191ebf/deploy-status)](https://app.netlify.com/sites/chat-akkord/deploys)
 
-Chat webapp written with technologies: Javascript, Typescript, SCSS, HTML, [Eta template engine](https://eta.js.org/), Mocha, Chai, Sinon, JSDOM, ESlint, Stylelint, WebSockets, Husky, Docker for Yandex Praktikum Course.
+Chat webapp written with technologies: Javascript, Typescript, SCSS, HTML, [Eta template engine](https://eta.js.org/), Mocha, Chai, Sinon, JSDOM, ESlint, Stylelint, WebSockets, Husky, Docker for Yandex Praktikum Mid Front-End Developer Course.
 
 Deployed on Netlify and Heroku.
 #### [Open the Chatter in Netlify](https://chat-akkord.netlify.app)
